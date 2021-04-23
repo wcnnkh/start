@@ -26,7 +26,7 @@ public class TradeRefundProcessor extends ArrayList<TradeRefundAdapter>
 	@Nullable
 	public TradeRefundAdapter getAdapter(String tradeMethod) {
 		for (TradeRefundAdapter adapter : this) {
-			if (adapter.isAccept(tradeMethod)) {
+			if (adapter.accept(tradeMethod)) {
 				return adapter;
 			}
 		}
@@ -34,9 +34,9 @@ public class TradeRefundProcessor extends ArrayList<TradeRefundAdapter>
 	}
 
 	@Override
-	public boolean isAccept(String tradeMethod) {
+	public boolean accept(String tradeMethod) {
 		for (TradeRefundAdapter adapter : this) {
-			if (adapter.isAccept(tradeMethod)) {
+			if (adapter.accept(tradeMethod)) {
 				return true;
 			}
 		}
@@ -46,7 +46,7 @@ public class TradeRefundProcessor extends ArrayList<TradeRefundAdapter>
 	@Override
 	public boolean refund(TradeRefund tradeRefund) throws TradeException {
 		for (TradeRefundAdapter adapter : this) {
-			if (adapter.isAccept(tradeRefund.getTradeMethod())) {
+			if (adapter.accept(tradeRefund.getTradeMethod())) {
 				return adapter.refund(tradeRefund);
 			}
 		}

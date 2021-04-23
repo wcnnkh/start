@@ -25,7 +25,7 @@ public class TradeCreateProcessor extends ArrayList<TradeCreateAdapter> implemen
 	@Nullable
 	public TradeCreateAdapter getAdapter(String tradeMethod){
 		for(TradeCreateAdapter adapter : this){
-			if(adapter.isAccept(tradeMethod)){
+			if(adapter.accept(tradeMethod)){
 				return adapter;
 			}
 		}
@@ -33,9 +33,9 @@ public class TradeCreateProcessor extends ArrayList<TradeCreateAdapter> implemen
 	}
 	
 	@Override
-	public boolean isAccept(String tradeMethod) {
+	public boolean accept(String tradeMethod) {
 		for(TradeCreateAdapter adapter : this){
-			if(adapter.isAccept(tradeMethod)){
+			if(adapter.accept(tradeMethod)){
 				return true;
 			}
 		}
@@ -46,7 +46,7 @@ public class TradeCreateProcessor extends ArrayList<TradeCreateAdapter> implemen
 	public TradeCreateResponse create(TradeCreate tradeCreate)
 			throws TradeException {
 		for(TradeCreateAdapter adapter : this){
-			if(adapter.isAccept(tradeCreate.getTradeMethod())){
+			if(adapter.accept(tradeCreate.getTradeMethod())){
 				return adapter.create(tradeCreate);
 			}
 		}

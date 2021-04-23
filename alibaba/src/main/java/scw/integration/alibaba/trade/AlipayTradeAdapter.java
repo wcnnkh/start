@@ -5,7 +5,6 @@ import java.util.Map;
 import scw.context.annotation.Provider;
 import scw.core.Ordered;
 import scw.http.server.ServerHttpRequest;
-import scw.integration.alibaba.pay.TradeStatus;
 import scw.integration.trade.TradeException;
 import scw.integration.trade.create.TradeCreate;
 import scw.integration.trade.create.TradeCreateAdapter;
@@ -61,7 +60,7 @@ public class AlipayTradeAdapter implements TradeCreateAdapter,
 	}
 
 	@Override
-	public boolean isAccept(String method) {
+	public boolean accept(String method) {
 		return APP_METHOD.equals(method) && alipayConfig != null;
 	}
 

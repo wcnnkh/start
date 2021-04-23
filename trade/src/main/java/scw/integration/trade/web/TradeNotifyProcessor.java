@@ -22,7 +22,7 @@ public class TradeNotifyProcessor extends ArrayList<TradeNotifyAdapter> implemen
 	@Nullable
 	public TradeNotifyAdapter getAdapter(String method, String status){
 		for(TradeNotifyAdapter adapter : this){
-			if(adapter.isAccept(method)){
+			if(adapter.accept(method)){
 				return adapter;
 			}
 		}
@@ -30,9 +30,9 @@ public class TradeNotifyProcessor extends ArrayList<TradeNotifyAdapter> implemen
 	}
 	
 	@Override
-	public boolean isAccept(String tradeMethod) {
+	public boolean accept(String tradeMethod) {
 		for(TradeNotifyAdapter adapter : this){
-			if(adapter.isAccept(tradeMethod)){
+			if(adapter.accept(tradeMethod)){
 				return true;
 			}
 		}
@@ -44,7 +44,7 @@ public class TradeNotifyProcessor extends ArrayList<TradeNotifyAdapter> implemen
 			ServerHttpRequest request, TradeStatusDispatcher dispatcher)
 			throws TradeException {
 		for(TradeNotifyAdapter adapter : this){
-			if(adapter.isAccept(tradeMethod)){
+			if(adapter.accept(tradeMethod)){
 				return adapter.notify(tradeMethod, tradeStatus, request, dispatcher);
 			}
 		}

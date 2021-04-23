@@ -1,4 +1,4 @@
-package scw.integration.alibaba.pay;
+package scw.integration.alibaba.trade;
 
 /**
  * 支付宝交易

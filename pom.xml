@@ -42,6 +42,11 @@
 				<artifactId>kdniao</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
+			<dependency>
+				<groupId>scw.integration</groupId>
+				<artifactId>apple</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

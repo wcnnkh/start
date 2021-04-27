@@ -20,6 +20,7 @@ import scw.data.StorageException;
 import scw.http.HttpRequestEntity;
 import scw.http.MediaType;
 import scw.io.IOUtils;
+import scw.io.Resource;
 import scw.io.UrlResource;
 import scw.net.message.InputMessage;
 
@@ -71,7 +72,7 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	@Override
-	public UrlResource get(String key) throws StorageException, IOException {
+	public Resource get(String key) throws StorageException, IOException {
 		return new UrlResource(baseUrl + key);
 	}
 
@@ -106,7 +107,7 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	@Override
-	public List<UrlResource> list(String prefix, String marker, int limit)
+	public List<Resource> list(String prefix, String marker, int limit)
 			throws StorageException, IOException {
 		ListObjectsRequest listObjectsRequest = new ListObjectsRequest(
 				bucketName, prefix, marker, null, limit);
@@ -121,7 +122,7 @@ public class AliyunStorage implements ResourceStorageService {
 			return Collections.emptyList();
 		}
 
-		List<UrlResource> resources = new ArrayList<UrlResource>(
+		List<Resource> resources = new ArrayList<Resource>(
 				summaries.size());
 		for (com.aliyun.oss.model.OSSObjectSummary summary : summaries) {
 			if (summary == null) {

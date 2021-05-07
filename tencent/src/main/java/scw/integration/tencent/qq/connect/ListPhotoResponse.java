@@ -1,8 +1,9 @@
 package scw.integration.tencent.qq.connect;
 
+import java.util.Collections;
 import java.util.List;
 
-import scw.json.JSONUtils;
+import scw.json.JsonArray;
 import scw.json.JsonObject;
 
 public class ListPhotoResponse extends QQResponse {
@@ -16,6 +17,11 @@ public class ListPhotoResponse extends QQResponse {
 	}
 
 	public List<Photo> getPhotos() {
-		return JSONUtils.wrapper(getJsonArray("photos"), Photo.class);
+		JsonArray jsonArray = getJsonArray("photos");
+		if(jsonArray == null) {
+			return Collections.emptyList();
+		}
+		
+		return jsonArray.convert(Photo.class);
 	}
 }

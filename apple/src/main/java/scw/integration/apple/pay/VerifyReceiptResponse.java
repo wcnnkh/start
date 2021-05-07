@@ -1,8 +1,9 @@
 package scw.integration.apple.pay;
 
+import java.util.Collections;
 import java.util.List;
 
-import scw.json.JSONUtils;
+import scw.json.JsonArray;
 import scw.json.JsonObject;
 import scw.json.JsonObjectWrapper;
 
@@ -108,7 +109,12 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public List<PendingRenewalInfo> getPendingRenewalInfos() {
-		return JSONUtils.wrapper(getJsonArray("pending_renewal_info"), PendingRenewalInfo.class);
+		JsonArray jsonArray = getJsonArray("pending_renewal_info");
+		if(jsonArray == null) {
+			return Collections.emptyList();
+		}
+		
+		return jsonArray.convert(PendingRenewalInfo.class);
 	}
 
 	public boolean isSuccess() {

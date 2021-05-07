@@ -1,10 +1,10 @@
 package scw.integration.apple.pay;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import scw.core.utils.CollectionUtils;
-import scw.json.JSONUtils;
 import scw.json.JsonArray;
 import scw.json.JsonObject;
 import scw.json.JsonObjectWrapper;
@@ -154,7 +154,11 @@ public class InApp extends JsonObjectWrapper {
 	}
 
 	public static <T extends InApp> List<T> parse(JsonArray jsonArray, Class<T> type) {
-		List<T> list = JSONUtils.wrapper(jsonArray, type);
+		if(jsonArray == null) {
+			return Collections.emptyList();
+		}
+		
+		List<T> list = jsonArray.convert(type);
 		if (CollectionUtils.isEmpty(list)) {
 			return list;
 		}

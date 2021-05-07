@@ -15,3 +15,7 @@ apple<br/>
 # 授权
 微信<br/>
 微信小程序<br/>
+
+---
+# 资源存储
+aliyun oss<br/>

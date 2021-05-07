@@ -1,8 +1,9 @@
 package scw.integration.tencent.wx.miniprogram;
 
+import java.util.Collections;
 import java.util.List;
 
-import scw.json.JSONUtils;
+import scw.json.JsonArray;
 import scw.json.JsonObject;
 
 public final class GetTemplateLibraryListResponse extends BaseResponse {
@@ -12,7 +13,11 @@ public final class GetTemplateLibraryListResponse extends BaseResponse {
 	}
 
 	public List<TemplateLibrary> getList() {
-		return JSONUtils.parseArray(getJsonArray("list"), TemplateLibrary.class);
+		JsonArray jsonArray = getJsonArray("list");
+		if(jsonArray == null) {
+			return Collections.emptyList();
+		}
+		return jsonArray.convert(TemplateLibrary.class);
 	}
 
 	public int getTotal_count() {

@@ -49,7 +49,7 @@ public abstract class AbstractXmlPhoneVerificationCode implements XmlPhoneVerifi
 			this.aLiDaYu = new DefaultAliDaYu(host, appKey, version, format, signMethod, appSecret, resultFactory);
 		}
 		
-		this.modelList = (List<MessageModel>) SystemEnvironment.getInstance().convert(root, TypeDescriptor.forObject(root), TypeDescriptor.collection(List.class, MessageModel.class));
+		this.modelList = (List<MessageModel>) SystemEnvironment.getInstance().getConversionService().convert(root, TypeDescriptor.forObject(root), TypeDescriptor.collection(List.class, MessageModel.class));
 		this.codeParameterKey = DomUtils.getNodeAttributeValue(String.class, root, "code-key", "code");
 		this.codeLength = DomUtils.getNodeAttributeValue(Integer.class, root, "code-length", 6);
 		this.debug = DomUtils.getNodeAttributeValue(boolean.class, root, "debug", false);

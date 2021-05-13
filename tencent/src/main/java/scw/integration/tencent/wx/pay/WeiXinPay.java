@@ -221,7 +221,7 @@ public class WeiXinPay {
 		Document responseDocument = DomUtils.getDomBuilder().parse(res);
 		
 		@SuppressWarnings("unchecked")
-		Map<String, String> map = (Map<String, String>) SystemEnvironment.getInstance().convert(responseDocument, TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
+		Map<String, String> map = (Map<String, String>) SystemEnvironment.getInstance().getConversionService().convert(responseDocument, TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
 		JsonObject jsonObject = JSONUtils.getJsonSupport().parseObject(JSONUtils.getJsonSupport().toJSONString(map));
 		return new WeiXinPayResponse(jsonObject);
 	}

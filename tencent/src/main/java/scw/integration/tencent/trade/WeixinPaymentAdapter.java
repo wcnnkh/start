@@ -7,7 +7,6 @@ import scw.context.annotation.Provider;
 import scw.context.result.BaseResult;
 import scw.core.Ordered;
 import scw.core.utils.StringUtils;
-import scw.http.server.ServerHttpRequest;
 import scw.integration.tencent.wx.pay.RefundRequest;
 import scw.integration.tencent.wx.pay.Unifiedorder;
 import scw.integration.tencent.wx.pay.UnifiedorderRequest;
@@ -29,6 +28,7 @@ import scw.logger.Logger;
 import scw.logger.LoggerFactory;
 import scw.mapper.Copy;
 import scw.mvc.parameter.XmlMap;
+import scw.web.ServerHttpRequest;
 
 @Provider(order=Ordered.LOWEST_PRECEDENCE)
 public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdapter, TradeRefundAdapter{

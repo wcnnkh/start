@@ -4,7 +4,6 @@ import java.util.Map;
 
 import scw.context.annotation.Provider;
 import scw.core.Ordered;
-import scw.http.server.ServerHttpRequest;
 import scw.integration.trade.TradeException;
 import scw.integration.trade.create.TradeCreate;
 import scw.integration.trade.create.TradeCreateAdapter;
@@ -20,6 +19,7 @@ import scw.logger.Logger;
 import scw.logger.LoggerFactory;
 import scw.mapper.Copy;
 import scw.mvc.MVCUtils;
+import scw.web.ServerHttpRequest;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;

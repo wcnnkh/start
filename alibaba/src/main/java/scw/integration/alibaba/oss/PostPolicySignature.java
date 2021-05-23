@@ -7,7 +7,7 @@ import java.util.Map;
 import scw.http.MediaType;
 import scw.json.JSONUtils;
 import scw.net.MimeType;
-import scw.net.message.Text;
+import scw.web.model.Text;
 
 /**
  * 请注意 由于历史遗留问题，导致字段和返回的json字符串名称不一致

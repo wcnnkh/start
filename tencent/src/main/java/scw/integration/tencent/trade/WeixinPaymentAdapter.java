@@ -27,7 +27,6 @@ import scw.json.JSONUtils;
 import scw.logger.Logger;
 import scw.logger.LoggerFactory;
 import scw.mapper.Copy;
-import scw.mvc.parameter.XmlMap;
 import scw.web.ServerHttpRequest;
 
 @Provider(order=Ordered.LOWEST_PRECEDENCE)

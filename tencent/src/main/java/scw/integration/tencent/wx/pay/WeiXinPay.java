@@ -16,7 +16,7 @@ import scw.core.Constants;
 import scw.core.utils.CollectionUtils;
 import scw.core.utils.StringUtils;
 import scw.dom.DomUtils;
-import scw.env.SystemEnvironment;
+import scw.env.Sys;
 import scw.http.HttpMethod;
 import scw.http.HttpUtils;
 import scw.http.MediaType;
@@ -221,7 +221,7 @@ public class WeiXinPay {
 		Document responseDocument = DomUtils.getDomBuilder().parse(res);
 		
 		@SuppressWarnings("unchecked")
-		Map<String, String> map = (Map<String, String>) SystemEnvironment.getInstance().getConversionService().convert(responseDocument, TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
+		Map<String, String> map = (Map<String, String>) Sys.env.getConversionService().convert(responseDocument, TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
 		JsonObject jsonObject = JSONUtils.getJsonSupport().parseObject(JSONUtils.getJsonSupport().toJSONString(map));
 		return new WeiXinPayResponse(jsonObject);
 	}
@@ -280,7 +280,7 @@ public class WeiXinPay {
 			throw new WeiXinException(response.getResultErrCodeDes());
 		}
 
-		long timestamp = System.currentTimeMillis() / 1000;
+		long timestamp = Sys.currentTimeMillis() / 1000;
 		String prepay_id = response.getPrepayId();
 		Unifiedorder unifiedorder = new Unifiedorder();
 		unifiedorder.setTimestamp(timestamp);

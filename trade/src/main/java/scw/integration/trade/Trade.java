@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 
-import scw.core.utils.StringUtils;
 import scw.lang.Nullable;
 
 public class Trade implements Serializable {
@@ -104,6 +103,6 @@ public class Trade implements Serializable {
 	}
 	
 	public String getTradeAmountDescribe(){
-		return StringUtils.formatNothingToYuan(tradeAmount);
+		return TradeUtils.formatNothingToYuan(tradeAmount);
 	}
 }

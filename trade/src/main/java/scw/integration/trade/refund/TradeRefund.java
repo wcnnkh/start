@@ -1,7 +1,7 @@
 package scw.integration.trade.refund;
 
-import scw.core.utils.StringUtils;
 import scw.integration.trade.Trade;
+import scw.integration.trade.TradeUtils;
 
 public class TradeRefund extends Trade{
 	private static final long serialVersionUID = 1L;
@@ -21,7 +21,7 @@ public class TradeRefund extends Trade{
 	}
 
 	public String getTotalTradeAmountDescribe(){
-		return StringUtils.formatNothingToYuan(totalTradeAmount);
+		return TradeUtils.formatNothingToYuan(totalTradeAmount);
 	}
 
 	public String getThirdpartyTradeNo() {

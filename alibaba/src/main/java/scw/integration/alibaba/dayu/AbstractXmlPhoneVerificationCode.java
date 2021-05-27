@@ -12,7 +12,7 @@ import scw.context.result.ResultFactory;
 import scw.convert.TypeDescriptor;
 import scw.core.utils.XTime;
 import scw.dom.DomUtils;
-import scw.env.SystemEnvironment;
+import scw.env.Sys;
 import scw.json.JSONUtils;
 import scw.logger.Logger;
 import scw.logger.LoggerFactory;
@@ -35,7 +35,7 @@ public abstract class AbstractXmlPhoneVerificationCode implements XmlPhoneVerifi
 	public AbstractXmlPhoneVerificationCode(String xmlPath, ResultFactory resultFactory)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		this.resultFactory = resultFactory;
-		Node root = DomUtils.getRootElement(SystemEnvironment.getInstance(), xmlPath);
+		Node root = DomUtils.getRootElement(Sys.env, xmlPath);
 		String host = DomUtils.getNodeAttributeValue(root, "host", "http://gw.api.taobao.com/router/rest");
 		String appKey = DomUtils.getRequireNodeAttributeValue(root, "appKey");
 		String version = DomUtils.getNodeAttributeValue(root, "version", "2.0");
@@ -49,7 +49,7 @@ public abstract class AbstractXmlPhoneVerificationCode implements XmlPhoneVerifi
 			this.aLiDaYu = new DefaultAliDaYu(host, appKey, version, format, signMethod, appSecret, resultFactory);
 		}
 		
-		this.modelList = (List<MessageModel>) SystemEnvironment.getInstance().getConversionService().convert(root, TypeDescriptor.forObject(root), TypeDescriptor.collection(List.class, MessageModel.class));
+		this.modelList = (List<MessageModel>) Sys.env.getConversionService().convert(root, TypeDescriptor.forObject(root), TypeDescriptor.collection(List.class, MessageModel.class));
 		this.codeParameterKey = DomUtils.getNodeAttributeValue(String.class, root, "code-key", "code");
 		this.codeLength = DomUtils.getNodeAttributeValue(Integer.class, root, "code-length", 6);
 		this.debug = DomUtils.getNodeAttributeValue(boolean.class, root, "debug", false);
@@ -152,7 +152,7 @@ public abstract class AbstractXmlPhoneVerificationCode implements XmlPhoneVerifi
 		}
 
 		long lastSendTime = json.getLastSendTime();
-		if (getMaxActiveTime() > 0 && (System.currentTimeMillis() - lastSendTime) > getMaxActiveTime() * 1000L) {
+		if (getMaxActiveTime() > 0 && (Sys.currentTimeMillis() - lastSendTime) > getMaxActiveTime() * 1000L) {
 			return false;// 验证码已过期
 		}
 
@@ -174,14 +174,14 @@ public abstract class AbstractXmlPhoneVerificationCode implements XmlPhoneVerifi
 			json = new PhoneVerificationCode();
 		}
 
-		if (System.currentTimeMillis() - json.getLastSendTime() > XTime.ONE_DAY) {
+		if (Sys.currentTimeMillis() - json.getLastSendTime() > XTime.ONE_DAY) {
 			json.setCount(1);
 		} else {
 			json.setCount(json.getCount() + 1);
 		}
 
 		json.setCode(code);
-		json.setLastSendTime(System.currentTimeMillis());
+		json.setLastSendTime(Sys.currentTimeMillis());
 		setCacheData(configIndex, phone, json);
 	}
 
@@ -192,7 +192,7 @@ public abstract class AbstractXmlPhoneVerificationCode implements XmlPhoneVerifi
 		}
 
 		long lastSendTime = info.getLastSendTime();
-		if (getMaxTimeInterval() > 0 && (System.currentTimeMillis() - lastSendTime) < getMaxTimeInterval() * 1000L) {
+		if (getMaxTimeInterval() > 0 && (Sys.currentTimeMillis() - lastSendTime) < getMaxTimeInterval() * 1000L) {
 			return resultFactory.error("发送过于频繁");
 		}
 

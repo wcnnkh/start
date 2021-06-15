@@ -1,6 +1,6 @@
 package scw.integration.tencent.qq.connect;
 
-import scw.net.message.multipart.FileItem;
+import scw.net.message.multipart.MultipartMessage;
 
 public class UploadPicRequest extends QQRequest {
 	private static final long serialVersionUID = 1L;
@@ -10,12 +10,12 @@ public class UploadPicRequest extends QQRequest {
 	private Integer mobile;
 	private String x;
 	private String y;
-	private final FileItem picture;
+	private final MultipartMessage picture;
 	private Integer needfeed;
 	private Integer successnum;
 	private Integer picnum;
 
-	public UploadPicRequest(String accessToken, String openid, FileItem picture) {
+	public UploadPicRequest(String accessToken, String openid, MultipartMessage picture) {
 		super(accessToken, openid);
 		this.picture = picture;
 	}
@@ -92,7 +92,7 @@ public class UploadPicRequest extends QQRequest {
 		this.picnum = picnum;
 	}
 
-	public FileItem getPicture() {
+	public MultipartMessage getPicture() {
 		return picture;
 	}
 }

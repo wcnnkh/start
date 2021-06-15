@@ -81,7 +81,7 @@ public class AliyunStorage implements ResourceStorageService {
 			IOException {
 		InputStream is = null;
 		try {
-			is = input.getBody();
+			is = input.getInputStream();
 			oss.putObject(bucketName, key, is);
 		} finally {
 			IOUtils.close(is);

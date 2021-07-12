@@ -13,6 +13,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aliyun.oss.ClientConfiguration;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import com.aliyun.oss.common.utils.BinaryUtil;
+import com.aliyun.oss.model.ListObjectsRequest;
+import com.aliyun.oss.model.MatchMode;
+import com.aliyun.oss.model.ObjectListing;
+import com.aliyun.oss.model.PolicyConditions;
+
 import scw.codec.support.CharsetCodec;
 import scw.core.utils.CollectionUtils;
 import scw.data.ResourceStorageService;
@@ -24,15 +33,6 @@ import scw.io.Resource;
 import scw.io.UrlResource;
 import scw.net.message.InputMessage;
 
-import com.aliyun.oss.ClientConfiguration;
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.common.auth.DefaultCredentialProvider;
-import com.aliyun.oss.common.utils.BinaryUtil;
-import com.aliyun.oss.model.ListObjectsRequest;
-import com.aliyun.oss.model.MatchMode;
-import com.aliyun.oss.model.ObjectListing;
-import com.aliyun.oss.model.PolicyConditions;
-
 public class AliyunStorage implements ResourceStorageService {
 	private final OSSClient oss;
 	private final String baseUrl;
@@ -42,12 +42,11 @@ public class AliyunStorage implements ResourceStorageService {
 		if (!config.isVerified()) {
 			throw new IllegalArgumentException(config.toString());
 		}
-		
-		DefaultCredentialProvider provider = new DefaultCredentialProvider(
-				config.getAccessKeyId(), config.getSecretAccessKey());
+
+		DefaultCredentialProvider provider = new DefaultCredentialProvider(config.getAccessKeyId(),
+				config.getSecretAccessKey());
 		ClientConfiguration clientConfiguration = new ClientConfiguration();
-		this.oss = new OSSClient(config.getEndpoint(), provider,
-				clientConfiguration);
+		this.oss = new OSSClient(config.getEndpoint(), provider, clientConfiguration);
 		this.bucketName = config.getBucketName();
 		this.baseUrl = config.getBaseUrl();
 	}
@@ -64,8 +63,7 @@ public class AliyunStorage implements ResourceStorageService {
 		return bucketName;
 	}
 
-	public AliyunStorage(OSSClient oss, String bucketName,
-			String baseUrl) {
+	public AliyunStorage(OSSClient oss, String bucketName, String baseUrl) {
 		this.oss = oss;
 		this.bucketName = bucketName;
 		this.baseUrl = baseUrl;
@@ -77,8 +75,7 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	@Override
-	public boolean put(String key, InputMessage input) throws StorageException,
-			IOException {
+	public boolean put(String key, InputMessage input) throws StorageException, IOException {
 		InputStream is = null;
 		try {
 			is = input.getInputStream();
@@ -91,8 +88,7 @@ public class AliyunStorage implements ResourceStorageService {
 
 	@Override
 	public boolean delete(String key) throws StorageException {
-		oss.deleteObject(bucketName, key.startsWith("/") ? key.substring(1)
-				: key);
+		oss.deleteObject(bucketName, key.startsWith("/") ? key.substring(1) : key);
 		return true;
 	}
 
@@ -107,23 +103,19 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	@Override
-	public List<Resource> list(String prefix, String marker, int limit)
-			throws StorageException, IOException {
-		ListObjectsRequest listObjectsRequest = new ListObjectsRequest(
-				bucketName, prefix, marker, null, limit);
+	public List<Resource> list(String prefix, String marker, int limit) throws StorageException, IOException {
+		ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName, prefix, marker, null, limit);
 		ObjectListing objectListing = oss.listObjects(listObjectsRequest);
 		if (objectListing == null) {
 			return Collections.emptyList();
 		}
 
-		List<com.aliyun.oss.model.OSSObjectSummary> summaries = objectListing
-				.getObjectSummaries();
+		List<com.aliyun.oss.model.OSSObjectSummary> summaries = objectListing.getObjectSummaries();
 		if (CollectionUtils.isEmpty(summaries)) {
 			return Collections.emptyList();
 		}
 
-		List<Resource> resources = new ArrayList<Resource>(
-				summaries.size());
+		List<Resource> resources = new ArrayList<Resource>(summaries.size());
 		for (com.aliyun.oss.model.OSSObjectSummary summary : summaries) {
 			if (summary == null) {
 				continue;
@@ -137,8 +129,7 @@ public class AliyunStorage implements ResourceStorageService {
 	private final class OssResource extends UrlResource {
 		private final com.aliyun.oss.model.OSSObjectSummary summary;
 
-		public OssResource(com.aliyun.oss.model.OSSObjectSummary summary)
-				throws MalformedURLException {
+		public OssResource(com.aliyun.oss.model.OSSObjectSummary summary) throws MalformedURLException {
 			super(baseUrl + summary.getKey());
 			this.summary = summary;
 		}
@@ -151,33 +142,27 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	/**
-	 * web端直传
-	 * {@link https://help.aliyun.com/document_detail/31923.html}
+	 * web端直传 {@link https://help.aliyun.com/document_detail/31923.html}
 	 */
 	@Override
-	public HttpRequestEntity<?> generatePolicy(String key, Date expiration)
-			throws StorageException {
+	public UploadPolicy generatePolicy(String key, Date expiration) throws StorageException {
 		PolicyConditions policyConditions = new PolicyConditions();
-		policyConditions.addConditionItem(
-				PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
-		policyConditions.addConditionItem(MatchMode.Exact,
-				PolicyConditions.COND_KEY, key);
-		String postPolicy = oss
-				.generatePostPolicy(expiration, policyConditions);
+		policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
+		policyConditions.addConditionItem(MatchMode.Exact, PolicyConditions.COND_KEY, key);
+		String postPolicy = oss.generatePostPolicy(expiration, policyConditions);
 		String sign = oss.calculatePostSignature(postPolicy);
-		byte[] binaryData = CharsetCodec.charset(DEFAULT_CHARSET_NAME).encode(
-				DEFAULT_CHARSET_NAME);
+		byte[] binaryData = CharsetCodec.charset(DEFAULT_CHARSET_NAME).encode(DEFAULT_CHARSET_NAME);
 		String encPolicy = BinaryUtil.toBase64String(binaryData);
 		Map<String, String> parameters = new LinkedHashMap<String, String>();
 		parameters.put("key", key);
-		//要求的参数key就是大写
-		parameters.put("OSSAccessKeyId", oss.getCredentialsProvider()
-				.getCredentials().getAccessKeyId());
+		// 要求的参数key就是大写
+		parameters.put("OSSAccessKeyId", oss.getCredentialsProvider().getCredentials().getAccessKeyId());
 		parameters.put("policy", encPolicy);
 		parameters.put("Signature", sign);
 
-		return HttpRequestEntity.post(oss.getEndpoint())
+		HttpRequestEntity<?> requestEntity = HttpRequestEntity.post(oss.getEndpoint())
 				.contentType(MediaType.MULTIPART_FORM_DATA).body(parameters);
+		return new UploadPolicy(getBaseUrl(), requestEntity);
 	}
 
 }

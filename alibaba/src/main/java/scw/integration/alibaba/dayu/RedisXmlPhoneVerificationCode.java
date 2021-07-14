@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import scw.context.result.ResultFactory;
 import scw.core.utils.XTime;
-import scw.redis.Redis;
+import scw.redis.core.Redis;
 
 public final class RedisXmlPhoneVerificationCode extends AbstractXmlPhoneVerificationCode {
 	private final Redis redis;
@@ -22,7 +22,7 @@ public final class RedisXmlPhoneVerificationCode extends AbstractXmlPhoneVerific
 		sb.append(phone);
 		sb.append("&").append(configIndex);
 		sb.append("&").append(tempSuffix);
-		return (PhoneVerificationCode) redis.getObjectOperations().get(sb.toString());
+		return (PhoneVerificationCode) redis.getObjectCommands().get(sb.toString());
 	}
 
 	@Override
@@ -35,6 +35,6 @@ public final class RedisXmlPhoneVerificationCode extends AbstractXmlPhoneVerific
 		sb.append(phone);
 		sb.append("&").append(configIndex);
 		sb.append("&").append(tempSuffix);
-		redis.getObjectOperations().setex(sb.toString(), (int) (XTime.ONE_DAY / 1000), json);
+		redis.getObjectCommands().setex(sb.toString(), (int) (XTime.ONE_DAY / 1000), json);
 	}
 }

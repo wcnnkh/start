@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import scw.context.annotation.Provider;
-import scw.context.result.BaseResult;
 import scw.core.Ordered;
 import scw.core.utils.StringUtils;
 import scw.integration.tencent.wx.pay.RefundRequest;
@@ -27,41 +26,44 @@ import scw.json.JSONUtils;
 import scw.logger.Logger;
 import scw.logger.LoggerFactory;
 import scw.mapper.Copy;
+import scw.util.DefaultStatus;
+import scw.util.Status;
 import scw.web.ServerHttpRequest;
 
-@Provider(order=Ordered.LOWEST_PRECEDENCE)
-public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdapter, TradeRefundAdapter{
+@Provider(order = Ordered.LOWEST_PRECEDENCE)
+public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdapter, TradeRefundAdapter {
 	private static Logger logger = LoggerFactory.getLogger(WeixinPaymentAdapter.class);
-	
+
 	public static final String WEB_TRADE_METHOD = "WX_JSAPI";
 	public static final String APP_TRADE_METHOD = "WX_APP";
-	
+
 	public static final String OPENID_KEY = "open_id";
-	
+
 	private static final String SUCCESS_TEXT = "SUCCESS";
-	
+
 	private final WeiXinPay weiXinPay;
 	private final TradeNotifyConfig notifyConfig;
-	
-	public WeixinPaymentAdapter(TradeNotifyConfig notifyConfig, WeiXinPay weiXinPay){
+
+	public WeixinPaymentAdapter(TradeNotifyConfig notifyConfig, WeiXinPay weiXinPay) {
 		this.notifyConfig = notifyConfig;
 		this.weiXinPay = weiXinPay;
 	}
-	
+
 	@Override
 	public boolean accept(String paymentMethod) {
 		return WEB_TRADE_METHOD.equals(paymentMethod) || APP_TRADE_METHOD.equals(paymentMethod);
 	}
-	
+
 	@Override
 	public TradeCreateResponse create(TradeCreate request) throws TradeException {
 		String type = "JSAPI";
-		if(APP_TRADE_METHOD.equals(request.getTradeMethod())){
+		if (APP_TRADE_METHOD.equals(request.getTradeMethod())) {
 			type = "APP";
 		}
-		
+
 		UnifiedorderRequest unifiedorderRequest = new UnifiedorderRequest(request.getSubject(), request.getTradeNo(),
-				request.getTradeAmount(), request.getIp(), notifyConfig.getNotifyUrl(request.getTradeMethod(), TradeStatus.SUCCESS), type);
+				request.getTradeAmount(), request.getIp(),
+				notifyConfig.getNotifyUrl(request.getTradeMethod(), TradeStatus.SUCCESS), type);
 		String openid = request.getExtended().get(OPENID_KEY);
 		unifiedorderRequest.setOpenid(openid);
 		Unifiedorder unifiedorder = weiXinPay.payment(unifiedorderRequest);
@@ -70,7 +72,7 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 		response.setCredential(unifiedorder);
 		return response;
 	}
-	
+
 	@Override
 	public boolean refund(TradeRefund request) throws TradeException {
 		RefundRequest refundRequest = new RefundRequest();
@@ -88,7 +90,7 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 		logger.error("申请退款异常:" + response);
 		return false;
 	}
-	
+
 	@Override
 	public Object notify(String tradeMethod, String tradeStatus, ServerHttpRequest request,
 			TradeStatusDispatcher dispatcher) throws TradeException {
@@ -98,24 +100,24 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 		} catch (IOException e) {
 			throw new TradeException(e);
 		}
-		
+
 		logger.info("收到微信支付回调:\n" + JSONUtils.getJsonSupport().toJSONString(map));
-		BaseResult baseResult = check(map);
-		if (!baseResult.isError()) {
-			logger.error("微信支付回调失败：{}", baseResult.getMsg());
-			return baseResult.getMsg();
+		Status<String> status = check(map);
+		if (!status.isActive()) {
+			logger.error("微信支付回调失败：{}", status.get());
+			return status.get();
 		}
 
 		TradeResultsEvent event = new TradeResultsEvent();
 		event.setTradeMethod(tradeMethod);
 		event.setCreateTime(System.currentTimeMillis());
 		event.setExtended(map);
-		if(TradeStatus.SUCCESS.equals(tradeStatus)){
+		if (TradeStatus.SUCCESS.equals(tradeStatus)) {
 			event.setThirdpartyTradeNo(map.get("transaction_id"));
 			event.setTradeNo(map.get("out_trade_no"));
 			event.setTradeAmount(Integer.parseInt(map.get("total_fee")));
 			event.setSuccess(true);
-		}else if(TradeStatus.REFUND.equals(tradeStatus)){
+		} else if (TradeStatus.REFUND.equals(tradeStatus)) {
 			event.setThirdpartyTradeNo(map.get("refund_id"));
 			event.setTradeNo(map.get("out_refund_no"));
 			event.setTradeAmount(Integer.parseInt(map.get("settlement_refund_fee")));
@@ -124,25 +126,25 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 		dispatcher.publishEvent(tradeStatus, event);
 		return SUCCESS_TEXT;
 	}
-	
-	public BaseResult check(Map<String, String> map) {
+
+	public Status<String> check(Map<String, String> map) {
 		if (!SUCCESS_TEXT.equals(map.get("return_code"))) {
-			return new BaseResult(false).setMsg(map.get("return_msg"));
+			return new DefaultStatus<String>(false, map.get("return_msg"));
 		}
 
 		if (!SUCCESS_TEXT.equals(map.get("result_code"))) {
-			return new BaseResult(false).setMsg(map.get("err_code") + "(" + map.get("err_code_des") + ")");
+			return new DefaultStatus<String>(false, map.get("err_code") + "(" + map.get("err_code_des") + ")");
 		}
 
 		String out_trade_no = map.get("out_trade_no");
 		if (StringUtils.isEmpty(out_trade_no)) {
-			return new BaseResult(false).setMsg("订单号错误");
+			return new DefaultStatus<String>(false, "订单号错误");
 		}
 
 		boolean success = weiXinPay.checkSign(map);
 		if (!success) {
-			return new BaseResult(false).setMsg("签名错误");
+			return new DefaultStatus<String>(false, "签名错误");
 		}
-		return new BaseResult(true);
+		return new DefaultStatus<String>(true, "SUCCESS");
 	}
 }

@@ -1,9 +1,9 @@
-package scw.integration.bytedance.oauth;
+package scw.integration.bytedance.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import scw.integration.bytedance.ResponseData;
 
-public class OauthUserinfoResponse extends ResponseData {
+public class UserinfoResponse extends ResponseData {
 	private static final long serialVersionUID = 1L;
 	@Schema(example = "上海")
 	private String province;

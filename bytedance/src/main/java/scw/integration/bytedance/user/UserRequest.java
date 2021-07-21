@@ -1,4 +1,4 @@
-package scw.integration.bytedance.oauth;
+package scw.integration.bytedance.user;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class OauthUserRequest implements Serializable {
+public class UserRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Schema(description = "通过/oauth/access_token/获取，用户唯一标志", example = "ba253642-0590-40bc-9bdf-9a1334b94059", required = true)
 	@NotNull

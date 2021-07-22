@@ -39,6 +39,8 @@ import scw.integration.bytedance.data.DataExternalUserProfile;
 import scw.integration.bytedance.data.DataExternalUserRequest;
 import scw.integration.bytedance.data.DataExternalUserResponse;
 import scw.integration.bytedance.data.DataExternalUserShare;
+import scw.integration.bytedance.data.DiscoveryEntRankItemRequest;
+import scw.integration.bytedance.data.DiscoveryEntRankItemResponse;
 import scw.integration.bytedance.data.FansDataResponse;
 import scw.integration.bytedance.data.HotsearchSentencesResponse;
 import scw.integration.bytedance.data.HotsearchTrendingSentences;
@@ -382,5 +384,9 @@ public class OpenApi {
 
 	public Response<StarAuthorScoreV2Response> starAuthorScoreV2(StarAuthorScoreV2Request request) {
 		return doGet(GateWay.DOUYIN, "/star/author_score_v2/", request, StarAuthorScoreV2Response.class);
+	}
+	
+	public Response<DiscoveryEntRankItemResponse> discoveryEntRankItem(DiscoveryEntRankItemRequest request) {
+		return doGet(GateWay.DOUYIN, " /discovery/ent/rank/item/", request, DiscoveryEntRankItemResponse.class);
 	}
 }

@@ -71,7 +71,6 @@
 		<module>alibaba</module>
 		<module>kdniao</module>
 		<module>apple</module>
-		<module>douyin</module>
 		<module>bytedance</module>
 	</modules>
 </project>

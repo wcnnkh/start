@@ -34,4 +34,18 @@ public class Response<D> implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	public boolean isSuccess() {
+		if (extra != null && extra.getError_code() != null && extra.getError_code() != 0) {
+			return false;
+		}
+
+		if (data != null && data instanceof ResponseCode) {
+			ResponseCode responseCode = (ResponseCode) data;
+			if (responseCode.getError_code() != null && responseCode.getError_code() != 0) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

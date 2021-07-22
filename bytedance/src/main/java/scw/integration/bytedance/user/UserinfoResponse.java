@@ -1,9 +1,9 @@
 package scw.integration.bytedance.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import scw.integration.bytedance.ResponseData;
+import scw.integration.bytedance.ResponseCode;
 
-public class UserinfoResponse extends ResponseData {
+public class UserinfoResponse extends ResponseCode {
 	private static final long serialVersionUID = 1L;
 	@Schema(example = "上海")
 	private String province;

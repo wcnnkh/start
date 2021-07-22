@@ -1,9 +1,9 @@
 package scw.integration.bytedance.oauth;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import scw.integration.bytedance.ResponseData;
+import scw.integration.bytedance.ResponseCode;
 
-public class OauthAccessTokenResponse extends ResponseData {
+public class OauthAccessTokenResponse extends ResponseCode {
 	private static final long serialVersionUID = 1L;
 	@Schema(description = "授权用户唯一标识", example = "aaa-bbb-ccc")
 	private String open_id;

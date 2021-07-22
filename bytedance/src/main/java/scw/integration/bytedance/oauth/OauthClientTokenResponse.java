@@ -1,9 +1,9 @@
 package scw.integration.bytedance.oauth;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import scw.integration.bytedance.ResponseData;
+import scw.integration.bytedance.ResponseCode;
 
-public class OauthClientTokenResponse extends ResponseData {
+public class OauthClientTokenResponse extends ResponseCode {
 	private static final long serialVersionUID = 1L;
 	@Schema(description = "access_token接口调用凭证超时时间，单位（秒)", example = "7200")
 	private Long expires_in;

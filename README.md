@@ -1,6 +1,19 @@
 # open-platform
 对第三方开放平台的整合
 
+使用方式:
+
+1.pom.xml中引入仓库
+-------------------
+	<repositories>
+		  <repository>
+			  <id>scw</id>
+			  <name>scw</name>
+			  <url>http://maven.shuchaowen.com</url>
+		  </repository>
+    </repositories>
+或下载源码打包
+
 ---
 # 支付
 微信<br/>
@@ -16,6 +29,7 @@ apple<br/>
 微信<br/>
 微信小程序<br/>
 QQ互联<br/>
+抖音<br/>
 
 ---
 # 资源存储

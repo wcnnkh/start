@@ -18,6 +18,16 @@
 			<groupId>scw</groupId>
 			<artifactId>scw-core</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>scw</groupId>
+			<artifactId>scw-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -47,6 +57,11 @@
 				<artifactId>apple</artifactId>
 				<version>0.0.3</version>
 			</dependency>
+			<dependency>
+				<groupId>scw.integration</groupId>
+				<artifactId>bytedance</artifactId>
+				<version>0.0.3</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -56,5 +71,7 @@
 		<module>alibaba</module>
 		<module>kdniao</module>
 		<module>apple</module>
+		<module>douyin</module>
+		<module>bytedance</module>
 	</modules>
 </project>

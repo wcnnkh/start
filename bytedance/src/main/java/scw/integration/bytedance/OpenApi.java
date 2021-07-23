@@ -21,9 +21,21 @@ import scw.integration.bytedance.comment.CommentReplyRequest;
 import scw.integration.bytedance.comment.CommentReplyResponse;
 import scw.integration.bytedance.comment.EnterpriseImMessageSendRequest;
 import scw.integration.bytedance.comment.EnterpriseImMessageSendResponse;
+import scw.integration.bytedance.data.AmusementRankApiType;
+import scw.integration.bytedance.data.CarRankApiType;
+import scw.integration.bytedance.data.CospaRankApiType;
+import scw.integration.bytedance.data.DataExternBillboard;
+import scw.integration.bytedance.data.DataExternBillboardHotVideo;
+import scw.integration.bytedance.data.DataExternBillboardLive;
+import scw.integration.bytedance.data.DataExternBillboardMusic;
+import scw.integration.bytedance.data.DataExternBillboardProp;
+import scw.integration.bytedance.data.DataExternBillboardStars;
+import scw.integration.bytedance.data.DataExternBillboardTopic;
 import scw.integration.bytedance.data.DataExternFansComment;
 import scw.integration.bytedance.data.DataExternFansFavourite;
 import scw.integration.bytedance.data.DataExternFansSource;
+import scw.integration.bytedance.data.DataExternalAnchorMpItemClickDistribution;
+import scw.integration.bytedance.data.DataExternalAnchorMpItemClickDistributionRequest;
 import scw.integration.bytedance.data.DataExternalItemBaseRequest;
 import scw.integration.bytedance.data.DataExternalItemBaseResponse;
 import scw.integration.bytedance.data.DataExternalItemComment;
@@ -31,6 +43,7 @@ import scw.integration.bytedance.data.DataExternalItemLike;
 import scw.integration.bytedance.data.DataExternalItemPlay;
 import scw.integration.bytedance.data.DataExternalItemRequest;
 import scw.integration.bytedance.data.DataExternalItemShare;
+import scw.integration.bytedance.data.DataExternalSdkShare;
 import scw.integration.bytedance.data.DataExternalUserComment;
 import scw.integration.bytedance.data.DataExternalUserFans;
 import scw.integration.bytedance.data.DataExternalUserItem;
@@ -41,15 +54,40 @@ import scw.integration.bytedance.data.DataExternalUserResponse;
 import scw.integration.bytedance.data.DataExternalUserShare;
 import scw.integration.bytedance.data.DiscoveryEntRankItemRequest;
 import scw.integration.bytedance.data.DiscoveryEntRankItemResponse;
+import scw.integration.bytedance.data.DiscoveryEntRrankVersion;
+import scw.integration.bytedance.data.DiscoveryEntRrankVersionRequest;
 import scw.integration.bytedance.data.FansDataResponse;
+import scw.integration.bytedance.data.FoodRankApiType;
+import scw.integration.bytedance.data.GameRankApiType;
 import scw.integration.bytedance.data.HotsearchSentencesResponse;
 import scw.integration.bytedance.data.HotsearchTrendingSentences;
 import scw.integration.bytedance.data.HotsearchVideosRequest;
+import scw.integration.bytedance.data.MusicRankApiType;
+import scw.integration.bytedance.data.SportRankApiType;
 import scw.integration.bytedance.data.StarAuthorScore;
 import scw.integration.bytedance.data.StarAuthorScoreV2Request;
 import scw.integration.bytedance.data.StarAuthorScoreV2Response;
 import scw.integration.bytedance.data.StarHotListRequest;
 import scw.integration.bytedance.data.StarHotListResponse;
+import scw.integration.bytedance.data.TravelRankApiType;
+import scw.integration.bytedance.devtool.DevtoolMicappIsLegalRequest;
+import scw.integration.bytedance.devtool.DevtoolMicappIsLegalResponse;
+import scw.integration.bytedance.devtool.JsGetticketResponse;
+import scw.integration.bytedance.devtool.SandboxWebhookEventSendRequest;
+import scw.integration.bytedance.enterprise.EnterpriseImCardDeleteRequest;
+import scw.integration.bytedance.enterprise.EnterpriseImCardListResponse;
+import scw.integration.bytedance.enterprise.EnterpriseImCardSaveRequest;
+import scw.integration.bytedance.enterprise.EnterpriseImCardSaveResponse;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsTagResponse;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsTagUserListRequest;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsTagUserUpdateRequest;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsUserAction;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsUserActionListRequest;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsUserDetailRequest;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsUserDetailResponse;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsUserListRequest;
+import scw.integration.bytedance.enterprise.EnterpriseLeadsUserListResponse;
+import scw.integration.bytedance.enterprise.Tag;
 import scw.integration.bytedance.oauth.ClientPagingRequest;
 import scw.integration.bytedance.oauth.ClientRequest;
 import scw.integration.bytedance.oauth.OauthAccessTokenRequest;
@@ -59,6 +97,24 @@ import scw.integration.bytedance.oauth.OauthClientTokenResponse;
 import scw.integration.bytedance.oauth.OauthRefreshTokenRequest;
 import scw.integration.bytedance.oauth.OauthRenewRefreshTokenRequest;
 import scw.integration.bytedance.oauth.OauthRenewRefreshTokenResponse;
+import scw.integration.bytedance.poi.MatchResultList;
+import scw.integration.bytedance.poi.PoiBaseQueryAmapRequest;
+import scw.integration.bytedance.poi.PoiBaseQueryAmapResponse;
+import scw.integration.bytedance.poi.PoiOrderSyncRequest;
+import scw.integration.bytedance.poi.PoiOrderSyncResponse;
+import scw.integration.bytedance.poi.PoiQueryRequest;
+import scw.integration.bytedance.poi.PoiQueryResponse;
+import scw.integration.bytedance.poi.PoiSpuQueryRequest;
+import scw.integration.bytedance.poi.PoiSpuQueryResponse;
+import scw.integration.bytedance.poi.PoiSupplier;
+import scw.integration.bytedance.poi.PoiSupplierQueryRequest;
+import scw.integration.bytedance.poi.PoiSupplierQueryResponse;
+import scw.integration.bytedance.poi.PoiSupplierSyncResponse;
+import scw.integration.bytedance.poi.PoiV2SupplierMatchRequest;
+import scw.integration.bytedance.poi.PoiV2SupplierMatchResponse;
+import scw.integration.bytedance.poi.PoiV2SupplierQuerySupplier;
+import scw.integration.bytedance.poi.PoiV2SupplierQueryTask;
+import scw.integration.bytedance.poi.PoiV2SupplierQueryTaskRequest;
 import scw.integration.bytedance.search.VideoSearchCommentListRequest;
 import scw.integration.bytedance.search.VideoSearchCommentReplyListRequest;
 import scw.integration.bytedance.search.VideoSearchCommentReplyRequest;
@@ -363,10 +419,10 @@ public class OpenApi {
 		return doGet(GateWay.DOUYIN, "/hotsearch/sentences/", request, HotsearchSentencesResponse.class);
 	}
 
-	public Response<PagingResponseList<HotsearchTrendingSentences>> hotsearchTrendingSentences(
+	public Response<PagingResponseCodeTotalList<HotsearchTrendingSentences>> hotsearchTrendingSentences(
 			ClientPagingRequest request) {
-		return doGet(GateWay.DOUYIN, "/hotsearch/trending/sentences/", request,
-				ResolvableType.forClassWithGenerics(PagingResponseList.class, HotsearchTrendingSentences.class));
+		return doGet(GateWay.DOUYIN, "/hotsearch/trending/sentences/", request, ResolvableType
+				.forClassWithGenerics(PagingResponseCodeTotalList.class, HotsearchTrendingSentences.class));
 	}
 
 	public Response<ResponseCodeList<VideoData>> hotsearchVideos(HotsearchVideosRequest request) {
@@ -385,8 +441,225 @@ public class OpenApi {
 	public Response<StarAuthorScoreV2Response> starAuthorScoreV2(StarAuthorScoreV2Request request) {
 		return doGet(GateWay.DOUYIN, "/star/author_score_v2/", request, StarAuthorScoreV2Response.class);
 	}
-	
+
 	public Response<DiscoveryEntRankItemResponse> discoveryEntRankItem(DiscoveryEntRankItemRequest request) {
-		return doGet(GateWay.DOUYIN, " /discovery/ent/rank/item/", request, DiscoveryEntRankItemResponse.class);
+		return doGet(GateWay.DOUYIN, "/discovery/ent/rank/item/", request, DiscoveryEntRankItemResponse.class);
+	}
+
+	public Response<PagingResponseCodeList<DiscoveryEntRrankVersion>> discoveryEntRrankVersion(
+			DiscoveryEntRrankVersionRequest request) {
+		return doGet(GateWay.DOUYIN, "/discovery/ent/rank/version/", request,
+				ResolvableType.forClassWithGenerics(PagingResponseCodeList.class, DiscoveryEntRrankVersion.class));
+	}
+
+	public Response<ResponseCodeResultList<DataExternalSdkShare>> dataExternalSdkShare(DataExternalSdkShare request) {
+		return doGet(GateWay.DOUYIN, "/data/external/sdk_share/", request,
+				ResolvableType.forClassWithGenerics(ResponseCodeResultList.class, DataExternalSdkShare.class));
+	}
+
+	public Response<ResponseCodeResultList<DataExternalAnchorMpItemClickDistribution>> dataExternalAnchorMpItemClickDistribution(
+			DataExternalAnchorMpItemClickDistributionRequest request) {
+		return doGet(GateWay.DOUYIN, "/data/external/anchor/mp_item_click_distribution/", request, ResolvableType
+				.forClassWithGenerics(ResponseCodeResultList.class, DataExternalAnchorMpItemClickDistribution.class));
+	}
+
+	public Response<ListData<DataExternBillboardHotVideo>> dataExternBillboardHotVideo(ClientRequest request) {
+		return doGet(GateWay.DOUYIN, "/data/extern/billboard/hot_video/", request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboardHotVideo.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardSport(SportRankApiType apiType,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, apiType.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardAmusement(AmusementRankApiType apiType,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, apiType.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardGame(GameRankApiType apiType,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, apiType.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardFood(FoodRankApiType apiType,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, apiType.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardDramaOverall(ClientRequest request) {
+		return doGet(GateWay.DOUYIN, "/data/extern/billboard/drama/overall/", request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardCar(CarRankApiType apiType,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, apiType.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardTravelOverall(TravelRankApiType apiType,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, apiType.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboard>> dataExternBillboardCospa(CospaRankApiType type,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, type.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboard.class));
+	}
+
+	public Response<ListData<DataExternBillboardStars>> dataExternBillboardStars(ClientRequest request) {
+		return doGet(GateWay.DOUYIN, "/data/extern/billboard/stars/", request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboardStars.class));
+	}
+
+	public Response<ListData<DataExternBillboardLive>> dataExternBillboardLive(ClientRequest request) {
+		return doGet(GateWay.DOUYIN, "/data/extern/billboard/live/", request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboardLive.class));
+	}
+
+	public Response<ListData<DataExternBillboardMusic>> dataExternBillboardMusic(MusicRankApiType type,
+			ClientRequest request) {
+		return doGet(GateWay.DOUYIN, type.getApi(), request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboardMusic.class));
+	}
+
+	public Response<ListData<DataExternBillboardTopic>> dataExternBillboardTopic(ClientRequest request) {
+		return doGet(GateWay.DOUYIN, "/data/extern/billboard/topic/", request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboardTopic.class));
+	}
+
+	public Response<ListData<DataExternBillboardProp>> dataExternBillboardProp(ClientRequest request) {
+		return doGet(GateWay.DOUYIN, "/data/extern/billboard/prop/", request,
+				ResolvableType.forClassWithGenerics(ListData.class, DataExternBillboardProp.class));
+	}
+
+	public Response<EnterpriseLeadsUserListResponse> enterpriseLeadsUserList(EnterpriseLeadsUserListRequest request) {
+		return doGet(GateWay.DOUYIN, "/enterprise/leads/user/list/", request, EnterpriseLeadsUserListResponse.class);
+	}
+
+	public Response<EnterpriseLeadsUserDetailResponse> enterpriseLeadsUserDetail(
+			EnterpriseLeadsUserDetailRequest request) {
+		return doGet(GateWay.DOUYIN, "/enterprise/leads/user/detail/", request,
+				EnterpriseLeadsUserDetailResponse.class);
+	}
+
+	public Response<PagingResponseCodeList<EnterpriseLeadsUserAction>> enterpriseLeadsUserActionList(
+			EnterpriseLeadsUserActionListRequest request) {
+		return doGet(GateWay.DOUYIN, "/enterprise/leads/user/action/list/", request,
+				ResolvableType.forClassWithGenerics(PagingResponseCodeList.class, EnterpriseLeadsUserAction.class));
+	}
+
+	public Response<PagingResponseCodeList<Tag>> enterpriseLeadsTagList(UserPagingRequest request) {
+		return doGet(GateWay.DOUYIN, "/enterprise/leads/tag/list/", request,
+				ResolvableType.forClassWithGenerics(PagingResponseCodeList.class, Tag.class));
+	}
+
+	public Response<PagingResponseCodeList<String>> enterpriseLeadsTagUserList(
+			EnterpriseLeadsTagUserListRequest request) {
+		return doGet(GateWay.DOUYIN, "/enterprise/leads/tag/user/list/", request,
+				ResolvableType.forClassWithGenerics(PagingResponseCodeList.class, String.class));
+	}
+
+	public Response<EnterpriseLeadsTagResponse> enterpriseLeadsTagCreate(UserRequest user, String tag_name) {
+		return doPost(GateWay.DOUYIN, "/enterprise/leads/tag/create/", user,
+				Collections.singletonMap("tag_name", tag_name), MediaType.APPLICATION_JSON,
+				EnterpriseLeadsTagResponse.class);
+	}
+
+	public Response<EnterpriseLeadsTagResponse> enterpriseLeadsTagUpdate(UserRequest user, Tag tag) {
+		return doPost(GateWay.DOUYIN, "/enterprise/leads/tag/update/", user, tag, MediaType.APPLICATION_JSON,
+				EnterpriseLeadsTagResponse.class);
+	}
+
+	public Response<ResponseCode> enterpriseLeadsTagDelete(UserRequest user, String tag_id) {
+		return doPost(GateWay.DOUYIN, "/enterprise/leads/tag/delete/", user, Collections.singletonMap("tag_id", tag_id),
+				MediaType.APPLICATION_JSON, ResponseCode.class);
+	}
+
+	public Response<ResponseCode> enterpriseLeadsTagUserUpdate(UserRequest user,
+			EnterpriseLeadsTagUserUpdateRequest request) {
+		return doPost(GateWay.DOUYIN, "/enterprise/leads/tag/user/update/", user, request, MediaType.APPLICATION_JSON,
+				ResponseCode.class);
+	}
+
+	public Response<EnterpriseImCardSaveResponse> enterpriseImCardSave(UserRequest user,
+			EnterpriseImCardSaveRequest request) {
+		return doPost(GateWay.DOUYIN, "/enterprise/im/card/save/", user, request, MediaType.APPLICATION_JSON,
+				EnterpriseImCardSaveResponse.class);
+	}
+
+	public Response<EnterpriseImCardListResponse> enterpriseImCardList(UserPagingRequest request) {
+		return doGet(GateWay.DOUYIN, "/enterprise/im/card/list/", request, EnterpriseImCardListResponse.class);
+	}
+
+	public Response<ResponseCode> enterpriseImCardDelete(UserRequest user, EnterpriseImCardDeleteRequest request) {
+		return doPost(GateWay.DOUYIN, "/enterprise/im/card/delete/", user, request, MediaType.APPLICATION_JSON,
+				ResponseCode.class);
+	}
+
+	public Response<PoiSupplierSyncResponse> poiSupplierSync(ClientRequest client, PoiSupplier request) {
+		return doPost(GateWay.DOUYIN, "/poi/supplier/sync/", client, request, MediaType.APPLICATION_JSON,
+				PoiSupplierSyncResponse.class);
+	}
+
+	public Response<PoiSupplierQueryResponse> poiSupplierQuery(PoiSupplierQueryRequest request) {
+		return doGet(GateWay.DOUYIN, "/poi/supplier/query/", request, PoiSupplierQueryResponse.class);
+	}
+
+	public Response<PoiQueryResponse> poiQuery(PoiQueryRequest request) {
+		return doGet(GateWay.DOUYIN, "/poi/query/", request, PoiQueryResponse.class);
+	}
+
+	public Response<MatchResultList<PoiV2SupplierQueryTask>> poiV2SupplierQueryTask(
+			PoiV2SupplierQueryTaskRequest request) {
+		return doGet(GateWay.DOUYIN, "/poi/v2/supplier/query/task/", request,
+				ResolvableType.forClassWithGenerics(MatchResultList.class, PoiV2SupplierQueryTask.class));
+	}
+
+	public Response<MatchResultList<PoiV2SupplierQuerySupplier>> poiV2SupplierQuerySupplier(
+			PoiSupplierQueryRequest request) {
+		return doGet(GateWay.DOUYIN, "/poi/v2/supplier/query/supplier/", request,
+				ResolvableType.forClassWithGenerics(MatchResultList.class, PoiV2SupplierQuerySupplier.class));
+	}
+
+	public Response<PoiV2SupplierMatchResponse> poiV2SupplierMatch(ClientRequest client,
+			PoiV2SupplierMatchRequest request) {
+		return doPost(GateWay.DOUYIN, "/poi/v2/supplier/match/", client, request, MediaType.APPLICATION_JSON,
+				PoiV2SupplierMatchResponse.class);
+	}
+
+	public Response<PoiSpuQueryResponse> poiSpuQuery(PoiSpuQueryRequest request) {
+		return doGet(GateWay.DOUYIN, "/poi/spu/query/", request, PoiSpuQueryResponse.class);
+	}
+
+	public Response<PoiOrderSyncResponse> poiOrderSync(ClientRequest client, PoiOrderSyncRequest request) {
+		return doPost(GateWay.DOUYIN, " /poi/order/sync/", client, request, MediaType.APPLICATION_JSON,
+				PoiOrderSyncResponse.class);
+	}
+
+	public Response<PoiBaseQueryAmapResponse> poiBaseQueryAmap(PoiBaseQueryAmapRequest request) {
+		return doGet(GateWay.DOUYIN, "/poi/base/query/amap/", request, PoiBaseQueryAmapResponse.class);
+	}
+
+	public Response<DevtoolMicappIsLegalResponse> devtoolMicappIsLegal(DevtoolMicappIsLegalRequest request) {
+		return doGet(GateWay.DOUYIN, "/devtool/micapp/is_legal/", request, DevtoolMicappIsLegalResponse.class);
+	}
+
+	public Response<ResponseCode> sandboxWebhookEventSend(ClientRequest client,
+			SandboxWebhookEventSendRequest request) {
+		return doPost(GateWay.DOUYIN, "/sandbox/webhook/event/send/", client, request, MediaType.APPLICATION_JSON,
+				ResponseCode.class);
+	}
+
+	public Response<JsGetticketResponse> jsGetticket(ClientRequest request) {
+		return doGet(GateWay.DOUYIN, "/js/getticket/", request, JsGetticketResponse.class);
 	}
 }

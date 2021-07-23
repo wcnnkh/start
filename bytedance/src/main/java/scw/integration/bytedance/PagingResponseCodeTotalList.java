@@ -2,7 +2,7 @@ package scw.integration.bytedance;
 
 import java.util.List;
 
-public class PagingResponseList<T> extends PagingResponseCode {
+public class PagingResponseCodeTotalList<T> extends PagingResponseCode {
 	private static final long serialVersionUID = 1L;
 	private Integer total;
 	private List<T> list;

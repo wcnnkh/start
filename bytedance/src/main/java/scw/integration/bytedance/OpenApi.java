@@ -100,16 +100,21 @@ import scw.integration.bytedance.oauth.OauthRenewRefreshTokenResponse;
 import scw.integration.bytedance.poi.MatchResultList;
 import scw.integration.bytedance.poi.PoiBaseQueryAmapRequest;
 import scw.integration.bytedance.poi.PoiBaseQueryAmapResponse;
+import scw.integration.bytedance.poi.PoiExtHotelSku;
+import scw.integration.bytedance.poi.PoiExtHotelSkuRequest;
 import scw.integration.bytedance.poi.PoiOrderSyncRequest;
 import scw.integration.bytedance.poi.PoiOrderSyncResponse;
 import scw.integration.bytedance.poi.PoiQueryRequest;
 import scw.integration.bytedance.poi.PoiQueryResponse;
+import scw.integration.bytedance.poi.PoiSkuSyncRequest;
 import scw.integration.bytedance.poi.PoiSpuQueryRequest;
 import scw.integration.bytedance.poi.PoiSpuQueryResponse;
 import scw.integration.bytedance.poi.PoiSupplier;
 import scw.integration.bytedance.poi.PoiSupplierQueryRequest;
 import scw.integration.bytedance.poi.PoiSupplierQueryResponse;
 import scw.integration.bytedance.poi.PoiSupplierSyncResponse;
+import scw.integration.bytedance.poi.PoiV2SpuSyncRequest;
+import scw.integration.bytedance.poi.PoiV2SpuSyncResponse;
 import scw.integration.bytedance.poi.PoiV2SupplierMatchRequest;
 import scw.integration.bytedance.poi.PoiV2SupplierMatchResponse;
 import scw.integration.bytedance.poi.PoiV2SupplierQuerySupplier;
@@ -639,7 +644,21 @@ public class OpenApi {
 	public Response<PoiSpuQueryResponse> poiSpuQuery(PoiSpuQueryRequest request) {
 		return doGet(GateWay.DOUYIN, "/poi/spu/query/", request, PoiSpuQueryResponse.class);
 	}
-
+	
+	public Response<ResponseCode> poiSkuSync(ClientRequest client, PoiSkuSyncRequest request) {
+		return doPost(GateWay.DOUYIN, "/poi/sku/sync/", client, request, MediaType.APPLICATION_JSON,
+				ResponseCode.class);
+	}
+	
+	public Response<PoiExtHotelSku> poiExtHotelSku(PoiExtHotelSkuRequest request) {
+		return doGet(GateWay.DOUYIN, "/poi/ext/hotel/sku/", request, PoiExtHotelSku.class);
+	}
+	
+	public Response<PoiV2SpuSyncResponse> poiV2SpuSync(ClientRequest client, PoiV2SpuSyncRequest request) {
+		return doPost(GateWay.DOUYIN, "/poi/v2/spu/sync/", client, request, MediaType.APPLICATION_JSON,
+				PoiV2SpuSyncResponse.class);
+	}
+	
 	public Response<PoiOrderSyncResponse> poiOrderSync(ClientRequest client, PoiOrderSyncRequest request) {
 		return doPost(GateWay.DOUYIN, " /poi/order/sync/", client, request, MediaType.APPLICATION_JSON,
 				PoiOrderSyncResponse.class);
@@ -648,7 +667,7 @@ public class OpenApi {
 	public Response<PoiBaseQueryAmapResponse> poiBaseQueryAmap(PoiBaseQueryAmapRequest request) {
 		return doGet(GateWay.DOUYIN, "/poi/base/query/amap/", request, PoiBaseQueryAmapResponse.class);
 	}
-
+	
 	public Response<DevtoolMicappIsLegalResponse> devtoolMicappIsLegal(DevtoolMicappIsLegalRequest request) {
 		return doGet(GateWay.DOUYIN, "/devtool/micapp/is_legal/", request, DevtoolMicappIsLegalResponse.class);
 	}

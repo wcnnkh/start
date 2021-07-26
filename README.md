@@ -12,7 +12,7 @@
 			  <url>http://maven.shuchaowen.com</url>
 		  </repository>
     </repositories>
-或下载源码打包
+或下载源码打包(自己打包需要先打包父项目[https://github.com/wcnnkh/scw](https://github.com/wcnnkh/scw))
 
 ---
 # 支付

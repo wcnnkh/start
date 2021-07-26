@@ -20,4 +20,16 @@ public class ResponseSubCode extends ResponseCode {
 	public void setSub_description(String sub_description) {
 		this.sub_description = sub_description;
 	}
+
+	@Override
+	public boolean isSuccess() {
+		if (!super.isSuccess()) {
+			return false;
+		}
+
+		if (sub_error_code != null && sub_error_code != 0) {
+			return false;
+		}
+		return true;
+	}
 }

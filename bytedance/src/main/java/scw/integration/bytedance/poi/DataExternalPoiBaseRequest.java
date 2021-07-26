@@ -1,0 +1,43 @@
+package scw.integration.bytedance.poi;
+
+import javax.validation.constraints.NotNull;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import scw.integration.bytedance.oauth.ClientRequest;
+
+public class DataExternalPoiBaseRequest extends ClientRequest {
+	private static final long serialVersionUID = 1L;
+	@Schema(description = "抖音poi_id", required = true)
+	@NotNull
+	private String poi_id;
+	@Schema(description = "最近30天，开始日期(yyyy-MM-dd)", required = true)
+	@NotNull
+	private String begin_date;
+	@Schema(description = "最近30天，结束日期(yyyy-MM-dd)", required = true)
+	@NotNull
+	private String end_date;
+
+	public String getPoi_id() {
+		return poi_id;
+	}
+
+	public void setPoi_id(String poi_id) {
+		this.poi_id = poi_id;
+	}
+
+	public String getBegin_date() {
+		return begin_date;
+	}
+
+	public void setBegin_date(String begin_date) {
+		this.begin_date = begin_date;
+	}
+
+	public String getEnd_date() {
+		return end_date;
+	}
+
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
+	}
+}

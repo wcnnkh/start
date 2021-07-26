@@ -1,5 +1,6 @@
 package scw.integration.bytedance.user;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,5 +11,6 @@ public class UserPagingRequest extends UserRequest {
 	private Long cursor;
 	@Schema(description = "每页数量", example = "10", required = true)
 	@NotNull
+	@Min(0)
 	private Integer count;
 }

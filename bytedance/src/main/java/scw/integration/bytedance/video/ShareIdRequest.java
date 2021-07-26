@@ -1,13 +1,10 @@
 package scw.integration.bytedance.video;
 
-import java.io.Serializable;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import scw.integration.bytedance.oauth.ClientRequest;
 
-public class ShareIdRequest implements Serializable {
+public class ShareIdRequest extends ClientRequest {
 	private static final long serialVersionUID = 1L;
-	@Schema(description = "调用/oauth/client_token/生成的token，此token不需要用户授权。", example = "clt.943da17996fb5cebfbc70c044c3fc25a57T54DcjT6HNKGqnUdxzy1KcxFnZ", required = true)
-	private String access_token;
 	@Schema(description = "如果需要知道视频分享成功的结果，need_callback设置为true")
 	private Boolean need_callback;
 	@Schema(description = "多来源样式id（暂未开放）")
@@ -16,14 +13,6 @@ public class ShareIdRequest implements Serializable {
 	private String default_hashtag;
 	@Schema(description = "分享来源url附加参数（暂未开放）")
 	private String link_param;
-
-	public String getAccess_token() {
-		return access_token;
-	}
-
-	public void setAccess_token(String access_token) {
-		this.access_token = access_token;
-	}
 
 	public Boolean getNeed_callback() {
 		return need_callback;

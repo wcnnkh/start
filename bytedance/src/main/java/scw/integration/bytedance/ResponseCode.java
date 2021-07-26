@@ -26,4 +26,11 @@ public class ResponseCode implements Serializable {
 	public void setError_code(Long error_code) {
 		this.error_code = error_code;
 	}
+
+	public boolean isSuccess() {
+		if (error_code != null && error_code != 0) {
+			return false;
+		}
+		return true;
+	}
 }

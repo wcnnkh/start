@@ -51,7 +51,7 @@ public class PoiV2SpuSyncRequest implements Serializable {
 	@Schema(description = "SPU属性字段")
 	private Map<String, String> attribute;
 	@Schema(description = "入口信息")
-	private EntryInfo entry_info;
+	private EntryInfo<EntryMiniApp> entry_info;
 
 	public Long getSpu_type() {
 		return spu_type;
@@ -173,11 +173,11 @@ public class PoiV2SpuSyncRequest implements Serializable {
 		this.attribute = attribute;
 	}
 
-	public EntryInfo getEntry_info() {
+	public EntryInfo<EntryMiniApp> getEntry_info() {
 		return entry_info;
 	}
 
-	public void setEntry_info(EntryInfo entry_info) {
+	public void setEntry_info(EntryInfo<EntryMiniApp> entry_info) {
 		this.entry_info = entry_info;
 	}
 }

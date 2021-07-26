@@ -1,10 +1,8 @@
 package scw.integration.bytedance;
 
-import java.io.Serializable;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class Response<D> implements Serializable {
+public class Response<D> extends ResponseCode {
 	private static final long serialVersionUID = 1L;
 	private D data;
 	private ResponseExtra extra;
@@ -36,13 +34,16 @@ public class Response<D> implements Serializable {
 	}
 
 	public boolean isSuccess() {
-		if (extra != null && extra.getError_code() != null && extra.getError_code() != 0) {
+		if (!super.isSuccess()) {
+			return false;
+		}
+
+		if (extra != null && !extra.isSuccess()) {
 			return false;
 		}
 
 		if (data != null && data instanceof ResponseCode) {
-			ResponseCode responseCode = (ResponseCode) data;
-			if (responseCode.getError_code() != null && responseCode.getError_code() != 0) {
+			if (!((ResponseCode) data).isSuccess()) {
 				return false;
 			}
 		}

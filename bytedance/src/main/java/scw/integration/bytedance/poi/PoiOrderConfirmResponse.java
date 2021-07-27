@@ -1,11 +1,12 @@
 package scw.integration.bytedance.poi;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.io.Serializable;
 import java.util.List;
 
-public class PoiOrderConfirmResponse implements Serializable {
+import io.swagger.v3.oas.annotations.media.Schema;
+import scw.integration.bytedance.Response;
+import scw.integration.bytedance.ResponseCode;
+
+public class PoiOrderConfirmResponse extends Response<ResponseCode> {
 	private static final long serialVersionUID = 1L;
 	@Schema(description = "接入方券码ID")
 	private List<String> code_list;

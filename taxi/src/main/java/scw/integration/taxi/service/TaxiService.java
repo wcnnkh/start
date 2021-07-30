@@ -1,12 +1,30 @@
 package scw.integration.taxi.service;
 
-import scw.context.result.Result;
+import java.util.List;
+
+import scw.integration.taxi.dto.Taxi;
+import scw.integration.taxi.dto.TaxiStatus;
 
 /**
- * 位置服务
+ * 车辆服务
+ * 
  * @author shuchaowen
  *
  */
 public interface TaxiService {
-	Result report();
+	/**
+	 * 获取附近车牌
+	 * 
+	 * @param taxiStatus
+	 * @return
+	 */
+	List<Taxi> getNearbyTaxis(TaxiStatus taxiStatus);
+
+	/**
+	 * 获取taxi信息
+	 * 
+	 * @param taxiId
+	 * @return
+	 */
+	Taxi getTaxi(String taxiId);
 }

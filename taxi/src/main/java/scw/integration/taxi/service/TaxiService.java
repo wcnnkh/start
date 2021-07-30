@@ -7,6 +7,6 @@ import scw.context.result.Result;
  * @author shuchaowen
  *
  */
-public interface LbsService {
+public interface TaxiService {
 	Result report();
 }

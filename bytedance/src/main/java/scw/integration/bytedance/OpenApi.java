@@ -190,13 +190,11 @@ import scw.mapper.FieldFeature;
 import scw.mapper.MapperUtils;
 import scw.net.uri.UriUtils;
 import scw.validation.FastValidator;
-import scw.validation.ValidationUtils;
 
 public class OpenApi {
 
 	private <R> Map<String, Object> validateAndGetParameterMap(R request) {
-		ValidationUtils.validate(() -> FastValidator.getValidator().validate(
-				request));
+		FastValidator.validate(request);
 		return MapperUtils.getMapper().getFields(OauthAccessTokenRequest.class)
 				.accept(FieldFeature.IGNORE_STATIC).getValueMap(request);
 	}
@@ -217,8 +215,7 @@ public class OpenApi {
 		}
 
 		if (bodyRequest != null) {
-			ValidationUtils.validate(() -> FastValidator.getValidator()
-					.validate(bodyRequest));
+			FastValidator.validate(bodyRequest);
 		}
 
 		HttpResponseEntity<P> responseEntity = HttpUtils.getHttpClient().post(

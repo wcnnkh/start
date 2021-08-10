@@ -2,7 +2,7 @@ package scw.integration.trade.status;
 
 import scw.context.annotation.Provider;
 import scw.core.Ordered;
-import scw.event.support.DefaultNamedEventDispatcher;
+import scw.event.support.SimpleNamedEventDispatcher;
 
 /**
  * 交易状态分发的默认实现
@@ -12,7 +12,7 @@ import scw.event.support.DefaultNamedEventDispatcher;
  */
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class DefaultTradeStatusDispatcher extends
-		DefaultNamedEventDispatcher<String, TradeResultsEvent> implements
+		SimpleNamedEventDispatcher<String, TradeResultsEvent> implements
 		TradeStatusDispatcher {
 
 	public DefaultTradeStatusDispatcher() {

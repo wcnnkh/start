@@ -9,9 +9,9 @@ import scw.http.HttpUtils;
 import scw.http.MediaType;
 import scw.json.JSONUtils;
 import scw.json.JsonObject;
+import scw.mapper.MapperUtils;
+import scw.mapper.ToMap;
 import scw.net.uri.UriUtils;
-import scw.util.ToMap;
-import scw.util.XUtils;
 
 /**
  * 快递鸟接口
@@ -135,7 +135,7 @@ public class KDNiao {
 
 	public String distRequest(String requestType, ToMap<String, Object> paramsMap) {
 		return doRequest(isSandbox() ? "http://sandboxapi.kdniao.com:8080/kdniaosandbox/gateway/exterfaceInvoke.json"
-				: "http://api.kdniao.com/api/dist", requestType, XUtils.toMap(paramsMap));
+				: "http://api.kdniao.com/api/dist", requestType, MapperUtils.toMap(paramsMap));
 	}
 
 	public SubscribeResponse subscribe(SubscribeRequestParameter parameter) {

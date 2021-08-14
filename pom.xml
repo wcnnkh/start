@@ -62,11 +62,6 @@
 				<artifactId>bytedance</artifactId>
 				<version>0.0.3</version>
 			</dependency>
-			<dependency>
-				<groupId>scw.integration</groupId>
-				<artifactId>taxi</artifactId>
-				<version>0.0.3</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -77,6 +72,5 @@
 		<module>kdniao</module>
 		<module>apple</module>
 		<module>bytedance</module>
-		<module>taxi</module>
 	</modules>
 </project>

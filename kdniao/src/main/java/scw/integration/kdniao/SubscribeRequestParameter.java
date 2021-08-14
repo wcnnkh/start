@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import scw.util.ToMap;
+import scw.mapper.ToMap;
 
 /**
  * 物流跟踪 订阅请求参数，无特殊说明都是选填参数

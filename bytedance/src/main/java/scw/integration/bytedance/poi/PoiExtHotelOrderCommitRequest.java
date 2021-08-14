@@ -138,12 +138,31 @@ public class PoiExtHotelOrderCommitRequest implements Serializable {
 		this.customer_name = customer_name;
 	}
 
-	public static class Customer {
+	public static class Customer implements Serializable{
+		private static final long serialVersionUID = 1L;
 		@Schema(description = "中文全称", example = "韩梅梅")
 		private String cn_name;
 		@Schema(description = "英文名", example = "kobe")
 		private String given_name;
 		@Schema(description = "英文姓", example = "bryant")
 		private String surname;
+		public String getCn_name() {
+			return cn_name;
+		}
+		public void setCn_name(String cn_name) {
+			this.cn_name = cn_name;
+		}
+		public String getGiven_name() {
+			return given_name;
+		}
+		public void setGiven_name(String given_name) {
+			this.given_name = given_name;
+		}
+		public String getSurname() {
+			return surname;
+		}
+		public void setSurname(String surname) {
+			this.surname = surname;
+		}
 	}
 }

@@ -186,19 +186,15 @@ import scw.integration.bytedance.video.VideoPartInitResponse;
 import scw.integration.bytedance.video.VideoPartRequest;
 import scw.integration.bytedance.video.VideoUploadResponse;
 import scw.io.Resource;
-import scw.mapper.FieldFeature;
 import scw.mapper.MapperUtils;
 import scw.net.uri.UriUtils;
 import scw.validation.FastValidator;
-import scw.validation.ValidationUtils;
 
 public class OpenApi {
 
 	private <R> Map<String, Object> validateAndGetParameterMap(R request) {
-		ValidationUtils.validate(() -> FastValidator.getValidator().validate(
-				request));
-		return MapperUtils.getMapper().getFields(OauthAccessTokenRequest.class)
-				.accept(FieldFeature.IGNORE_STATIC).getValueMap(request);
+		FastValidator.validate(request);
+		return MapperUtils.getFields(OauthAccessTokenRequest.class).entity().all().getValueMap(request);
 	}
 
 	private TypeDescriptor wrapperResponseType(ResolvableType resposeType) {
@@ -217,8 +213,7 @@ public class OpenApi {
 		}
 
 		if (bodyRequest != null) {
-			ValidationUtils.validate(() -> FastValidator.getValidator()
-					.validate(bodyRequest));
+			FastValidator.validate(bodyRequest);
 		}
 
 		HttpResponseEntity<P> responseEntity = HttpUtils.getHttpClient().post(

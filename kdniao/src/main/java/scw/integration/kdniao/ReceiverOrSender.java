@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import scw.util.ToMap;
+import scw.mapper.ToMap;
 
 /**
  * 收件人或发件人

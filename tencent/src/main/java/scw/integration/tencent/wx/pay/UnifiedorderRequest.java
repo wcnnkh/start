@@ -1,8 +1,8 @@
 package scw.integration.tencent.wx.pay;
 
-import java.io.Serializable;
+import io.basc.framework.lang.Nullable;
 
-import scw.lang.Nullable;
+import java.io.Serializable;
 
 /**
  * 统一下单 字段说明见：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1

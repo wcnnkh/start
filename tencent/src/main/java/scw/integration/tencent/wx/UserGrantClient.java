@@ -1,7 +1,7 @@
 package scw.integration.tencent.wx;
 
-import scw.oauth2.AccessToken;
-import scw.oauth2.client.AuthorizationCodeClient;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.oauth2.client.AuthorizationCodeClient;
 
 public class UserGrantClient implements AuthorizationCodeClient {
 	private final Configuration configuration;

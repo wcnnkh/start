@@ -1,19 +1,20 @@
 package scw.integration.tencent.wx;
 
+import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.codec.support.URLCodec;
+import io.basc.framework.http.HttpUtils;
+import io.basc.framework.http.MediaType;
+import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.net.uri.UriUtils;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.security.Token;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import scw.codec.support.CharsetCodec;
-import scw.codec.support.URLCodec;
-import scw.http.HttpUtils;
-import scw.http.MediaType;
 import scw.integration.tencent.wx.miniprogram.BaseResponse;
 import scw.integration.tencent.wx.miniprogram.WeappTemplateMsg;
-import scw.json.JSONUtils;
-import scw.json.JsonObject;
-import scw.net.uri.UriUtils;
-import scw.oauth2.AccessToken;
-import scw.security.Token;
 
 /**
  * @author shuchaowen

@@ -1,8 +1,8 @@
 package scw.integration.tencent.wx;
 
-import scw.data.TemporaryStorage;
-import scw.oauth2.AccessToken;
-import scw.security.Token;
+import io.basc.framework.data.TemporaryStorage;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.security.Token;
 
 public class TemporaryCacheTokenFactory extends DefaultTokenFactory{
 	private final TemporaryStorage temporaryCache;

@@ -1,6 +1,6 @@
 package scw.integration.trade;
 
-import scw.core.utils.StringUtils;
+import io.basc.framework.core.utils.StringUtils;
 
 public class TradeUtils {
 	/**

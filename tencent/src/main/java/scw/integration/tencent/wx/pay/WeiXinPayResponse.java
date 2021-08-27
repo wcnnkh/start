@@ -1,7 +1,7 @@
 package scw.integration.tencent.wx.pay;
 
-import scw.json.JsonObject;
-import scw.json.JsonObjectWrapper;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonObjectWrapper;
 
 public class WeiXinPayResponse extends JsonObjectWrapper {
 	private static final String SUCCESS_TEXT = "SUCCESS";

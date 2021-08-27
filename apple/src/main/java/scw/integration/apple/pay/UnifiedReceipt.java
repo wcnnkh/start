@@ -1,11 +1,11 @@
 package scw.integration.apple.pay;
 
+import io.basc.framework.json.JsonArray;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonObjectWrapper;
+
 import java.util.Collections;
 import java.util.List;
-
-import scw.json.JsonArray;
-import scw.json.JsonObject;
-import scw.json.JsonObjectWrapper;
 
 /**
  * 包含有关应用程序最新应用内购买交易信息的对象。

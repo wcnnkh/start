@@ -1,11 +1,11 @@
 package scw.integration.tencent.wx;
 
-import java.util.concurrent.ConcurrentHashMap;
+import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.instance.annotation.PropertyName;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.security.Token;
 
-import scw.context.annotation.Provider;
-import scw.instance.annotation.PropertyName;
-import scw.oauth2.AccessToken;
-import scw.security.Token;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Provider
 public class DefaultTokenFactory implements TokenFactory{

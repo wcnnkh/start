@@ -1,6 +1,6 @@
 package scw.integration.tencent.qq.connect;
 
-import scw.json.JsonObject;
+import io.basc.framework.json.JsonObject;
 
 public class VipInfoResponse extends QQResponse {
 

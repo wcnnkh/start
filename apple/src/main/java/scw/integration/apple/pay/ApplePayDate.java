@@ -1,6 +1,6 @@
 package scw.integration.apple.pay;
 
-import scw.json.JsonObject;
+import io.basc.framework.json.JsonObject;
 
 public class ApplePayDate {
 	private JsonObject jsonObject;

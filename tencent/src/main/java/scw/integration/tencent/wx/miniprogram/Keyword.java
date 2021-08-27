@@ -1,7 +1,7 @@
 package scw.integration.tencent.wx.miniprogram;
 
-import scw.json.JsonObject;
-import scw.json.JsonObjectWrapper;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonObjectWrapper;
 
 public final class Keyword extends JsonObjectWrapper {
 

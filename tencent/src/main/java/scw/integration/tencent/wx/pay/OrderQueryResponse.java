@@ -1,6 +1,6 @@
 package scw.integration.tencent.wx.pay;
 
-import scw.json.JsonObject;
+import io.basc.framework.json.JsonObject;
 
 public class OrderQueryResponse extends WeiXinPayResponse {
 

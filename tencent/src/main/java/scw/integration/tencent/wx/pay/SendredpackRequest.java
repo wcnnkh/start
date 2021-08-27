@@ -1,8 +1,8 @@
 package scw.integration.tencent.wx.pay;
 
-import java.io.Serializable;
+import io.basc.framework.lang.Nullable;
 
-import scw.lang.Nullable;
+import java.io.Serializable;
 
 /**
  * {@link https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3}

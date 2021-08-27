@@ -1,8 +1,8 @@
 package scw.integration.trade.status;
 
-import scw.context.annotation.Provider;
-import scw.core.Ordered;
-import scw.event.support.SimpleNamedEventDispatcher;
+import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.core.Ordered;
+import io.basc.framework.event.support.SimpleNamedEventDispatcher;
 
 /**
  * 交易状态分发的默认实现

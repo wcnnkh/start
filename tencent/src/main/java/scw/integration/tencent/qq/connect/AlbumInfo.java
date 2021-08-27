@@ -1,12 +1,12 @@
 package scw.integration.tencent.qq.connect;
 
+import io.basc.framework.json.JsonArray;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonObjectWrapper;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import scw.json.JsonArray;
-import scw.json.JsonObject;
-import scw.json.JsonObjectWrapper;
 
 public class AlbumInfo extends JsonObjectWrapper {
 

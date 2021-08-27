@@ -1,6 +1,6 @@
 package scw.integration.tencent.wx.miniprogram;
 
-import scw.json.JsonObject;
+import io.basc.framework.json.JsonObject;
 
 public final class CreateActivityIdResponse extends BaseResponse {
 

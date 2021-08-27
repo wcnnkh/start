@@ -1,12 +1,13 @@
 package scw.integration.trade.web;
 
+import io.basc.framework.beans.BeanFactory;
+import io.basc.framework.lang.Nullable;
+import io.basc.framework.web.ServerHttpRequest;
+
 import java.util.ArrayList;
 
-import scw.beans.BeanFactory;
 import scw.integration.trade.TradeException;
 import scw.integration.trade.status.TradeStatusDispatcher;
-import scw.lang.Nullable;
-import scw.web.ServerHttpRequest;
 
 public class TradeNotifyProcessor extends ArrayList<TradeNotifyAdapter> implements TradeNotifyAdapter{
 	private static final long serialVersionUID = 1L;

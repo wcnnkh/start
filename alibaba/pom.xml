@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>scw.integration</groupId>
 		<artifactId>open-platform</artifactId>
-		<version>0.0.3</version>
+		<version>1.8.0</version>
 	</parent>
 	<artifactId>alibaba</artifactId>
 

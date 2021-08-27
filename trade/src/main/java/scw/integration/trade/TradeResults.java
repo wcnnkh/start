@@ -1,6 +1,6 @@
 package scw.integration.trade;
 
-import scw.lang.Nullable;
+import io.basc.framework.lang.Nullable;
 
 public class TradeResults extends Trade {
 	private static final long serialVersionUID = 1L;

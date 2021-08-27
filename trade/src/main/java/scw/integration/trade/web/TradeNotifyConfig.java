@@ -1,8 +1,8 @@
 package scw.integration.trade.web;
 
-import scw.beans.annotation.ConfigurationProperties;
-import scw.beans.annotation.Value;
-import scw.core.utils.StringUtils;
+import io.basc.framework.beans.annotation.ConfigurationProperties;
+import io.basc.framework.beans.annotation.Value;
+import io.basc.framework.core.utils.StringUtils;
 
 @ConfigurationProperties(prefix = "trade.notify")
 public final class TradeNotifyConfig {

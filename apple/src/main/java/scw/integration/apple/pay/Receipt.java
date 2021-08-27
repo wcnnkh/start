@@ -1,10 +1,10 @@
 package scw.integration.apple.pay;
 
-import java.util.List;
+import io.basc.framework.core.utils.CollectionUtils;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonObjectWrapper;
 
-import scw.core.utils.CollectionUtils;
-import scw.json.JsonObject;
-import scw.json.JsonObjectWrapper;
+import java.util.List;
 
 /**
  * {@link https://developer.apple.com/documentation/appstorereceipts/responsebody/receipt}

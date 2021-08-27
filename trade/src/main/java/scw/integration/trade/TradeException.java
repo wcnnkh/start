@@ -1,6 +1,6 @@
 package scw.integration.trade;
 
-import scw.lang.NestedRuntimeException;
+import io.basc.framework.lang.NestedRuntimeException;
 
 /**
  * 交易异常

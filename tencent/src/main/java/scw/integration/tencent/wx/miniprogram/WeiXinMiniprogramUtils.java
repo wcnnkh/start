@@ -1,5 +1,11 @@
 package scw.integration.tencent.wx.miniprogram;
 
+import io.basc.framework.codec.support.AES;
+import io.basc.framework.codec.support.Base64;
+import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -8,12 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import scw.codec.support.AES;
-import scw.codec.support.Base64;
-import scw.codec.support.CharsetCodec;
 import scw.integration.tencent.wx.WeiXinUtils;
-import scw.json.JSONUtils;
-import scw.json.JsonObject;
 
 public final class WeiXinMiniprogramUtils {
 	private WeiXinMiniprogramUtils() {

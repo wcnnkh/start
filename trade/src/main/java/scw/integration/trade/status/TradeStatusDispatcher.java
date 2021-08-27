@@ -1,8 +1,8 @@
 package scw.integration.trade.status;
 
-import scw.event.EventListener;
-import scw.event.EventRegistration;
-import scw.event.NamedEventDispatcher;
+import io.basc.framework.event.EventListener;
+import io.basc.framework.event.EventRegistration;
+import io.basc.framework.event.NamedEventDispatcher;
 
 /**
  * 交易状态事件分发

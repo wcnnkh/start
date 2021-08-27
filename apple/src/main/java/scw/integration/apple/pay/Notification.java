@@ -1,9 +1,9 @@
 package scw.integration.apple.pay;
 
-import java.util.List;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonObjectWrapper;
 
-import scw.json.JsonObject;
-import scw.json.JsonObjectWrapper;
+import java.util.List;
 
 public class Notification extends JsonObjectWrapper {
 

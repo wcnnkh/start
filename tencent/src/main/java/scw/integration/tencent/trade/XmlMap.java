@@ -1,5 +1,8 @@
 package scw.integration.tencent.trade;
 
+import io.basc.framework.dom.DomUtils;
+import io.basc.framework.web.ServerHttpRequest;
+
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
@@ -7,9 +10,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import scw.dom.DomUtils;
-import scw.web.ServerHttpRequest;
 
 public final class XmlMap extends LinkedHashMap<String, String> {
 	private static final long serialVersionUID = 1L;

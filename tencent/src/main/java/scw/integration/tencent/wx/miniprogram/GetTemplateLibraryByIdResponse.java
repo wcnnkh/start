@@ -1,10 +1,10 @@
 package scw.integration.tencent.wx.miniprogram;
 
+import io.basc.framework.json.JsonArray;
+import io.basc.framework.json.JsonObject;
+
 import java.util.Collections;
 import java.util.List;
-
-import scw.json.JsonArray;
-import scw.json.JsonObject;
 
 public final class GetTemplateLibraryByIdResponse extends BaseResponse {
 

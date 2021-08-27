@@ -1,9 +1,9 @@
 package scw.integration.trade.web;
 
-import scw.http.HttpMethod;
+import io.basc.framework.http.HttpMethod;
+import io.basc.framework.mvc.annotation.Controller;
+import io.basc.framework.web.ServerHttpRequest;
 import scw.integration.trade.status.TradeStatusDispatcher;
-import scw.mvc.annotation.Controller;
-import scw.web.ServerHttpRequest;
 
 @Controller(value = TradeNotifyConfig.CONTROLLER_PREFIX, methods = {
 		HttpMethod.GET, HttpMethod.POST })

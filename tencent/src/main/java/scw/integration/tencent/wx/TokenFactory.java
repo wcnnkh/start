@@ -1,7 +1,7 @@
 package scw.integration.tencent.wx;
 
-import scw.oauth2.AccessToken;
-import scw.security.Token;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.security.Token;
 
 public interface TokenFactory extends WXConstants{
 	String getAppId();

@@ -1,6 +1,6 @@
 package scw.integration.trade.status;
 
-import scw.event.Event;
+import io.basc.framework.event.Event;
 import scw.integration.trade.TradeResults;
 
 public class TradeResultsEvent extends TradeResults implements Event {

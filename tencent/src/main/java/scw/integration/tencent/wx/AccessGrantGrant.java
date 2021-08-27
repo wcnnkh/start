@@ -1,9 +1,9 @@
 package scw.integration.tencent.wx;
 
-import scw.data.TemporaryStorage;
-import scw.oauth2.AccessToken;
-import scw.oauth2.client.AbstractCredentialsClient;
-import scw.security.Token;
+import io.basc.framework.data.TemporaryStorage;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.oauth2.client.AbstractCredentialsClient;
+import io.basc.framework.security.Token;
 
 public class AccessGrantGrant extends AbstractCredentialsClient {
 	private final Configuration configuration;

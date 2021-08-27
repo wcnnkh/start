@@ -1,6 +1,6 @@
 package scw.integration.trade;
 
-import scw.util.Accept;
+import io.basc.framework.util.Accept;
 
 public interface TradeAdapter extends Accept<String> {
 	boolean accept(String tradeMethod);

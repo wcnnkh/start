@@ -1,7 +1,7 @@
 package scw.integration.apple.pay;
 
-import scw.json.JsonObject;
-import scw.json.JsonObjectWrapper;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonObjectWrapper;
 
 /**
  * {@link https://developer.apple.com/documentation/appstorereceipts/responsebody/pending_renewal_info}

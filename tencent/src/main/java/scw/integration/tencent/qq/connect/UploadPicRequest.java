@@ -1,6 +1,6 @@
 package scw.integration.tencent.qq.connect;
 
-import scw.net.message.multipart.MultipartMessage;
+import io.basc.framework.net.message.multipart.MultipartMessage;
 
 public class UploadPicRequest extends QQRequest {
 	private static final long serialVersionUID = 1L;

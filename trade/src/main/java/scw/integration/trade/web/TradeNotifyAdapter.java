@@ -1,9 +1,9 @@
 package scw.integration.trade.web;
 
+import io.basc.framework.web.ServerHttpRequest;
 import scw.integration.trade.TradeAdapter;
 import scw.integration.trade.TradeException;
 import scw.integration.trade.status.TradeStatusDispatcher;
-import scw.web.ServerHttpRequest;
 
 public interface TradeNotifyAdapter extends TradeAdapter{
 

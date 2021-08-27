@@ -1,8 +1,8 @@
 package scw.integration.tencent.wx;
 
-import scw.oauth2.AccessToken;
-import scw.oauth2.TokenType;
-import scw.security.Token;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.oauth2.TokenType;
+import io.basc.framework.security.Token;
 
 public class UserAccessToken extends AccessToken {
 	private static final long serialVersionUID = 1L;

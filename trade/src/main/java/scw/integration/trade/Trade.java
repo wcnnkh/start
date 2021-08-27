@@ -1,10 +1,10 @@
 package scw.integration.trade;
 
+import io.basc.framework.lang.Nullable;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
-
-import scw.lang.Nullable;
 
 public class Trade implements Serializable {
 	private static final long serialVersionUID = 1L;

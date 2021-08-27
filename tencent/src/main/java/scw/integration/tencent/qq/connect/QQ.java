@@ -1,20 +1,20 @@
 package scw.integration.tencent.qq.connect;
 
+import io.basc.framework.codec.support.URLCodec;
+import io.basc.framework.core.utils.CollectionUtils;
+import io.basc.framework.core.utils.StringUtils;
+import io.basc.framework.http.HttpResponseEntity;
+import io.basc.framework.http.HttpUtils;
+import io.basc.framework.http.MediaType;
+import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.lang.Nullable;
+import io.basc.framework.net.uri.UriUtils;
+import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.security.Token;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import scw.codec.support.URLCodec;
-import scw.core.utils.CollectionUtils;
-import scw.core.utils.StringUtils;
-import scw.http.HttpResponseEntity;
-import scw.http.HttpUtils;
-import scw.http.MediaType;
-import scw.json.JSONUtils;
-import scw.json.JsonObject;
-import scw.lang.Nullable;
-import scw.net.uri.UriUtils;
-import scw.oauth2.AccessToken;
-import scw.security.Token;
 
 /**
  * 根据qq互联文档实现

@@ -1,15 +1,15 @@
 package scw.integration.tencent.wx;
 
+import io.basc.framework.codec.encoder.SHA1;
+import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.core.Assert;
+import io.basc.framework.core.utils.StringUtils;
+import io.basc.framework.util.RandomUtils;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import scw.codec.encoder.SHA1;
-import scw.codec.support.CharsetCodec;
-import scw.core.Assert;
-import scw.core.utils.StringUtils;
-import scw.util.RandomUtils;
 
 public final class JsApiSignature implements Serializable {
 	private static final long serialVersionUID = 1L;

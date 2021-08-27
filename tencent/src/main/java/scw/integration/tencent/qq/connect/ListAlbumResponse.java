@@ -1,8 +1,8 @@
 package scw.integration.tencent.qq.connect;
 
-import java.util.List;
+import io.basc.framework.json.JsonObject;
 
-import scw.json.JsonObject;
+import java.util.List;
 
 public class ListAlbumResponse extends QQResponse {
 

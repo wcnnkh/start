@@ -1,0 +1,53 @@
+.upload-img {
+	position: relative;
+	border: 1px dashed #000000;
+	float: left;
+	margin: auto 20px;
+}
+
+.upload-img .add-img {
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -50px;
+	margin-top: -50px;
+}
+
+.upload-img input {
+	display: block;
+	width: 0;
+	height: 0;
+	-webkit-opacity: 0.0;
+	/* Netscape and Older than Firefox 0.9 */
+	-moz-opacity: 0.0;
+	/* Safari 1.x (pre WebKit!) 老式khtml内核的Safari浏览器*/
+	-khtml-opacity: 0.0;
+	/* IE9 + etc...modern browsers */
+	opacity: .0;
+	/* IE 4-9 */
+	filter: alpha(opacity = 0);
+	/*This works in IE 8 & 9 too*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	/*IE4-IE9*/
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+
+.upload-img .delete-img {
+	display: none;
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	top: -15px;
+	right: -15px;
+}
+
+.uploadImg .show-img {
+	display: none;
+}
+
+.upload-img, .upload-img .show-img {
+	width: 100%;
+	height: 100%;
+}

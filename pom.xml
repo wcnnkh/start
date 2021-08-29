@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -10,8 +9,8 @@
 	<groupId>io.basc.integration</groupId>
 	<artifactId>open-platform</artifactId>
 	<packaging>pom</packaging>
-	<description>对第三方开放平台的整合</description>
-	
+	<description>常见的整合实现</description>
+
 	<properties>
 		<basc.version>1.8.0</basc.version>
 	</properties>
@@ -65,6 +64,23 @@
 				<artifactId>bytedance</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.basc.integration</groupId>
+				<artifactId>app-service</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>4.5.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>3.7.26.ALL</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -75,5 +91,11 @@
 		<module>kdniao</module>
 		<module>apple</module>
 		<module>bytedance</module>
+		<module>app-service</module>
+		<module>app-admin-web-service</module>
+		<module>app-address-service-impl</module>
+		<module>app-vc-service-impl</module>
+		<module>app-user-service-impl</module>
+		<module>app-web-service</module>
 	</modules>
 </project>

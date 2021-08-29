@@ -7,9 +7,9 @@
 		<version>1.8.0</version>
 	</parent>
 	<groupId>io.basc.integration</groupId>
-	<artifactId>open-platform</artifactId>
+	<artifactId>integration</artifactId>
 	<packaging>pom</packaging>
-	<description>常见的整合实现</description>
+	<description>整合常见的实现</description>
 
 	<properties>
 		<basc.version>1.8.0</basc.version>
@@ -34,6 +34,42 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>io.basc.integration</groupId>
+				<artifactId>app-service</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.integration</groupId>
+				<artifactId>app-admin-web-service</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.integration</groupId>
+				<artifactId>app-address-service-impl</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.integration</groupId>
+				<artifactId>app-user-service-impl</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.integration</groupId>
+				<artifactId>app-vc-service-impl</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.integration</groupId>
+				<artifactId>app-web-service</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+		
 			<dependency>
 				<groupId>io.basc.integration</groupId>
 				<artifactId>trade</artifactId>
@@ -62,11 +98,6 @@
 			<dependency>
 				<groupId>io.basc.integration</groupId>
 				<artifactId>bytedance</artifactId>
-				<version>${basc.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.basc.integration</groupId>
-				<artifactId>app-service</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			

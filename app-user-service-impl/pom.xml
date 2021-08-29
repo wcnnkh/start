@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>io.basc.integration</groupId>
-		<artifactId>open-platform</artifactId>
+		<groupId>io.basc.start</groupId>
+		<artifactId>start</artifactId>
 		<version>1.8.0</version>
 	</parent>
 	<artifactId>app-user-service-impl</artifactId>
@@ -13,7 +13,7 @@
 			<artifactId>db</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.basc.integration</groupId>
+			<groupId>io.basc.start</groupId>
 			<artifactId>app-service</artifactId>
 		</dependency>
 	</dependencies>

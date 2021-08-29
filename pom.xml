@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>scw</groupId>
-		<artifactId>scw</artifactId>
+		<groupId>io.basc.framework</groupId>
+		<artifactId>framework</artifactId>
 		<version>1.8.0</version>
 	</parent>
-	<groupId>scw.integration</groupId>
+	<groupId>io.basc.integration</groupId>
 	<artifactId>open-platform</artifactId>
 	<packaging>pom</packaging>
 	<description>对第三方开放平台的整合</description>
@@ -18,13 +18,13 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>scw</groupId>
-			<artifactId>scw-core</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>core</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>scw</groupId>
-			<artifactId>scw-validation</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>validation</artifactId>
 		</dependency>
 
 		<dependency>
@@ -36,32 +36,32 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.integration</groupId>
 				<artifactId>trade</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.integration</groupId>
 				<artifactId>alibaba</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.integration</groupId>
 				<artifactId>tencent</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.integration</groupId>
 				<artifactId>kdniao</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.integration</groupId>
 				<artifactId>apple</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.integration</groupId>
 				<artifactId>bytedance</artifactId>
 				<version>${basc.version}</version>
 			</dependency>

@@ -3,27 +3,26 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>scw.integration</groupId>
-		<artifactId>open-platform</artifactId>
-		<version>0.0.3</version>
+		<groupId>io.basc.start</groupId>
+		<artifactId>start</artifactId>
+		<version>1.8.0</version>
 	</parent>
 	<artifactId>alibaba</artifactId>
 
 	<dependencies>
 		<dependency>
-			<groupId>scw.integration</groupId>
+			<groupId>io.basc.start</groupId>
 			<artifactId>trade</artifactId>
 		</dependency>
 		
 		<dependency>
-			<groupId>scw</groupId>
-			<artifactId>scw-data</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>data</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.alipay.sdk</groupId>
 			<artifactId>alipay-sdk-java</artifactId>
-			<version>3.7.26.ALL</version>
 		</dependency>
 
 		<dependency>
@@ -59,14 +58,14 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>scw</groupId>
-			<artifactId>scw-memcached</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>memcached</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>scw</groupId>
-			<artifactId>scw-redis</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>redis</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

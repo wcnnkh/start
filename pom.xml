@@ -1,27 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>scw</groupId>
-		<artifactId>scw</artifactId>
-		<version>2.1</version>
+		<groupId>io.basc.framework</groupId>
+		<artifactId>framework</artifactId>
+		<version>1.8.0</version>
 	</parent>
-	<groupId>scw.integration</groupId>
-	<artifactId>open-platform</artifactId>
-	<version>0.0.3</version>
+	<groupId>io.basc.start</groupId>
+	<artifactId>start</artifactId>
 	<packaging>pom</packaging>
-	<description>对第三方开放平台的整合</description>
+	<description>一些常见的实现</description>
+
+	<properties>
+		<basc.version>1.8.0</basc.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>scw</groupId>
-			<artifactId>scw-core</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>core</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>scw</groupId>
-			<artifactId>scw-validation</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>validation</artifactId>
 		</dependency>
 
 		<dependency>
@@ -33,34 +35,82 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-service</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-manage-system</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-address-service-impl</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-user-service-impl</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-vc-service-impl</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-web-service</artifactId>
+				<version>${basc.version}</version>
+			</dependency>
+		
+			<dependency>
+				<groupId>io.basc.start</groupId>
 				<artifactId>trade</artifactId>
-				<version>0.0.3</version>
+				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.start</groupId>
 				<artifactId>alibaba</artifactId>
-				<version>0.0.3</version>
+				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.start</groupId>
 				<artifactId>tencent</artifactId>
-				<version>0.0.3</version>
+				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.start</groupId>
 				<artifactId>kdniao</artifactId>
-				<version>0.0.3</version>
+				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.start</groupId>
 				<artifactId>apple</artifactId>
-				<version>0.0.3</version>
+				<version>${basc.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>scw.integration</groupId>
+				<groupId>io.basc.start</groupId>
 				<artifactId>bytedance</artifactId>
-				<version>0.0.3</version>
+				<version>${basc.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>4.5.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>3.7.26.ALL</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -72,5 +122,11 @@
 		<module>kdniao</module>
 		<module>apple</module>
 		<module>bytedance</module>
+		<module>start-service</module>
+		<module>start-manage-system</module>
+		<module>start-address-service-impl</module>
+		<module>start-vc-service-impl</module>
+		<module>start-user-service-impl</module>
+		<module>start-web-service</module>
 	</modules>
 </project>

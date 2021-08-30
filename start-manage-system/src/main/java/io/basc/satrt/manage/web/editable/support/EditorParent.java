@@ -10,7 +10,7 @@ import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.orm.annotation.PrimaryKey;
 import io.basc.framework.orm.sql.annotation.AutoIncrement;
 import io.basc.framework.util.Pair;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 import io.basc.satrt.manage.web.editable.DataManager;
 import io.basc.satrt.manage.web.editable.Editor;
 import io.basc.satrt.manage.web.editable.annotation.Editable;
@@ -103,7 +103,7 @@ public class EditorParent implements Editor {
 		}
 
 		io.basc.framework.util.page.Page<Object> pagination = dataManager.list(editableClass, requestBean, page, limit);
-		Page view = new Page("/io/basc/start/manage/web/editable/list.ftl");
+		ModelAndView view = new ModelAndView("/io/basc/start/manage/web/editable/list.ftl");
 		long maxPage = pagination == null ? 1 : pagination.getPages();
 		long currentPage = Math.min(page, maxPage);
 		view.put("page", currentPage);

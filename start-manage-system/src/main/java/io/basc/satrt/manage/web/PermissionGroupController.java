@@ -11,7 +11,7 @@ import io.basc.framework.mvc.security.HttpActionAuthorityManager;
 import io.basc.framework.security.authority.http.HttpAuthority;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.StringUtils;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 import io.basc.start.user.model.PermissionGroupInfo;
 import io.basc.start.user.pojo.PermissionGroup;
 import io.basc.start.user.pojo.PermissionGroupAction;
@@ -49,10 +49,10 @@ public class PermissionGroupController {
 
 	@ActionAuthority(value = "权限组列表", menu = true)
 	@Controller(value = "group_list")
-	public Page group_list(UserSession<Long> requestUser, Integer parentId) {
+	public ModelAndView group_list(UserSession<Long> requestUser, Integer parentId) {
 		User user = userService.getUser(requestUser.getUid());
 		int pid = (parentId == null || parentId == 0) ? user.getPermissionGroupId() : parentId;
-		Page page = new Page("/io/basc/start/manage/web/ftl/group_list.ftl");
+		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/ftl/group_list.ftl");
 		page.put("groupList", permissionGroupService.getSubList(pid, false));
 		page.put("parentId", pid);
 		page.put("parentGroup", permissionGroupService.getById(pid));
@@ -63,7 +63,7 @@ public class PermissionGroupController {
 	@ActionAuthority(value = "(查看或修改)权限界面")
 	@Controller(value = "group_view")
 	public Object group_view(int parentId, int id) {
-		Page page = new Page("/io/basc/start/manage/web/ftl/group_view.ftl");
+		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/ftl/group_view.ftl");
 		page.put("parentId", parentId);
 		page.put("group", permissionGroupService.getById(id));
 		return page;

@@ -1,19 +1,26 @@
 package io.basc.start.alibaba.trade;
 
-import io.basc.framework.beans.annotation.ConfigurationProperties;
-import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.Verify;
-
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import io.basc.framework.beans.annotation.ConfigurationProperties;
+import io.basc.framework.mapper.MapperUtils;
+
 @ConfigurationProperties(prefix="alipay")
-public class AlipayConfig implements Serializable, Verify {
+public class AlipayConfig implements Serializable {
 	private static final long serialVersionUID = 1L;
+	@NotEmpty
 	private String publicKey;
+	@NotEmpty
 	private String appId;
+	@NotEmpty
 	private String dataType = "json";// json
+	@NotEmpty
 	private String charset = "UTF-8";
+	@NotEmpty
 	private String signType = "RSA2";// RSA2
+	@NotEmpty
 	private String privateKey;
 
 	public String getPublicKey() {
@@ -65,7 +72,7 @@ public class AlipayConfig implements Serializable, Verify {
 	}
 	
 	@Override
-	public boolean isVerified() {
-		return StringUtils.isNotEmpty(publicKey, appId, privateKey, dataType, charset, signType);
+	public String toString() {
+		return MapperUtils.toString(this);
 	}
 }

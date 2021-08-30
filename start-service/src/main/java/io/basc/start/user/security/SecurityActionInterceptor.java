@@ -1,9 +1,9 @@
 package io.basc.start.user.security;
 
-import io.basc.framework.annotation.AnnotationUtils;
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.context.result.ResultFactory;
+import io.basc.framework.core.annotation.AnnotationUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mvc.HttpChannel;

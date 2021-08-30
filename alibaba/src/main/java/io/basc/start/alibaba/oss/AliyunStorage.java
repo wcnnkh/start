@@ -1,16 +1,6 @@
 package io.basc.start.alibaba.oss;
 
 import static com.aliyun.oss.internal.OSSConstants.DEFAULT_CHARSET_NAME;
-import io.basc.framework.codec.support.CharsetCodec;
-import io.basc.framework.data.ResourceStorageService;
-import io.basc.framework.data.StorageException;
-import io.basc.framework.http.HttpRequestEntity;
-import io.basc.framework.http.MediaType;
-import io.basc.framework.io.IOUtils;
-import io.basc.framework.io.Resource;
-import io.basc.framework.io.UrlResource;
-import io.basc.framework.net.message.InputMessage;
-import io.basc.framework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,16 +22,25 @@ import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.ObjectListing;
 import com.aliyun.oss.model.PolicyConditions;
 
+import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.data.ResourceStorageService;
+import io.basc.framework.data.StorageException;
+import io.basc.framework.http.HttpRequestEntity;
+import io.basc.framework.http.MediaType;
+import io.basc.framework.io.IOUtils;
+import io.basc.framework.io.Resource;
+import io.basc.framework.io.UrlResource;
+import io.basc.framework.net.message.InputMessage;
+import io.basc.framework.util.CollectionUtils;
+import io.basc.framework.validation.FastValidator;
+
 public class AliyunStorage implements ResourceStorageService {
 	private final OSSClient oss;
 	private final String baseUrl;
 	private final String bucketName;
 
 	public AliyunStorage(AliyunOssConfig config) {
-		if (!config.isVerified()) {
-			throw new IllegalArgumentException(config.toString());
-		}
-
+		FastValidator.validate(config);
 		DefaultCredentialProvider provider = new DefaultCredentialProvider(config.getAccessKeyId(),
 				config.getSecretAccessKey());
 		ClientConfiguration clientConfiguration = new ClientConfiguration();

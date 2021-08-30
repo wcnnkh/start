@@ -1,6 +1,7 @@
 package io.basc.satrt.manage.web.editable.support;
 
-import io.basc.framework.annotation.AnnotatedElementUtils;
+import io.basc.framework.core.annotation.AnnotatedElementUtils;
+import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.Field;
 import io.basc.framework.mapper.FieldFeature;
@@ -8,7 +9,6 @@ import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.orm.annotation.PrimaryKey;
 import io.basc.framework.orm.sql.annotation.AutoIncrement;
-import io.basc.framework.reflect.ReflectionUtils;
 import io.basc.framework.util.Pair;
 import io.basc.framework.web.model.Page;
 import io.basc.satrt.manage.web.editable.DataManager;

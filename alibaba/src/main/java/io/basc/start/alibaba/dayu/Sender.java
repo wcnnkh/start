@@ -1,7 +1,7 @@
 package io.basc.start.alibaba.dayu;
 
-import io.basc.framework.codec.encoder.HmacMD5;
-import io.basc.framework.codec.encoder.MD5;
+import io.basc.framework.codec.encode.HmacMD5;
+import io.basc.framework.codec.encode.MD5;
 import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;

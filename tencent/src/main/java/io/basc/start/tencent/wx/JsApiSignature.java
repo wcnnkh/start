@@ -1,6 +1,6 @@
 package io.basc.start.tencent.wx;
 
-import io.basc.framework.codec.encoder.SHA1;
+import io.basc.framework.codec.encode.SHA1;
 import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.util.Assert;
 import io.basc.framework.util.RandomUtils;

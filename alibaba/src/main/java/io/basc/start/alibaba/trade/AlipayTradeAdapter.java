@@ -20,6 +20,7 @@ import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.Copy;
 import io.basc.framework.mvc.MVCUtils;
+import io.basc.framework.validation.FastValidator;
 import io.basc.framework.web.ServerHttpRequest;
 import io.basc.start.trade.TradeException;
 import io.basc.start.trade.create.TradeCreate;
@@ -52,7 +53,7 @@ public class AlipayTradeAdapter implements TradeCreateAdapter,
 			AlipayConfig alipayConfig) {
 		this.notifyConfig = notifyConfig;
 		this.alipayConfig = alipayConfig;
-		this.alipayClient = alipayConfig.isVerified() ? new DefaultAlipayClient(
+		this.alipayClient = FastValidator.isVerified(alipayConfig) ? new DefaultAlipayClient(
 				"https://openapi.alipay.com", alipayConfig.getAppId(),
 				alipayConfig.getPrivateKey(), alipayConfig.getDataType(),
 				alipayConfig.getCharset(), alipayConfig.getPublicKey(),

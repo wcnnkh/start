@@ -3,7 +3,7 @@ package io.basc.start.tencent.wx;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
 
-public interface TokenFactory extends WXConstants{
+public interface TokenFactory{
 	String getAppId();
 
 	String getAppSecret();

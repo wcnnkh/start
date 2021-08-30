@@ -1,14 +1,18 @@
 package io.basc.start.alibaba.oss;
 
+import javax.validation.constraints.NotEmpty;
+
 import io.basc.framework.beans.annotation.ConfigurationProperties;
-import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.Verify;
 
 @ConfigurationProperties(prefix = "aliyun.oss")
-public class AliyunOssConfig implements Verify {
+public class AliyunOssConfig {
+	@NotEmpty
 	private String accessKeyId;
+	@NotEmpty
 	private String secretAccessKey;
+	@NotEmpty
 	private String endpoint;
+	@NotEmpty
 	private String bucketName;
 	private String baseUrl;
 
@@ -50,11 +54,5 @@ public class AliyunOssConfig implements Verify {
 
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
-	}
-
-	@Override
-	public boolean isVerified() {
-		return StringUtils.isNotEmpty(accessKeyId, secretAccessKey, endpoint,
-				bucketName);
 	}
 }

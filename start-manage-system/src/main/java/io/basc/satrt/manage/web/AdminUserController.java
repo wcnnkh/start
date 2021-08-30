@@ -12,7 +12,7 @@ import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.page.PageSupport;
 import io.basc.framework.web.message.annotation.RequestBody;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 import io.basc.start.user.model.AdminUserModel;
 import io.basc.start.user.pojo.PermissionGroup;
 import io.basc.start.user.pojo.User;
@@ -40,7 +40,7 @@ public class AdminUserController {
 
 	@ActionAuthority(value = "管理员列表", menu = true)
 	@Controller(value = "admin_list")
-	public Page admin_list(UserSession<Long> requestUser, Integer groupId, @DefaultValue("1") int page, String search,
+	public ModelAndView admin_list(UserSession<Long> requestUser, Integer groupId, @DefaultValue("1") int page, String search,
 			@DefaultValue("10") int limit) {
 		User currentUser = userService.getUser(requestUser.getUid());
 		List<PermissionGroup> userSubGroups = permissionGroupService.getSubList(currentUser.getPermissionGroupId(),
@@ -83,7 +83,7 @@ public class AdminUserController {
 			list.add(map);
 		}
 
-		Page view = new Page("/io/basc/start/manage/web/ftl/admin_list.ftl");
+		ModelAndView view = new ModelAndView("/io/basc/start/manage/web/ftl/admin_list.ftl");
 		view.put("adminList", list);
 		view.put("page", page);
 		view.put("maxPage", pagination.getPages());
@@ -97,7 +97,7 @@ public class AdminUserController {
 	@ActionAuthority(value = "(查看/修改)管理员信息界面")
 	@Controller(value = "admin_view")
 	public Object admin_view(long toUid, UserSession<Long> requestUser) {
-		Page page = new Page("/io/basc/start/manage/web/ftl/admin_view.ftl");
+		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/ftl/admin_view.ftl");
 		User user = userService.getUser(toUid);
 		User currentUser = userService.getUser(requestUser.getUid());
 		List<PermissionGroup> groups = permissionGroupService.getSubList(currentUser.getPermissionGroupId(), true);

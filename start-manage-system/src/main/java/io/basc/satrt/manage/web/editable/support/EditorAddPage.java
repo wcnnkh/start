@@ -2,7 +2,7 @@ package io.basc.satrt.manage.web.editable.support;
 
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 import io.basc.satrt.manage.web.editable.DataManager;
 import io.basc.start.user.security.SecurityProperties;
 
@@ -20,7 +20,7 @@ public class EditorAddPage extends EditorCURD {
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
-		Page page = new Page("/io/basc/start/manage/web/editable/add.ftl");
+		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/editable/add.ftl");
 		page.put("fields", getInputs(requestBean));
 		return page;
 	}

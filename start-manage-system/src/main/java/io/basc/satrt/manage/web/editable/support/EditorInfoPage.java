@@ -2,7 +2,7 @@ package io.basc.satrt.manage.web.editable.support;
 
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 import io.basc.satrt.manage.web.editable.DataManager;
 import io.basc.start.user.security.SecurityProperties;
 
@@ -21,7 +21,7 @@ public class EditorInfoPage extends EditorCURD {
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
 		Object info = getDataManager().info(getEditableClass(), requestBean);
-		Page page = new Page("/io/basc/start/manage/web/editable/info.ftl");
+		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/editable/info.ftl");
 		page.put("info", info);
 		page.put("query", requestBean);
 		page.put("fields", getInputs(requestBean));

@@ -18,7 +18,7 @@ import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.ServerHttpRequest;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 import io.basc.start.user.enums.AccountType;
 import io.basc.start.user.pojo.PermissionGroupAction;
 import io.basc.start.user.pojo.User;
@@ -95,8 +95,8 @@ public class AdminIndexController {
 
 	@Controller
 	@LoginRequired
-	public Page index(UserSession<Long> requestUser, ServerHttpRequest request) {
-		Page page = new Page("/io/basc/start/manage/web/ftl/index.ftl");
+	public ModelAndView index(UserSession<Long> requestUser, ServerHttpRequest request) {
+		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/ftl/index.ftl");
 		StringBuilder sb = new StringBuilder(4096);
 		appendMenuHtml(sb, getMenus(requestUser), request.getContextPath());
 		page.put("leftHtml", sb.toString());
@@ -147,19 +147,19 @@ public class AdminIndexController {
 		if(userSession != null){
 			return new Redirect(httpChannel.getRequest().getContextPath() + securityConfigProperties.getController());
 		}
-		return new Page("/io/basc/start/manage/web/ftl/login.ftl");
+		return new ModelAndView("/io/basc/start/manage/web/ftl/login.ftl");
 	}
 
 	@LoginRequired
 	@Controller(value = "welcome")
-	public Page welcome() {
-		return new Page("/io/basc/start/manage/web/ftl/welcome.ftl");
+	public ModelAndView welcome() {
+		return new ModelAndView("/io/basc/start/manage/web/ftl/welcome.ftl");
 	}
 
 	@LoginRequired
 	@Controller(value = "update_pwd")
-	public Page update_pwd() {
-		return new Page("/io/basc/start/manage/web/ftl/update_pwd.ftl");
+	public ModelAndView update_pwd() {
+		return new ModelAndView("/io/basc/start/manage/web/ftl/update_pwd.ftl");
 	}
 
 	@LoginRequired
@@ -184,7 +184,7 @@ public class AdminIndexController {
 	}
 
 	@Controller(value = "to_login")
-	public Page toLogin() {
-		return new Page("/io/basc/start/manage/web/ftl/to_login.ftl");
+	public ModelAndView toLogin() {
+		return new ModelAndView("/io/basc/start/manage/web/ftl/to_login.ftl");
 	}
 }

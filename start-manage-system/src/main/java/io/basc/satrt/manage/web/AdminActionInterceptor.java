@@ -10,7 +10,7 @@ import io.basc.framework.mvc.action.Action;
 import io.basc.framework.mvc.action.ActionInterceptor;
 import io.basc.framework.mvc.action.ActionInterceptorChain;
 import io.basc.framework.mvc.action.ActionParameters;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 
 @Provider
 public class AdminActionInterceptor implements ActionInterceptor {
@@ -24,8 +24,8 @@ public class AdminActionInterceptor implements ActionInterceptor {
 			ActionParameters parameters, ActionInterceptorChain chain)
 			throws Throwable {
 		Object value = chain.intercept(httpChannel, action, parameters);
-		if (value instanceof Page) {
-			Page page = (Page) value;
+		if (value instanceof ModelAndView) {
+			ModelAndView page = (ModelAndView) value;
 			page.put("adminWebsiteName", ADMIN_WEBSITE_NAME.get());
 			return httpChannel.getRequest().getHeaders().isAjax() ? resultFactory
 					.success(page) : page;

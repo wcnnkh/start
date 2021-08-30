@@ -8,7 +8,7 @@ import io.basc.framework.mvc.annotation.ActionAuthority;
 import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.value.Value;
-import io.basc.framework.web.model.Page;
+import io.basc.framework.web.model.ModelAndView;
 import io.basc.framework.zookeeper.ZookeeperCloudPropertyFactory;
 import io.basc.start.user.security.SecurityProperties;
 
@@ -28,8 +28,8 @@ public class ZookeeperConfigController {
 	
 	@ActionAuthority(menu=true, value="配置列表")
 	@Controller(value="list")
-	public Page list(){
-		Page page = new Page("/io/basc/start/admin/web/ftl/config_list.ftl");
+	public ModelAndView list(){
+		ModelAndView page = new ModelAndView("/io/basc/start/admin/web/ftl/config_list.ftl");
 		Map<String, String> configMap = new HashMap<String, String>();
 		for(String key : cloudPropertyFactory){
 			Value value = cloudPropertyFactory.getValue(key);
@@ -51,8 +51,8 @@ public class ZookeeperConfigController {
 	
 	@ActionAuthority(value="添加/修改配置(界面)")
 	@Controller(value="view")
-	public Page view(String key){
-		Page page = new Page("/io/basc/start/manage/web/ftl/config_view.ftl");
+	public ModelAndView view(String key){
+		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/ftl/config_view.ftl");
 		page.put("key", key);
 		page.put("value", cloudPropertyFactory.getValue(key).getAsString());
 		return page;

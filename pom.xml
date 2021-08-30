@@ -36,25 +36,25 @@
 		<dependencies>
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>app-service</artifactId>
+				<artifactId>start-service</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>app-admin-web-service</artifactId>
+				<artifactId>start-admin-web-service</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>app-address-service-impl</artifactId>
+				<artifactId>start-address-service-impl</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>app-user-service-impl</artifactId>
+				<artifactId>start-user-service-impl</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			
@@ -66,7 +66,7 @@
 			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>app-web-service</artifactId>
+				<artifactId>start-web-service</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 		

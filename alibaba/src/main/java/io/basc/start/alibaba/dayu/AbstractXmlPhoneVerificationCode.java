@@ -3,13 +3,13 @@ package io.basc.start.alibaba.dayu;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.convert.TypeDescriptor;
-import io.basc.framework.core.utils.XTime;
 import io.basc.framework.dom.DomUtils;
 import io.basc.framework.env.Sys;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.RandomUtils;
+import io.basc.framework.util.XTime;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

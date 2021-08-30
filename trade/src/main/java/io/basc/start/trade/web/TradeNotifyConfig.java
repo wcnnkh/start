@@ -2,7 +2,7 @@ package io.basc.start.trade.web;
 
 import io.basc.framework.beans.annotation.ConfigurationProperties;
 import io.basc.framework.beans.annotation.Value;
-import io.basc.framework.core.utils.StringUtils;
+import io.basc.framework.util.StringUtils;
 
 @ConfigurationProperties(prefix = "trade.notify")
 public final class TradeNotifyConfig {

@@ -1,5 +1,9 @@
 package io.basc.start.bytedance;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
 import io.basc.framework.codec.support.AES;
 import io.basc.framework.codec.support.Base64;
 import io.basc.framework.codec.support.CharsetCodec;
@@ -185,10 +189,6 @@ import io.basc.start.bytedance.video.VideoListResponse;
 import io.basc.start.bytedance.video.VideoPartInitResponse;
 import io.basc.start.bytedance.video.VideoPartRequest;
 import io.basc.start.bytedance.video.VideoUploadResponse;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 
 public class OpenApi {
 

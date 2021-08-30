@@ -1,8 +1,8 @@
 package io.basc.start.enums;
 
-import io.basc.framework.core.utils.XTime;
 import io.basc.framework.lang.NotSupportedException;
 import io.basc.framework.util.CalendarUtils;
+import io.basc.framework.util.XTime;
 
 /**
  * 连续性状态

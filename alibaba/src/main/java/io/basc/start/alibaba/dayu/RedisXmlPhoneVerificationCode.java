@@ -1,8 +1,8 @@
 package io.basc.start.alibaba.dayu;
 
 import io.basc.framework.context.result.ResultFactory;
-import io.basc.framework.core.utils.XTime;
 import io.basc.framework.redis.core.Redis;
+import io.basc.framework.util.XTime;
 
 import java.lang.reflect.InvocationTargetException;
 

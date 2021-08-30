@@ -1,12 +1,12 @@
 package io.basc.start.user.pojo;
 
-import io.basc.framework.core.utils.StringUtils;
-import io.basc.framework.core.utils.XTime;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.orm.annotation.PrimaryKey;
 import io.basc.framework.orm.sql.annotation.AutoIncrement;
 import io.basc.framework.orm.sql.annotation.Table;
 import io.basc.framework.orm.sql.annotation.Unique;
+import io.basc.framework.util.StringUtils;
+import io.basc.framework.util.XTime;
 import io.basc.start.user.model.UserAttributeModel;
 import io.basc.start.util.RegexUtils;
 

@@ -1,8 +1,6 @@
 package io.basc.start.tencent.qq.connect;
 
 import io.basc.framework.codec.support.URLCodec;
-import io.basc.framework.core.utils.CollectionUtils;
-import io.basc.framework.core.utils.StringUtils;
 import io.basc.framework.http.HttpResponseEntity;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
@@ -12,6 +10,8 @@ import io.basc.framework.lang.Nullable;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
+import io.basc.framework.util.CollectionUtils;
+import io.basc.framework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

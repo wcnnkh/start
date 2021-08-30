@@ -1,5 +1,4 @@
-# open-platform
-对第三方开放平台的整合
+#对第三方开放平台的整合和一些常见的实现
 
 使用方式:
 
@@ -12,7 +11,7 @@
 			  <url>http://maven.shuchaowen.com</url>
 		  </repository>
     </repositories>
-或下载源码打包(自己打包需要先打包父项目[https://github.com/wcnnkh/scw](https://github.com/wcnnkh/scw))
+或下载源码打包(自己打包需要先打包父项目[https://github.com/wcnnkh/framework](https://github.com/wcnnkh/framework))
 
 ---
 # 支付

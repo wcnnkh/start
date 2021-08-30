@@ -2,9 +2,9 @@ package io.basc.start.tencent.wx;
 
 import io.basc.framework.codec.encoder.SHA1;
 import io.basc.framework.codec.support.CharsetCodec;
-import io.basc.framework.core.Assert;
-import io.basc.framework.core.utils.StringUtils;
+import io.basc.framework.util.Assert;
 import io.basc.framework.util.RandomUtils;
+import io.basc.framework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Arrays;

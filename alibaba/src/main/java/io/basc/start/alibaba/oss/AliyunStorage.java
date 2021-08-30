@@ -2,7 +2,6 @@ package io.basc.start.alibaba.oss;
 
 import static com.aliyun.oss.internal.OSSConstants.DEFAULT_CHARSET_NAME;
 import io.basc.framework.codec.support.CharsetCodec;
-import io.basc.framework.core.utils.CollectionUtils;
 import io.basc.framework.data.ResourceStorageService;
 import io.basc.framework.data.StorageException;
 import io.basc.framework.http.HttpRequestEntity;
@@ -11,6 +10,7 @@ import io.basc.framework.io.IOUtils;
 import io.basc.framework.io.Resource;
 import io.basc.framework.io.UrlResource;
 import io.basc.framework.net.message.InputMessage;
+import io.basc.framework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

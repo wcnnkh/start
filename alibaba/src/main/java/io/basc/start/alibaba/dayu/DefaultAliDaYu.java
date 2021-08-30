@@ -5,13 +5,13 @@ import io.basc.framework.codec.encoder.MD5;
 import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
-import io.basc.framework.core.Constants;
-import io.basc.framework.core.utils.StringUtils;
-import io.basc.framework.core.utils.XTime;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
+import io.basc.framework.lang.Constants;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
+import io.basc.framework.util.StringUtils;
+import io.basc.framework.util.XTime;
 
 import java.util.Arrays;
 import java.util.HashMap;

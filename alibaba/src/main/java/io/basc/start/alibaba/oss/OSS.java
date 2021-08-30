@@ -1,12 +1,13 @@
 package io.basc.start.alibaba.oss;
 
 import static com.aliyun.oss.internal.OSSConstants.DEFAULT_CHARSET_NAME;
-import io.basc.framework.core.utils.StringUtils;
-import io.basc.framework.core.utils.XTime;
+
 import io.basc.framework.lang.AlreadyExistsException;
 import io.basc.framework.lang.NotFoundException;
 import io.basc.framework.lang.ParameterException;
 import io.basc.framework.net.ProtocolType;
+import io.basc.framework.util.StringUtils;
+import io.basc.framework.util.XTime;
 import io.basc.framework.util.XUtils;
 
 import java.io.UnsupportedEncodingException;

@@ -1,6 +1,6 @@
 package io.basc.start.trade;
 
-import io.basc.framework.core.utils.StringUtils;
+import io.basc.framework.util.StringUtils;
 
 public class TradeUtils {
 	/**

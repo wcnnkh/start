@@ -1,8 +1,8 @@
 package io.basc.start.user.model;
 
-import io.basc.framework.core.utils.StringUtils;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.util.CalendarUtils;
+import io.basc.framework.util.StringUtils;
 import io.basc.start.enums.SexType;
 
 import java.io.Serializable;

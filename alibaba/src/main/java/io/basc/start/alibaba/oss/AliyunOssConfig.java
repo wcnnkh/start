@@ -1,7 +1,7 @@
 package io.basc.start.alibaba.oss;
 
 import io.basc.framework.beans.annotation.ConfigurationProperties;
-import io.basc.framework.core.utils.StringUtils;
+import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.Verify;
 
 @ConfigurationProperties(prefix = "aliyun.oss")

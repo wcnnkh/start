@@ -1,9 +1,9 @@
 package io.basc.start.apple.pay;
 
-import io.basc.framework.core.utils.CollectionUtils;
 import io.basc.framework.json.JsonArray;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.json.JsonObjectWrapper;
+import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.comparator.CompareUtils;
 
 import java.util.Collections;

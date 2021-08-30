@@ -1,8 +1,8 @@
 package io.basc.start.alibaba.dayu;
 
 import io.basc.framework.context.result.ResultFactory;
-import io.basc.framework.core.utils.XTime;
 import io.basc.framework.memcached.Memcached;
+import io.basc.framework.util.XTime;
 
 import java.lang.reflect.InvocationTargetException;
 

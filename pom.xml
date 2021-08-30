@@ -42,7 +42,7 @@
 			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-admin-web-service</artifactId>
+				<artifactId>start-manage-system</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			
@@ -60,7 +60,7 @@
 			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>app-vc-service-impl</artifactId>
+				<artifactId>start-vc-service-impl</artifactId>
 				<version>${basc.version}</version>
 			</dependency>
 			
@@ -123,7 +123,7 @@
 		<module>apple</module>
 		<module>bytedance</module>
 		<module>start-service</module>
-		<module>start-admin-web-service</module>
+		<module>start-manage-system</module>
 		<module>start-address-service-impl</module>
 		<module>start-vc-service-impl</module>
 		<module>start-user-service-impl</module>

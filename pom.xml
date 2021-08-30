@@ -122,11 +122,11 @@
 		<module>kdniao</module>
 		<module>apple</module>
 		<module>bytedance</module>
-		<module>app-service</module>
-		<module>app-admin-web-service</module>
-		<module>app-address-service-impl</module>
-		<module>app-vc-service-impl</module>
-		<module>app-user-service-impl</module>
-		<module>app-web-service</module>
+		<module>start-service</module>
+		<module>start-admin-web-service</module>
+		<module>start-address-service-impl</module>
+		<module>start-vc-service-impl</module>
+		<module>start-user-service-impl</module>
+		<module>start-web-service</module>
 	</modules>
 </project>

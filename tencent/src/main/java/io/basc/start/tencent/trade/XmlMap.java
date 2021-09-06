@@ -10,12 +10,13 @@ import org.w3c.dom.NodeList;
 
 import io.basc.framework.dom.DomUtils;
 import io.basc.framework.web.ServerHttpRequest;
+import io.basc.framework.xml.XmlUtils;
 
 public final class XmlMap extends LinkedHashMap<String, String> {
 	private static final long serialVersionUID = 1L;
 
 	public XmlMap(ServerHttpRequest request) throws IOException {
-		Document document = DomUtils.getDomBuilder().parse(request.getReader());
+		Document document = XmlUtils.getTemplate().getParser().parse(request.getReader());
 		Element element = document.getDocumentElement();
 		NodeList nodeList = element.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {

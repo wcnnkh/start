@@ -1,9 +1,17 @@
 package io.basc.start.tencent.wx.pay;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.SSLSocketFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.convert.TypeDescriptor;
-import io.basc.framework.dom.DomUtils;
 import io.basc.framework.env.Sys;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.http.HttpUtils;
@@ -22,17 +30,9 @@ import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.StringUtils;
+import io.basc.framework.xml.XmlUtils;
 import io.basc.start.tencent.wx.WeiXinException;
 import io.basc.start.tencent.wx.WeiXinUtils;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.net.ssl.SSLSocketFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 public class WeiXinPay {
 	private static Logger logger = LoggerFactory.getLogger(WeiXinPay.class);
@@ -177,7 +177,7 @@ public class WeiXinPay {
 		String[] keys = params.keySet().toArray(new String[0]);
 		Arrays.sort(keys);
 		StringBuilder sb = new StringBuilder();
-		Document document = DomUtils.getDomBuilder().getDocumentBuilder().newDocument();
+		Document document = XmlUtils.getTemplate().getParser().getDocumentBuilder().newDocument();
 		Element element = document.createElement("xml");
 		for (int i = 0; i < keys.length; i++) {
 			String k = keys[i];
@@ -206,7 +206,7 @@ public class WeiXinPay {
 		Element c = document.createElement("sign");
 		c.setTextContent(sign);
 		element.appendChild(c);
-		String content = DomUtils.getDomBuilder().toString(element);
+		String content = XmlUtils.getTemplate().getTransformer().toString(element);
 
 		logger.debug("微信支付请求xml内容:{}", content);
 		
@@ -218,7 +218,7 @@ public class WeiXinPay {
 
 		logger.debug("请求：{}，返回{}", url, res);
 		
-		Document responseDocument = DomUtils.getDomBuilder().parse(res);
+		Document responseDocument = XmlUtils.getTemplate().getParser().parse(res);
 		
 		@SuppressWarnings("unchecked")
 		Map<String, String> map = (Map<String, String>) Sys.env.getConversionService().convert(responseDocument, TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));

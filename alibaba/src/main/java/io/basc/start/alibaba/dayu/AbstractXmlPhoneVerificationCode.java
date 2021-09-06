@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
@@ -18,47 +18,51 @@ import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.XTime;
 
-public abstract class AbstractXmlPhoneVerificationCode implements XmlPhoneVerificationCode, io.basc.framework.context.Destroy {
+public abstract class AbstractXmlPhoneVerificationCode
+		implements XmlPhoneVerificationCode, io.basc.framework.context.Destroy {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private final String codeParameterKey;
-	private final int codeLength;
-	private final boolean debug;
-	private final int everyDayMaxSize;// 每天发送限制
-	private final int maxTimeInterval;// 两次发送时间限制
+	private String codeParameterKey;
+	private int codeLength;
+	private boolean debug;
+	private int everyDayMaxSize;// 每天发送限制
+	private int maxTimeInterval;// 两次发送时间限制
 	private int maxActiveTime;// 验证码有效时间
-	private final List<MessageModel> modelList;
-	private final AliDaYu aLiDaYu;
+	private List<MessageModel> modelList;
+	private AliDaYu aLiDaYu;
 	private final ResultFactory resultFactory;
 
 	@SuppressWarnings("unchecked")
 	public AbstractXmlPhoneVerificationCode(String xmlPath, ResultFactory resultFactory)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		this.resultFactory = resultFactory;
-		Node root = DomUtils.getRootElement(Sys.env, xmlPath);
-		String host = DomUtils.getNodeAttributeValue(root, "host", "http://gw.api.taobao.com/router/rest");
-		String appKey = DomUtils.getRequireNodeAttributeValue(root, "appKey");
-		String version = DomUtils.getNodeAttributeValue(root, "version", "2.0");
-		String format = DomUtils.getNodeAttributeValue(root, "format", "json");
-		String signMethod = DomUtils.getNodeAttributeValue(root, "sign-method", "md5");
-		String appSecret = DomUtils.getRequireNodeAttributeValue(root, "appSecret");
-		boolean async = DomUtils.getBooleanValue(root, "async", false);
-		if (async) {
-			this.aLiDaYu = new AsyncAliDaYu(host, appKey, version, format, signMethod, appSecret, resultFactory);
-		} else {
-			this.aLiDaYu = new DefaultAliDaYu(host, appKey, version, format, signMethod, appSecret, resultFactory);
-		}
-		
-		this.modelList = (List<MessageModel>) Sys.env.getConversionService().convert(root, TypeDescriptor.forObject(root), TypeDescriptor.collection(List.class, MessageModel.class));
-		this.codeParameterKey = DomUtils.getNodeAttributeValue(String.class, root, "code-key", "code");
-		this.codeLength = DomUtils.getNodeAttributeValue(Integer.class, root, "code-length", 6);
-		this.debug = DomUtils.getNodeAttributeValue(boolean.class, root, "debug", false);
-		this.everyDayMaxSize = DomUtils.getNodeAttributeValue(Integer.class, root, "everyDayMaxSize", 10);
-		this.maxTimeInterval = DomUtils.getNodeAttributeValue(Integer.class, root, "maxTimeInterval", 30);
-		this.maxActiveTime = DomUtils.getNodeAttributeValue(Integer.class, root, "maxActiveTime", 300);
-		if (this.maxActiveTime <= 0) {
-			maxActiveTime = 300;
-		}
+		DomUtils.getTemplate().read(Sys.env.getResource(xmlPath), (doc) -> {
+			Element root = doc.getDocumentElement();
+			String host = DomUtils.getNodeAttributeValue(root, "host", "http://gw.api.taobao.com/router/rest");
+			String appKey = DomUtils.getRequireNodeAttributeValue(root, "appKey");
+			String version = DomUtils.getNodeAttributeValue(root, "version", "2.0");
+			String format = DomUtils.getNodeAttributeValue(root, "format", "json");
+			String signMethod = DomUtils.getNodeAttributeValue(root, "sign-method", "md5");
+			String appSecret = DomUtils.getRequireNodeAttributeValue(root, "appSecret");
+			boolean async = DomUtils.getBooleanValue(root, "async", false);
+			if (async) {
+				this.aLiDaYu = new AsyncAliDaYu(host, appKey, version, format, signMethod, appSecret, resultFactory);
+			} else {
+				this.aLiDaYu = new DefaultAliDaYu(host, appKey, version, format, signMethod, appSecret, resultFactory);
+			}
+
+			this.modelList = (List<MessageModel>) Sys.env.getConversionService().convert(root,
+					TypeDescriptor.forObject(root), TypeDescriptor.collection(List.class, MessageModel.class));
+			this.codeParameterKey = DomUtils.getNodeAttributeValue(String.class, root, "code-key", "code");
+			this.codeLength = DomUtils.getNodeAttributeValue(Integer.class, root, "code-length", 6);
+			this.debug = DomUtils.getNodeAttributeValue(boolean.class, root, "debug", false);
+			this.everyDayMaxSize = DomUtils.getNodeAttributeValue(Integer.class, root, "everyDayMaxSize", 10);
+			this.maxTimeInterval = DomUtils.getNodeAttributeValue(Integer.class, root, "maxTimeInterval", 30);
+			this.maxActiveTime = DomUtils.getNodeAttributeValue(Integer.class, root, "maxActiveTime", 300);
+			if (this.maxActiveTime <= 0) {
+				maxActiveTime = 300;
+			}
+		});
 	}
 
 	public MessageModel getMessageModel(int index) {

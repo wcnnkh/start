@@ -4,6 +4,7 @@
 /bin/
 /.settings/
 /logs/
+.*
 
 # models
 */target/

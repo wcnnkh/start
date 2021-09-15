@@ -128,5 +128,6 @@
 		<module>start-vc-service-impl</module>
 		<module>start-user-service-impl</module>
 		<module>start-web-service</module>
+		<module>start-cms</module>
 	</modules>
 </project>

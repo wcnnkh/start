@@ -6,9 +6,9 @@
 -------------------
 	<repositories>
 		  <repository>
-			  <id>scw</id>
-			  <name>scw</name>
-			  <url>http://maven.shuchaowen.com</url>
+			  <id>wcnnkh</id>
+			  <name>wcnnkh</name>
+			  <url>http://basc.io</url>
 		  </repository>
     </repositories>
 或下载源码打包(自己打包需要先打包父项目[https://github.com/wcnnkh/framework](https://github.com/wcnnkh/framework))

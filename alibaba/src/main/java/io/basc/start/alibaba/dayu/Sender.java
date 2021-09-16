@@ -1,5 +1,10 @@
 package io.basc.start.alibaba.dayu;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import io.basc.framework.codec.encode.HmacMD5;
 import io.basc.framework.codec.encode.MD5;
 import io.basc.framework.codec.support.CharsetCodec;
@@ -14,12 +19,7 @@ import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.Assert;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.XTime;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import io.basc.framework.util.TimeUtils;
 
 public class Sender {
 	private static Logger logger = LoggerFactory.getLogger(Sender.class);
@@ -62,7 +62,7 @@ public class Sender {
 		map.put("format", format);
 		map.put("sign_method", sign_method);
 
-		map.put("timestamp", XTime.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
+		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
 		map.put("sms_free_sign_name", messageModel.getSms_free_sign_name());
 		if (!CollectionUtils.isEmpty(parameterMap)) {
 			map.put("sms_param", JSONUtils.getJsonSupport().toJSONString(parameterMap));

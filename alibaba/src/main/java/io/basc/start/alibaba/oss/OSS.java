@@ -2,14 +2,6 @@ package io.basc.start.alibaba.oss;
 
 import static com.aliyun.oss.internal.OSSConstants.DEFAULT_CHARSET_NAME;
 
-import io.basc.framework.lang.AlreadyExistsException;
-import io.basc.framework.lang.NotFoundException;
-import io.basc.framework.lang.ParameterException;
-import io.basc.framework.net.ProtocolType;
-import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.XTime;
-import io.basc.framework.util.XUtils;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +15,14 @@ import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.ListObjectsRequest;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
+
+import io.basc.framework.lang.AlreadyExistsException;
+import io.basc.framework.lang.NotFoundException;
+import io.basc.framework.lang.ParameterException;
+import io.basc.framework.net.ProtocolType;
+import io.basc.framework.util.StringUtils;
+import io.basc.framework.util.TimeUtils;
+import io.basc.framework.util.XUtils;
 
 public final class OSS {
 	private static final int DEFAULT_EXPIRE = 120;
@@ -163,7 +163,7 @@ public final class OSS {
 		}
 		sb.append(uid);
 		sb.append("/");
-		sb.append(XTime.format(System.currentTimeMillis(), "yyyy/MM/dd"));
+		sb.append(TimeUtils.format(System.currentTimeMillis(), "yyyy/MM/dd"));
 		sb.append("/");
 		sb.append(XUtils.getUUID());
 		sb.append(StringUtils.complemented(Long.toString(System.currentTimeMillis(), 32), '0', 13));

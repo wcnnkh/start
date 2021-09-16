@@ -6,7 +6,7 @@ import io.basc.framework.orm.sql.annotation.AutoIncrement;
 import io.basc.framework.orm.sql.annotation.Table;
 import io.basc.framework.orm.sql.annotation.Unique;
 import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.XTime;
+import io.basc.framework.util.TimeUtils;
 import io.basc.start.user.model.UserAttributeModel;
 import io.basc.start.util.RegexUtils;
 
@@ -43,7 +43,7 @@ public class User extends UserAttributeModel {
 	}
 
 	public String getCtsDescribe() {
-		return XTime.format(cts, "yyyy-MM-dd HH:mm:ss");
+		return TimeUtils.format(cts, "yyyy-MM-dd HH:mm:ss");
 	}
 
 	public void setCts(long cts) {
@@ -115,7 +115,7 @@ public class User extends UserAttributeModel {
 	}
 
 	public String getLastLoginTimeDescribe() {
-		return XTime.format(lastLoginTime, "yyyy-MM-dd HH:mm:ss");
+		return TimeUtils.format(lastLoginTime, "yyyy-MM-dd HH:mm:ss");
 	}
 
 	public long getDefaultAddressId() {

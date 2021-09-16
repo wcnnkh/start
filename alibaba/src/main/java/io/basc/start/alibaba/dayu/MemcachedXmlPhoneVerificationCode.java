@@ -1,10 +1,10 @@
 package io.basc.start.alibaba.dayu;
 
+import java.lang.reflect.InvocationTargetException;
+
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.memcached.Memcached;
-import io.basc.framework.util.XTime;
-
-import java.lang.reflect.InvocationTargetException;
+import io.basc.framework.util.TimeUtils;
 
 public final class MemcachedXmlPhoneVerificationCode extends AbstractXmlPhoneVerificationCode {
 	private final Memcached memcached;
@@ -33,6 +33,6 @@ public final class MemcachedXmlPhoneVerificationCode extends AbstractXmlPhoneVer
 		sb.append(phone);
 		sb.append("&").append(configIndex);
 		sb.append("&").append(tempSuffix);
-		memcached.set(sb.toString(), (int) (XTime.ONE_DAY / 1000), json);
+		memcached.set(sb.toString(), (int) (TimeUtils.ONE_DAY / 1000), json);
 	}
 }

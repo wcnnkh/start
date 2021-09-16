@@ -8,12 +8,12 @@ import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.XTime;
+import io.basc.framework.util.TimeUtils;
 import io.basc.start.vc.enums.VerificationCodeType;
 import io.basc.start.vc.model.VerificationCodeInfo;
 
 public abstract class AbstractVerificationCodeService {
-	private static final int ONE_DAY = (int) (XTime.ONE_DAY / 1000);
+	private static final int ONE_DAY = (TimeUtils.ONE_DAY / 1000);
 	private static Logger logger = LoggerFactory.getLogger(AbstractVerificationCodeService.class);
 
 	private TemporaryStorage temporaryCache;
@@ -121,7 +121,7 @@ public abstract class AbstractVerificationCodeService {
 			}
 		}
 
-		if (System.currentTimeMillis() - info.getLastSendTime() > XTime.ONE_DAY) {
+		if (System.currentTimeMillis() - info.getLastSendTime() > TimeUtils.ONE_DAY) {
 			info.setCount(1);
 		} else {
 			info.setCount(info.getCount() + 1);

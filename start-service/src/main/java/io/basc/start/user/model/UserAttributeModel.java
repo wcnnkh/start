@@ -1,13 +1,13 @@
 package io.basc.start.user.model;
 
-import io.basc.framework.mapper.MapperUtils;
-import io.basc.framework.util.CalendarUtils;
-import io.basc.framework.util.StringUtils;
-import io.basc.start.enums.SexType;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
+
+import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.util.StringUtils;
+import io.basc.framework.util.TimeUtils;
+import io.basc.start.enums.SexType;
 
 public class UserAttributeModel implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class UserAttributeModel implements Serializable {
 		if (birthday != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(birthday);
-			return CalendarUtils.getDayBeginCalendar(System.currentTimeMillis()).get(Calendar.YEAR)
+			return TimeUtils.getDayBeginCalendar(System.currentTimeMillis()).get(Calendar.YEAR)
 					- calendar.get(Calendar.YEAR);
 		} else {
 			if (createAgeTime <= 0) {
@@ -85,7 +85,7 @@ public class UserAttributeModel implements Serializable {
 
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(createAgeTime);
-			return CalendarUtils.getDayBeginCalendar(System.currentTimeMillis()).get(Calendar.YEAR)
+			return TimeUtils.getDayBeginCalendar(System.currentTimeMillis()).get(Calendar.YEAR)
 					- calendar.get(Calendar.YEAR) + age;
 		}
 	}

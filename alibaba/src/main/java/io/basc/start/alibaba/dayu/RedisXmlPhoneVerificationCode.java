@@ -1,10 +1,10 @@
 package io.basc.start.alibaba.dayu;
 
+import java.lang.reflect.InvocationTargetException;
+
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.redis.core.Redis;
-import io.basc.framework.util.XTime;
-
-import java.lang.reflect.InvocationTargetException;
+import io.basc.framework.util.TimeUtils;
 
 public final class RedisXmlPhoneVerificationCode extends AbstractXmlPhoneVerificationCode {
 	private final Redis redis;
@@ -35,6 +35,6 @@ public final class RedisXmlPhoneVerificationCode extends AbstractXmlPhoneVerific
 		sb.append(phone);
 		sb.append("&").append(configIndex);
 		sb.append("&").append(tempSuffix);
-		redis.getObjectCommands().setex(sb.toString(), (int) (XTime.ONE_DAY / 1000), json);
+		redis.getObjectCommands().setex(sb.toString(), (TimeUtils.ONE_DAY / 1000), json);
 	}
 }

@@ -1,8 +1,7 @@
 package io.basc.start.enums;
 
 import io.basc.framework.lang.NotSupportedException;
-import io.basc.framework.util.CalendarUtils;
-import io.basc.framework.util.XTime;
+import io.basc.framework.util.TimeUtils;
 
 /**
  * 连续性状态
@@ -51,13 +50,13 @@ public enum ContinuityStatus {
 
 	public static ContinuityStatus getContinuityStatus(long time1, long time2, ContinuityCycle cycle) {
 		if (cycle == ContinuityCycle.DAY) {
-			long t = CalendarUtils.getDayBeginCalendar(time2).getTimeInMillis()
-					- CalendarUtils.getDayBeginCalendar(time1).getTimeInMillis();
+			long t = TimeUtils.getDayBeginCalendar(time2).getTimeInMillis()
+					- TimeUtils.getDayBeginCalendar(time1).getTimeInMillis();
 			if (t == 0) {// 同一天
 				return SAME;
 			}
 
-			return t == XTime.ONE_DAY ? CONTINUITY : DISCONTINUOUS;
+			return t == TimeUtils.ONE_DAY ? CONTINUITY : DISCONTINUOUS;
 		}
 
 		throw new NotSupportedException(cycle.name());

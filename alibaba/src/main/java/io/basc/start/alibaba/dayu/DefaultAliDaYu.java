@@ -1,5 +1,9 @@
 package io.basc.start.alibaba.dayu;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import io.basc.framework.codec.encode.HmacMD5;
 import io.basc.framework.codec.encode.MD5;
 import io.basc.framework.codec.support.CharsetCodec;
@@ -11,15 +15,10 @@ import io.basc.framework.lang.Constants;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.XTime;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import io.basc.framework.util.TimeUtils;
 
 public final class DefaultAliDaYu implements AliDaYu {
-	private static Logger logger = LoggerFactory
-			.getLogger(DefaultAliDaYu.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultAliDaYu.class);
 
 	private final String host;
 	private final String appKey;
@@ -29,15 +28,12 @@ public final class DefaultAliDaYu implements AliDaYu {
 	private final String appSecret;
 	private final ResultFactory resultFactory;
 
-	public DefaultAliDaYu(String appKey, String appSecret,
-			ResultFactory resultFactory) {
-		this("http://gw.api.taobao.com/router/rest", appKey, "2.0", "json",
-				"md5", appSecret, resultFactory);
+	public DefaultAliDaYu(String appKey, String appSecret, ResultFactory resultFactory) {
+		this("http://gw.api.taobao.com/router/rest", appKey, "2.0", "json", "md5", appSecret, resultFactory);
 	}
 
-	public DefaultAliDaYu(String host, String appKey, String version,
-			String format, String sign_method, String appSecret,
-			ResultFactory resultFactory) {
+	public DefaultAliDaYu(String host, String appKey, String version, String format, String sign_method,
+			String appSecret, ResultFactory resultFactory) {
 		this.host = host;
 		this.appKey = appKey;
 		this.version = version;
@@ -47,16 +43,14 @@ public final class DefaultAliDaYu implements AliDaYu {
 		this.resultFactory = resultFactory;
 	}
 
-	public DataResult<String> sendMessage(MessageModel messageModel,
-			String sms_param, String toPhones) {
+	public DataResult<String> sendMessage(MessageModel messageModel, String sms_param, String toPhones) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("app_key", appKey);
 		map.put("v", version);
 		map.put("format", format);
 		map.put("sign_method", sign_method);
 
-		map.put("timestamp",
-				XTime.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
+		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
 		map.put("sms_free_sign_name", messageModel.getSms_free_sign_name());
 		map.put("sms_param", sms_param);
 		map.put("sms_template_code", messageModel.getSms_template_code());
@@ -66,8 +60,8 @@ public final class DefaultAliDaYu implements AliDaYu {
 		map.put("sms_param", sms_param);
 		map.put("rec_num", toPhones);
 		map.put("sign", getSign(map));
-		String content = HttpUtils.getHttpClient().post(String.class, host,
-				map, MediaType.APPLICATION_FORM_URLENCODED).getBody();
+		String content = HttpUtils.getHttpClient().post(String.class, host, map, MediaType.APPLICATION_FORM_URLENCODED)
+				.getBody();
 		logger.info(content);
 		return resultFactory.success(content);
 	}

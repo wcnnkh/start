@@ -16,7 +16,7 @@ import io.basc.framework.json.JSONUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.RandomUtils;
-import io.basc.framework.util.XTime;
+import io.basc.framework.util.TimeUtils;
 
 public abstract class AbstractXmlPhoneVerificationCode
 		implements XmlPhoneVerificationCode, io.basc.framework.context.Destroy {
@@ -178,7 +178,7 @@ public abstract class AbstractXmlPhoneVerificationCode
 			json = new PhoneVerificationCode();
 		}
 
-		if (Sys.currentTimeMillis() - json.getLastSendTime() > XTime.ONE_DAY) {
+		if (Sys.currentTimeMillis() - json.getLastSendTime() > TimeUtils.ONE_DAY) {
 			json.setCount(1);
 		} else {
 			json.setCount(json.getCount() + 1);

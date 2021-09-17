@@ -195,7 +195,7 @@ public class LocalAddressServiceImpl implements AddressService {
 		List<AddressTree> addressTrees = new ArrayList<AddressTree>(addresses.size());
 		for (Address address : addresses) {
 			AddressTree tree = new AddressTree();
-			Copy.copy(tree, address);
+			Copy.copy(address, tree);
 			tree.setSubList(getAddressTree(getAddressSubList(tree.getId())));
 			addressTrees.add(tree);
 		}

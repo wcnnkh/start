@@ -68,7 +68,7 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 		unifiedorderRequest.setOpenid(openid);
 		Unifiedorder unifiedorder = weiXinPay.payment(unifiedorderRequest);
 		TradeCreateResponse response = new TradeCreateResponse();
-		Copy.copy(response, request);
+		Copy.copy(request, response);
 		response.setCredential(unifiedorder);
 		return response;
 	}

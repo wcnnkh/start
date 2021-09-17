@@ -33,7 +33,7 @@ public class UserAddressServiceImpl extends BaseServiceConfiguration implements 
 
 	private UserAddressInfo wrapper(UserAddress userAddress) {
 		UserAddressInfo info = new UserAddressInfo();
-		Copy.copy(info, userAddress);
+		Copy.copy(userAddress, info);
 		info.setAddresses(addressService.getParents(userAddress.getAddressId(), true));
 		return info;
 	}
@@ -73,7 +73,7 @@ public class UserAddressServiceImpl extends BaseServiceConfiguration implements 
 		}
 
 		UserAddress userAddress = new UserAddress();
-		Copy.copy(userAddress, userAddressModel);
+		Copy.copy(userAddressModel, userAddress);
 		userAddress.setUid(uid);
 		userAddress.setCreateTime(System.currentTimeMillis());
 		userAddress.setLastUpdateTime(userAddress.getCreateTime());
@@ -97,7 +97,7 @@ public class UserAddressServiceImpl extends BaseServiceConfiguration implements 
 			return resultFactory.error("用户地址不存在(" + id + ")");
 		}
 
-		Copy.copy(userAddress, userAddressModel);
+		Copy.copy(userAddressModel, userAddress);
 		userAddress.setLastUpdateTime(System.currentTimeMillis());
 		db.update(userAddress);
 		return resultFactory.success(wrapper(userAddress));

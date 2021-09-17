@@ -154,7 +154,7 @@ public class AlipayTradeAdapter implements TradeCreateAdapter,
 					.sdkExecute(alipayRequest);
 
 			TradeCreateResponse paymentResponse = new TradeCreateResponse();
-			Copy.copy(paymentResponse, response);
+			Copy.copy(response, paymentResponse);
 			paymentResponse.setCredential(response.getBody());
 			return paymentResponse;
 		} catch (AlipayApiException e) {

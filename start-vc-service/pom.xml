@@ -6,11 +6,11 @@
 		<artifactId>start</artifactId>
 		<version>1.8.0</version>
 	</parent>
-	<artifactId>start-vc-service-impl</artifactId>
+	<artifactId>start-vc-service</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.start</groupId>
-			<artifactId>start-service</artifactId>
+			<artifactId>start-dev</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.basc.start</groupId>

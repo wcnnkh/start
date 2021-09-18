@@ -6,7 +6,7 @@
 		<artifactId>start</artifactId>
 		<version>1.8.0</version>
 	</parent>
-	<artifactId>start-address-service-impl</artifactId>
+	<artifactId>start-user-service</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.framework</groupId>
@@ -14,7 +14,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.basc.start</groupId>
-			<artifactId>start-service</artifactId>
+			<artifactId>start-dev</artifactId>
 		</dependency>
 	</dependencies>
 </project>

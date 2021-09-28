@@ -68,7 +68,7 @@ public class WeiXinController {
 				userAttributeModel.setSex(SexType.forValue(userinfo.getSex()));
 				userAttributeModel.setNickname(userinfo.getNickname());
 				if (StringUtils.isNotEmpty(userinfo.getHeadimgurl())) {
-					userAttributeModel.setHeadImg(StringUtils.split(userinfo.getHeadimgurl(), ",")[0]);
+					userAttributeModel.setHeadImg(StringUtils.split(userinfo.getHeadimgurl(), ",").findFirst().get().toString());
 				}
 			}
 
@@ -108,7 +108,7 @@ public class WeiXinController {
 					userAccessToken.getToken().getToken());
 			userAttributeModel.setSex(SexType.forValue(userinfo.getSex()));
 			userAttributeModel.setNickname(userinfo.getNickname());
-			userAttributeModel.setHeadImg(StringUtils.split(userinfo.getHeadimgurl(), ",")[0]);
+			userAttributeModel.setHeadImg(StringUtils.split(userinfo.getHeadimgurl(), ",").findFirst().get().toString());
 			return userService.updateUserAttribute(uid, userAttributeModel);
 		}
 		

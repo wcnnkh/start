@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @LoginRequired
 @ActionAuthorityParent(AdminUserController.class)
@@ -115,7 +116,7 @@ public class PermissionGroupController {
 		PermissionGroupInfo info = new PermissionGroupInfo();
 		info.setId(id);
 		info.setDisable(disable);
-		info.setAuthorityIds(StringUtils.splitList(String.class, ids, ",", true));
+		info.setAuthorityIds(StringUtils.split(ids, ",").map((s) -> s.toString()).collect(Collectors.toList()));
 		info.setName(name);
 
 		PermissionGroup group = permissionGroupService.getById(id);

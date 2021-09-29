@@ -1,6 +1,6 @@
 package io.basc.start.trade;
 
-import io.basc.framework.util.StringUtils;
+import io.basc.framework.util.FormatUtils;
 
 public class TradeUtils {
 	/**
@@ -10,6 +10,6 @@ public class TradeUtils {
 	 * @return
 	 */
 	public static String formatNothingToYuan(long price) {
-		return StringUtils.formatNumberPrecision((double) price / 100, 2);
+		return FormatUtils.formatNumberPrecision((double) price / 100, 2);
 	}
 }

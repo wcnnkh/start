@@ -1,5 +1,7 @@
 package io.basc.start.web;
 
+import java.util.Map;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
@@ -8,29 +10,29 @@ import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.security.session.UserSession;
+import io.basc.framework.util.Status;
 import io.basc.framework.util.StringUtils;
+import io.basc.start.enums.VerificationCodeType;
 import io.basc.start.user.enums.AccountType;
 import io.basc.start.user.pojo.User;
 import io.basc.start.user.security.LoginRequired;
 import io.basc.start.user.security.UserLoginService;
 import io.basc.start.user.service.UserService;
-import io.basc.start.vc.enums.VerificationCodeType;
-import io.basc.start.vc.service.PhoneVerificationCodeService;
-
-import java.util.Map;
+import io.basc.start.verificationcode.VerificationCodeService;
+import io.basc.start.verificationcode.support.PhoneReceiver;
 
 @Controller(value = "/phone/code", methods = { HttpMethod.GET, HttpMethod.POST })
 public class PhoneVerificationCodeController {
-	private final PhoneVerificationCodeService phoneVerificationCodeService;
+	private final VerificationCodeService verificationCodeService;
 	private final UserService userService;
 	@Autowired
 	private ResultFactory resultFactory;
 	@Autowired
 	private UserLoginService userControllerService;
 
-	public PhoneVerificationCodeController(PhoneVerificationCodeService phoneVerificationCodeService,
+	public PhoneVerificationCodeController(VerificationCodeService verificationCodeService,
 			UserService userService) {
-		this.phoneVerificationCodeService = phoneVerificationCodeService;
+		this.verificationCodeService = verificationCodeService;
 		this.userService = userService;
 	}
 
@@ -51,12 +53,11 @@ public class PhoneVerificationCodeController {
 			break;
 		}
 
-		return phoneVerificationCodeService.send(phone, type);
-	}
-
-	@Controller(value = "check")
-	public Result check(String phone, String code, VerificationCodeType type) {
-		return phoneVerificationCodeService.check(phone, code, type);
+		Status<String> status = verificationCodeService.send(new PhoneReceiver(phone, type.name()));
+		if(!status.isActive()) {
+			return resultFactory.error(status.get());
+		}
+		return resultFactory.success();
 	}
 
 	@Controller(value = "login")
@@ -65,9 +66,9 @@ public class PhoneVerificationCodeController {
 			return resultFactory.parameterError();
 		}
 
-		Result result = phoneVerificationCodeService.check(phone, code, VerificationCodeType.LOGIN);
-		if (result.isError()) {
-			return result;
+		Status<String> status = verificationCodeService.validate(code, new PhoneReceiver(phone, VerificationCodeType.LOGIN.name()));
+		if (status.isActive()) {
+			return resultFactory.error(status.get());
 		}
 
 		User user = userService.getUserByAccount(AccountType.PHONE, phone);
@@ -90,9 +91,9 @@ public class PhoneVerificationCodeController {
 			return resultFactory.parameterError();
 		}
 
-		Result result = phoneVerificationCodeService.check(phone, code, VerificationCodeType.UPDATE_PASSWORD);
-		if (result.isError()) {
-			return result;
+		Status<String> status = verificationCodeService.validate(code, new PhoneReceiver(phone, VerificationCodeType.UPDATE_PASSWORD.name()));
+		if (status.isActive()) {
+			return resultFactory.error(status.get());
 		}
 
 		User user = userService.getUserByAccount(AccountType.PHONE, phone);
@@ -110,9 +111,9 @@ public class PhoneVerificationCodeController {
 			return resultFactory.parameterError();
 		}
 
-		Result result = phoneVerificationCodeService.check(phone, code, VerificationCodeType.BIND);
-		if (result.isError()) {
-			return result;
+		Status<String> status = verificationCodeService.validate(code, new PhoneReceiver(phone, VerificationCodeType.BIND.name()));
+		if (status.isActive()) {
+			return resultFactory.error(status.get());
 		}
 
 		return userService.bind(requestUser.getUid(), AccountType.PHONE, phone);
@@ -124,9 +125,9 @@ public class PhoneVerificationCodeController {
 			return resultFactory.parameterError();
 		}
 
-		Result result = phoneVerificationCodeService.check(phone, code, VerificationCodeType.REGISTER);
-		if (result.isError()) {
-			return result;
+		Status<String> status = verificationCodeService.validate(code, new PhoneReceiver(phone, VerificationCodeType.REGISTER.name()));
+		if (status.isActive()) {
+			return resultFactory.error(status.get());
 		}
 
 		return userService.register(AccountType.PHONE, phone, password, null);

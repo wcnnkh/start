@@ -6,7 +6,11 @@ public class MailReceiver extends SimpleReceiver {
 	public MailReceiver() {
 	}
 
-	public MailReceiver(String receiver) {
-		super(receiver);
+	public MailReceiver(String mail) {
+		super(mail);
+	}
+	
+	public MailReceiver(String mail, String tag) {
+		super(mail, tag);
 	}
 }

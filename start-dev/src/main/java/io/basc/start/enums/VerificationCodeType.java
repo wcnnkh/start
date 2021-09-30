@@ -1,4 +1,4 @@
-package io.basc.start.vc.enums;
+package io.basc.start.enums;
 
 public enum VerificationCodeType {
 	REGISTER,

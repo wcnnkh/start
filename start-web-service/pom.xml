@@ -16,6 +16,13 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>mvc</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>verification-code</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>upload</artifactId>

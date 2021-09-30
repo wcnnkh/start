@@ -6,7 +6,11 @@ public class PhoneReceiver extends SimpleReceiver {
 	public PhoneReceiver() {
 	}
 
-	public PhoneReceiver(String receiver) {
-		super(receiver);
+	public PhoneReceiver(String phone) {
+		super(phone);
+	}
+	
+	public PhoneReceiver(String phone, String tag) {
+		super(phone, tag);
 	}
 }

@@ -15,6 +15,11 @@ public class SimpleReceiver implements Receiver, Serializable {
 	public SimpleReceiver(String receiver) {
 		this.receiver = receiver;
 	}
+	
+	public SimpleReceiver(String receiver, String tag) {
+		this.receiver = receiver;
+		this.tag = tag;
+	}
 
 	public String getReceiver() {
 		return receiver;

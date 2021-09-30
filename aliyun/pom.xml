@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.basc.start</groupId>
+		<artifactId>start</artifactId>
+		<version>1.8.0</version>
+	</parent>
+	<artifactId>aliyun</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>verification-code</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.aliyun.oss</groupId>
+			<artifactId>aliyun-sdk-oss</artifactId>
+			<version>3.1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jersey</groupId>
+					<artifactId>jersey-json</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jdom</groupId>
+					<artifactId>jdom</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.aliyun</groupId>
+					<artifactId>aliyun-java-sdk-ram</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.aliyun</groupId>
+					<artifactId>aliyun-java-sdk-sts</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.aliyun</groupId>
+					<artifactId>aliyun-java-sdk-ecs</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+</project>

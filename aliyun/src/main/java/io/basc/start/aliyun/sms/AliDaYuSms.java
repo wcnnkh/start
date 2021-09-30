@@ -8,6 +8,8 @@ import java.util.Map;
 import io.basc.framework.codec.encode.HmacMD5;
 import io.basc.framework.codec.encode.MD5;
 import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.core.Ordered;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
@@ -21,6 +23,7 @@ import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
 import io.basc.framework.util.XUtils;
 
+@Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class AliDaYuSms implements AliyunSms {
 	private static Logger logger = LoggerFactory.getLogger(AliDaYuSms.class);
 
@@ -82,7 +85,8 @@ public class AliDaYuSms implements AliyunSms {
 	}
 
 	@Override
-	public Status<String> send(MessageModel messageModel, Map<String, String> parameterMap, Collection<String> phones) {
+	public Status<String> send(MessageModel messageModel,
+			Map<String, String> parameterMap, Collection<String> phones) {
 		Assert.requiredArgument(messageModel != null, "messageModel");
 		Assert.requiredArgument(!CollectionUtils.isEmpty(phones), "phones");
 		Map<String, String> map = new HashMap<String, String>();
@@ -91,24 +95,30 @@ public class AliDaYuSms implements AliyunSms {
 		map.put("format", format);
 		map.put("sign_method", getSignMethod());
 
-		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
+		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(),
+				"yyyy-MM-dd HH:mm:ss"));
 		map.put("sms_free_sign_name", messageModel.getSms_free_sign_name());
 		if (!CollectionUtils.isEmpty(parameterMap)) {
-			map.put("sms_param", JSONUtils.getJsonSupport().toJSONString(parameterMap));
+			map.put("sms_param",
+					JSONUtils.getJsonSupport().toJSONString(parameterMap));
 		}
 		map.put("sms_template_code", messageModel.getSms_template_code());
 		map.put("method", "alibaba.aliqin.fc.sms.num.send");
 		map.put("sms_type", "normal");
 		map.put("rec_num", StringUtils.collectionToCommaDelimitedString(phones));
 		map.put("sign", getSign(map));
-		JsonObject response = HttpUtils.getHttpClient()
-				.post(JsonObject.class, host, map, MediaType.APPLICATION_FORM_URLENCODED).getBody();
+		JsonObject response = HttpUtils
+				.getHttpClient()
+				.post(JsonObject.class, host, map,
+						MediaType.APPLICATION_FORM_URLENCODED).getBody();
 		if (response.containsKey("alibaba_aliqin_fc_sms_num_send_response")) {
-			response = response.getJsonObject("alibaba_aliqin_fc_sms_num_send_response");
+			response = response
+					.getJsonObject("alibaba_aliqin_fc_sms_num_send_response");
 		}
 
 		response = response.getJsonObject("result");
-		if (response.containsKey("err_code") && response.getIntValue("err_code") == 0) {
+		if (response.containsKey("err_code")
+				&& response.getIntValue("err_code") == 0) {
 			return XUtils.status(true, response.toJSONString());
 		}
 
@@ -151,10 +161,11 @@ public class AliDaYuSms implements AliyunSms {
 		String bytes = null;
 		if (isMd5) {
 			sb.append(appSecret);
-			bytes = MD5.DEFAULT.fromEncoder(CharsetCodec.UTF_8).encode(sb.toString());
+			bytes = MD5.DEFAULT.fromEncoder(CharsetCodec.UTF_8).encode(
+					sb.toString());
 		} else {
-			bytes = new HmacMD5(CharsetCodec.UTF_8.encode(appSecret)).toHex().fromEncoder(CharsetCodec.UTF_8)
-					.encode(sb.toString());
+			bytes = new HmacMD5(CharsetCodec.UTF_8.encode(appSecret)).toHex()
+					.fromEncoder(CharsetCodec.UTF_8).encode(sb.toString());
 		}
 
 		return bytes.toUpperCase();

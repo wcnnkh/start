@@ -4,11 +4,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.core.Ordered;
 import io.basc.framework.util.Status;
 import io.basc.start.verificationcode.Receiver;
 import io.basc.start.verificationcode.VerificationCodeSender;
 import io.basc.start.verificationcode.support.PhoneReceiver;
 
+@Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class AliyunVerificationCodeSender implements VerificationCodeSender {
 	private final Map<String, MessageModel> messageModelMap = new HashMap<>();
 	private final AliyunSms aliyunSms;
@@ -66,6 +69,10 @@ public class AliyunVerificationCodeSender implements VerificationCodeSender {
 		return messageModelMap.get(receiver.getTag());
 	}
 
+	public void registerMessageModel(String tag, MessageModel messageModel) {
+		messageModelMap.put(tag, messageModel);
+	}
+
 	@Override
 	public Status<String> send(String code, Receiver receiver) {
 		MessageModel messageModel = getMessageModel(receiver);
@@ -76,6 +83,7 @@ public class AliyunVerificationCodeSender implements VerificationCodeSender {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("code", code);
 		params.put("product", getProduct());
-		return getAliyunSms().send(messageModel, params, Arrays.asList(receiver.getReceiver()));
+		return getAliyunSms().send(messageModel, params,
+				Arrays.asList(receiver.getReceiver()));
 	}
 }

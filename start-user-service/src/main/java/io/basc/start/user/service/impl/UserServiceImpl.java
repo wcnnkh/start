@@ -1,5 +1,7 @@
 package io.basc.start.user.service.impl;
 
+import java.util.Collection;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.beans.annotation.Service;
 import io.basc.framework.codec.Encoder;
@@ -30,9 +32,6 @@ import io.basc.start.user.pojo.User;
 import io.basc.start.user.service.PermissionGroupService;
 import io.basc.start.user.service.UserService;
 import io.basc.start.user.service.config.BaseServiceConfiguration;
-import io.basc.start.vc.service.PhoneVerificationCodeService;
-
-import java.util.Collection;
 
 @Service
 public class UserServiceImpl extends BaseServiceConfiguration implements UserService {
@@ -40,8 +39,6 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 
 	private static final Encoder<String, String> PASSWORD_ENCODER = CharsetCodec.UTF_8.toMD5();
 
-	@Autowired(required = false)
-	private PhoneVerificationCodeService verificationCodeService;
 	@Autowired
 	private PermissionGroupService permissionGroupService;
 	@Autowired

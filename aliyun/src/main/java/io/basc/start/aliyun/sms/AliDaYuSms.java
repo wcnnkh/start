@@ -86,7 +86,7 @@ public class AliDaYuSms implements AliyunSms {
 
 	@Override
 	public Status<String> send(MessageModel messageModel,
-			Map<String, String> parameterMap, Collection<String> phones) {
+			Map<String, ?> parameterMap, Collection<String> phones) {
 		Assert.requiredArgument(messageModel != null, "messageModel");
 		Assert.requiredArgument(!CollectionUtils.isEmpty(phones), "phones");
 		Map<String, String> map = new HashMap<String, String>();

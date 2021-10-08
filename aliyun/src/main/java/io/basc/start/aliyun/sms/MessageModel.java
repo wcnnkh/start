@@ -1,16 +1,24 @@
 package io.basc.start.aliyun.sms;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
- * 阿里大鱼短信模版
+ * 短信模版
  * 
  * @author shuchaowen
  *
  */
 public class MessageModel implements Serializable {
 	private static final long serialVersionUID = 1L;
+	@Schema(description = "短信模版签名", required = true)
+	@NotEmpty
 	private String sms_free_sign_name;
+	@Schema(description = "签名模版编码", required = true)
+	@NotEmpty
 	private String sms_template_code;
 
 	/**

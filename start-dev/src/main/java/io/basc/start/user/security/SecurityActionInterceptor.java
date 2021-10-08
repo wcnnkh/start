@@ -1,5 +1,8 @@
 package io.basc.start.user.security;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.context.result.ResultFactory;
@@ -23,9 +26,6 @@ import io.basc.start.user.pojo.User;
 import io.basc.start.user.service.PermissionGroupActionService;
 import io.basc.start.user.service.PermissionGroupService;
 import io.basc.start.user.service.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Provider
 public class SecurityActionInterceptor implements ActionInterceptor, ActionInterceptorAccept {

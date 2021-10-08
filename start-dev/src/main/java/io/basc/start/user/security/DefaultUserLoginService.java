@@ -1,31 +1,22 @@
 package io.basc.start.user.security;
 
-import io.basc.framework.context.annotation.Provider;
-import io.basc.framework.http.HttpCookie;
-import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.mvc.security.UserSessionResolver;
-import io.basc.framework.security.session.UserSession;
-import io.basc.framework.util.XUtils;
-import io.basc.start.user.pojo.User;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.mvc.HttpChannel;
+import io.basc.framework.security.session.UserSession;
+import io.basc.start.user.pojo.User;
 
 @Provider
 public class DefaultUserLoginService implements UserLoginService {
 
 	public Map<String, Object> login(User user, HttpChannel httpChannel) {
 		Map<String, Object> map = new HashMap<String, Object>(8);
-		UserSession<Long> userSession = httpChannel.createUserSession(Long.class, user.getUid(), XUtils.getUUID());
+		UserSession<Long> userSession = httpChannel.createUserSession(user.getUid());
 		map.put("token", userSession.getId());
 		map.put("uid", userSession.getUid());
 		map.putAll(info(user));
-		HttpCookie uidCookie = new HttpCookie(UserSessionResolver.UID_NAME, userSession.getUid() + "");
-		uidCookie.setPath("/");
-		HttpCookie tokenCookie = new HttpCookie(UserSessionResolver.TOKEN_NAME, userSession.getId() + "");
-		tokenCookie.setPath("/");
-		httpChannel.getResponse().addCookie(uidCookie);
-		httpChannel.getResponse().addCookie(tokenCookie);
 		return map;
 	}
 

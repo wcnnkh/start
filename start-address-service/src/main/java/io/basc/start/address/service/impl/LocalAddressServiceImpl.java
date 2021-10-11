@@ -1,8 +1,17 @@
 package io.basc.start.address.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import io.basc.framework.beans.annotation.Service;
 import io.basc.framework.beans.annotation.Value;
-import io.basc.framework.beans.ioc.value.JsonFileValueProcesser;
+import io.basc.framework.convert.annotation.JSON;
 import io.basc.framework.env.Environment;
 import io.basc.framework.io.Resource;
 import io.basc.framework.json.JsonArray;
@@ -16,15 +25,6 @@ import io.basc.start.address.model.AddressTree;
 import io.basc.start.address.pojo.Address;
 import io.basc.start.address.service.AddressService;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 @Service
 public class LocalAddressServiceImpl implements AddressService {
 	private static final String RESOURCE = "classpath:/io/basc/integration/app/address/service/address.json";
@@ -34,12 +34,13 @@ public class LocalAddressServiceImpl implements AddressService {
 	private volatile List<Address> rootAddressList = Collections.emptyList();
 	private volatile Map<Integer, List<Address>> subListMap = Collections.emptyMap();
 	private Environment environment;
-	
+
 	public LocalAddressServiceImpl(Environment environment) {
 		this.environment = environment;
 	}
-	
-	@Value(value = RESOURCE, processer = JsonFileValueProcesser.class)
+
+	@JSON
+	@Value(value = RESOURCE)
 	public void setLocalAddressJson(JsonObject jsonObject) {
 		List<Address> list = parseAddressList(jsonObject);
 		if (CollectionUtils.isEmpty(list)) {

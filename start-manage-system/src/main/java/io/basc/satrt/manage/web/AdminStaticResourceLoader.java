@@ -4,14 +4,14 @@ import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.env.Environment;
 import io.basc.framework.io.Resource;
 import io.basc.framework.web.ServerHttpRequest;
-import io.basc.framework.web.resource.StaticResourceResolver;
+import io.basc.framework.web.resource.StaticResourceLoader;
 
 @Provider
-public class AdminStaticResourceResolver implements StaticResourceResolver {
+public class AdminStaticResourceLoader implements StaticResourceLoader {
 	private static final String[] STATIC_PREFIXS = new String[] { "/js/", "/css/", "/fonts/", "/images/", "/lib/" };
 	private final Environment environment;
 
-	public AdminStaticResourceResolver(Environment environment) {
+	public AdminStaticResourceLoader(Environment environment) {
 		this.environment = environment;
 	}
 

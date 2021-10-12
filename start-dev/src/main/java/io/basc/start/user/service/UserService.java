@@ -12,6 +12,7 @@ import io.basc.start.user.pojo.UnionIdToUid;
 import io.basc.start.user.pojo.User;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface UserService {
 	/**
@@ -23,6 +24,8 @@ public interface UserService {
 	 * @return
 	 */
 	Page<User> search(Collection<Integer> permissionGroupIds, String search, int page, int limit);
+	
+	List<User> getUsers(Collection<Long> uids);
 
 	User getUser(long uid);
 

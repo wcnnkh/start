@@ -142,5 +142,6 @@
 		<module>aliyun</module>
 		<module>alipay</module>
 		<module>verification-code</module>
+		<module>start-cms</module>
 	</modules>
 </project>

@@ -1,6 +1,8 @@
 package io.basc.start.user.service.impl;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.beans.annotation.Service;
@@ -345,5 +347,10 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 
 	public UnionIdToUid getUidByUnionId(String unionId, UnionIdType type) {
 		return getUidByUnionId(unionId, type.getValue());
+	}
+
+	@Override
+	public List<User> getUsers(Collection<Long> uids) {
+		return db.getInIds(User.class, uids).values().stream().collect(Collectors.toList());
 	}
 }

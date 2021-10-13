@@ -2,7 +2,7 @@ package io.basc.satrt.manage.web.editable.support;
 
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.web.model.ModelAndView;
+import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.satrt.manage.web.editable.DataManager;
 import io.basc.start.user.security.SecurityProperties;
 

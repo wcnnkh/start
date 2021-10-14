@@ -33,37 +33,25 @@
 		<dependencies>
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-dev</artifactId>
+				<artifactId>start-app</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-manage-system</artifactId>
+				<artifactId>start-app-impl</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-address-service</artifactId>
+				<artifactId>start-app-web</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-user-service</artifactId>
-				<version>1.8.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.basc.start</groupId>
-				<artifactId>start-web-service</artifactId>
-				<version>1.8.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.basc.start</groupId>
-				<artifactId>start-simple-app</artifactId>
+				<artifactId>start-app-admin</artifactId>
 				<version>1.8.0</version>
 			</dependency>
 
@@ -110,12 +98,6 @@
 			</dependency>
 			
 			<dependency>
-				<groupId>io.basc.start</groupId>
-				<artifactId>start-thirdparty-oauth2</artifactId>
-				<version>1.8.0</version>
-			</dependency>
-
-			<dependency>
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-core</artifactId>
 				<version>4.5.1</version>
@@ -135,16 +117,12 @@
 		<module>kdniao</module>
 		<module>apple</module>
 		<module>bytedance</module>
-		<module>start-dev</module>
-		<module>start-manage-system</module>
-		<module>start-address-service</module>
-		<module>start-user-service</module>
-		<module>start-web-service</module>
-		<module>start-simple-app</module>
 		<module>aliyun</module>
 		<module>alipay</module>
 		<module>verification-code</module>
-		<module>start-cms</module>
-		<module>start-thirdparty-oauth2</module>
+		<module>start-app</module>
+		<module>start-app-impl</module>
+		<module>start-app-web</module>
+		<module>start-app-admin</module>
 	</modules>
 </project>

@@ -53,8 +53,8 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		if (user == null) {
 			AdminUserModel adminUserModel = new AdminUserModel();
 			adminUserModel.setUsername(ADMIN_NAME);
-			adminUserModel.setNickname(environment.getValue("io.basc.app.admin.nickname", String.class, "超级管理员"));
-			adminUserModel.setPassword(environment.getValue("io.basc.app.admin.password", String.class, "123456"));
+			adminUserModel.setNickname(environment.getValue("io.basc.start.app.admin.nickname", String.class, "超级管理员"));
+			adminUserModel.setPassword(environment.getValue("io.basc.start.app.admin.password", String.class, "123456"));
 			createOrUpdateAdminUser(0, adminUserModel);
 		}
 	}
@@ -178,6 +178,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		user.setNickname(adminUserModel.getNickname());
 		user.setDisable(adminUserModel.isDisable());
 		user.setPermissionGroupId(adminUserModel.getGroupId());
+		//TODO 没有原子性
 		db.saveOrUpdate(user);
 		return resultFactory.success(user);
 	}

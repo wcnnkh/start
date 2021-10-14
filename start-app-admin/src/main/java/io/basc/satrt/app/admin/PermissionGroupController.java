@@ -1,5 +1,12 @@
 package io.basc.satrt.app.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
@@ -10,7 +17,7 @@ import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.mvc.security.HttpActionAuthorityManager;
 import io.basc.framework.security.authority.http.HttpAuthority;
-import io.basc.framework.security.session.UserSession;
+import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.app.user.model.PermissionGroupInfo;
 import io.basc.start.app.user.pojo.PermissionGroup;
@@ -21,13 +28,6 @@ import io.basc.start.app.user.security.SecurityProperties;
 import io.basc.start.app.user.service.PermissionGroupActionService;
 import io.basc.start.app.user.service.PermissionGroupService;
 import io.basc.start.app.user.service.UserService;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @LoginRequired
 @ActionAuthorityParent(AdminUserController.class)
@@ -50,7 +50,7 @@ public class PermissionGroupController {
 
 	@ActionAuthority(value = "权限组列表", menu = true)
 	@Controller(value = "group_list")
-	public ModelAndView group_list(UserSession<Long> requestUser, Integer parentId) {
+	public ModelAndView group_list(UserToken<Long> requestUser, Integer parentId) {
 		User user = userService.getUser(requestUser.getUid());
 		int pid = (parentId == null || parentId == 0) ? user.getPermissionGroupId() : parentId;
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/ftl/group_list.ftl");
@@ -72,7 +72,7 @@ public class PermissionGroupController {
 
 	@LoginRequired
 	@Controller(value = "group_action_list")
-	public Result action_list(int groupId, UserSession<Long> requestUser, int parentId) {
+	public Result action_list(int groupId, UserToken<Long> requestUser, int parentId) {
 		List<HttpAuthority> httpAuthorities;
 		if (parentId == 0 && userService.isSuperAdmin(requestUser.getUid())) {
 			httpAuthorities = httpActionAuthorityManager.getAuthorityList(null);
@@ -111,7 +111,7 @@ public class PermissionGroupController {
 
 	@ActionAuthority(value = "(添加/修改)权限")
 	@Controller(value = "group_add_or_update", methods = HttpMethod.POST)
-	public Result group_add_or_update(UserSession<Long> requestUser, int id, int parentId, String name, boolean disable,
+	public Result group_add_or_update(UserToken<Long> requestUser, int id, int parentId, String name, boolean disable,
 			String ids) {
 		PermissionGroupInfo info = new PermissionGroupInfo();
 		info.setId(id);

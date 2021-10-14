@@ -1,5 +1,8 @@
 package io.basc.satrt.app.admin;
 
+import java.util.List;
+import java.util.Map;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
@@ -15,6 +18,7 @@ import io.basc.framework.mvc.view.View;
 import io.basc.framework.security.authority.AuthorityTree;
 import io.basc.framework.security.authority.MenuAuthorityFilter;
 import io.basc.framework.security.authority.http.HttpAuthority;
+import io.basc.framework.security.login.UserToken;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
@@ -27,9 +31,6 @@ import io.basc.start.app.user.security.SecurityProperties;
 import io.basc.start.app.user.security.UserLoginService;
 import io.basc.start.app.user.service.PermissionGroupActionService;
 import io.basc.start.app.user.service.UserService;
-
-import java.util.List;
-import java.util.Map;
 
 @Controller(value = SecurityProperties.ADMIN_CONTROLLER)
 public class AdminIndexController {
@@ -52,7 +53,7 @@ public class AdminIndexController {
 	@LoginRequired
 	@Controller(value = "menus")
 	@io.basc.framework.mvc.annotation.FactoryResult
-	public List<AuthorityTree<HttpAuthority>> getMenus(UserSession<Long> requestUser) {
+	public List<AuthorityTree<HttpAuthority>> getMenus(UserToken<Long> requestUser) {
 		if (userService.isSuperAdmin(requestUser.getUid())) {
 			return httpActionAuthorityManager.getAuthorityTreeList(new MenuAuthorityFilter<HttpAuthority>());
 		} else {
@@ -95,7 +96,7 @@ public class AdminIndexController {
 
 	@Controller
 	@LoginRequired
-	public ModelAndView index(UserSession<Long> requestUser, ServerHttpRequest request) {
+	public ModelAndView index(UserToken<Long> requestUser, ServerHttpRequest request) {
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/ftl/index.ftl");
 		StringBuilder sb = new StringBuilder(4096);
 		appendMenuHtml(sb, getMenus(requestUser), request.getContextPath());
@@ -164,7 +165,7 @@ public class AdminIndexController {
 
 	@LoginRequired
 	@Controller(value = "update_pwd", methods = HttpMethod.POST)
-	public Result update_pwd(UserSession<Long> requestUser, String oldPwd, String newPwd) {
+	public Result update_pwd(UserToken<Long> requestUser, String oldPwd, String newPwd) {
 		if (StringUtils.isEmpty(oldPwd, newPwd)) {
 			return resultFactory.parameterError();
 		}

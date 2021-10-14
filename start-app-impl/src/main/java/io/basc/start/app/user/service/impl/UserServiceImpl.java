@@ -179,7 +179,10 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		user.setDisable(adminUserModel.isDisable());
 		user.setPermissionGroupId(adminUserModel.getGroupId());
 		//TODO 没有原子性
-		db.saveOrUpdate(user);
+		boolean b = db.saveOrUpdate(user);
+		if(!b) {
+			return resultFactory.error();
+		}
 		return resultFactory.success(user);
 	}
 

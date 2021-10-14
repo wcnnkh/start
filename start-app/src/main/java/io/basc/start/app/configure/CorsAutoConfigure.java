@@ -29,7 +29,7 @@ public class CorsAutoConfigure implements BeanFactoryPostProcessor,
 				beanFactory.getLifecycleDispatcher().registerListener(this);
 			} else {
 				CorsRegistry registry = new CorsRegistry();
-				registry.add("/**", Cors.DEFAULT);
+				configure(registry);
 				beanFactory.registerSingleton(CorsRegistry.class.getName(),
 						registry);
 			}
@@ -42,9 +42,12 @@ public class CorsAutoConfigure implements BeanFactoryPostProcessor,
 				&& event.getSource() != null) {
 			Object source = event.getSource();
 			if (source instanceof CorsRegistry) {
-				((CorsRegistry) source).add("/**", Cors.DEFAULT);
+				configure(((CorsRegistry) source));
 			}
 		}
 	}
 
+	protected void configure(CorsRegistry registry) {
+		registry.add("/**", Cors.DEFAULT);
+	}
 }

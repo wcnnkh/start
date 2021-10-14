@@ -27,7 +27,7 @@ import io.basc.start.app.address.service.AddressService;
 
 @Service
 public class LocalAddressServiceImpl implements AddressService {
-	private static final String RESOURCE = "classpath:/io/basc/integration/app/address/service/address.json";
+	private static final String RESOURCE = "classpath:/io/basc/start/app/address/service/address.json";
 
 	private static Logger logger = LoggerFactory.getLogger(LocalAddressServiceImpl.class);
 	private volatile Map<Integer, Address> addressMap = Collections.emptyMap();

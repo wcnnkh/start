@@ -43,7 +43,7 @@ public class WeiXinController {
 	private UserLoginService userControllerService;
 	@Autowired(required=false)
 	private WeixinMiniprogram weixinMiniprogram;
-
+	
 	public WeiXinController(UserService userService) {
 		this.userService = userService;
 	}

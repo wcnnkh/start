@@ -9,7 +9,7 @@ public class WeixinMpConfig implements Serializable {
 	@PrimaryKey
 	private String appid;
 	private String appsecret;
-	private String[] redirectUris;
+	private String redirectUri;
 
 	public String getAppid() {
 		return appid;
@@ -27,12 +27,11 @@ public class WeixinMpConfig implements Serializable {
 		this.appsecret = appsecret;
 	}
 
-	public String[] getRedirectUris() {
-		return redirectUris;
+	public String getRedirectUri() {
+		return redirectUri;
 	}
 
-	public void setRedirectUris(String[] redirectUris) {
-		this.redirectUris = redirectUris;
+	public void setRedirectUri(String redirectUri) {
+		this.redirectUri = redirectUri;
 	}
-
 }

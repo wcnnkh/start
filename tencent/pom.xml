@@ -13,9 +13,5 @@
 			<groupId>io.basc.start</groupId>
 			<artifactId>trade</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>security</artifactId>
-		</dependency>
 	</dependencies>
 </project>

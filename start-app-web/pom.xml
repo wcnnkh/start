@@ -17,13 +17,19 @@
 			<groupId>io.basc.start</groupId>
 			<artifactId>verification-code</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>tencent</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>upload</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.basc.start</groupId>
-			<artifactId>tencent</artifactId>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>freemarker</artifactId>
 		</dependency>
 	</dependencies>
 </project>

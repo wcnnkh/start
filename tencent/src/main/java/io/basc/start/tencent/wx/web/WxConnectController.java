@@ -38,9 +38,13 @@ import javax.ws.rs.QueryParam;
 @EnableCondition(condition = "io.basc.start.tencent.wx.connect")
 public class WxConnectController {
 	static final String PATH = "/io/basc/start/tencent/wx/connect";
+	static final String DEFAULT_TITLE = "跳转中......";
 
 	@Value(value = "classpath:/io/basc/start/tencent/wx-connect-call.html", processor = ResourceValueProcessor.class, listener = false)
 	private String html;
+	
+	@Value("${io.basc.start.tencent.wx.connect.title:" + DEFAULT_TITLE + "}")
+	private String title;
 
 	@Path("/call/{url}")
 	@GET
@@ -52,7 +56,9 @@ public class WxConnectController {
 		map.put("code", code);
 		map.put("state", state);
 		String redirectUri = UriUtils.appendQueryParams(URLDecoder.decode(url, request.getCharacterEncoding()), map, new URLCodec(request.getCharacterEncoding()));
-		return html.replace("#{url}", redirectUri);
+		String text = html.replace("#{url}", redirectUri);
+		text = text.replace(DEFAULT_TITLE, title);
+		return text;
 	}
 	
 	private String toCallUrl(ServerHttpRequest request, String host, String redirectUri) throws UnsupportedEncodingException{

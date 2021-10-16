@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,12 +46,12 @@ public class WxConnectController {
 	@GET
 	public String call(@PathParam("url") String url, String code, String state,
 			@Parameter(hidden = true) ServerHttpRequest request,
-			@Parameter(hidden = true) ServerHttpResponse response) {
+			@Parameter(hidden = true) ServerHttpResponse response) throws UnsupportedEncodingException {
 		response.setContentType(MediaType.TEXT_HTML);
 		Map<String, String> map = new HashMap<String, String>(4);
 		map.put("code", code);
 		map.put("state", state);
-		String redirectUri = UriUtils.appendQueryParams(url, map, new URLCodec(request.getCharacterEncoding()));
+		String redirectUri = UriUtils.appendQueryParams(URLDecoder.decode(url, request.getCharacterEncoding()), map, new URLCodec(request.getCharacterEncoding()));
 		return html.replace("#{url}", redirectUri);
 	}
 	

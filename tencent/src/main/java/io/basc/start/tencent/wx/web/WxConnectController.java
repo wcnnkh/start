@@ -44,7 +44,7 @@ public class WxConnectController {
 
 	@Path("/call/{url}")
 	@GET
-	public String call(@PathParam("url") String url, String code, String state,
+	public String call(@PathParam("url") @NotEmpty String url, @NotEmpty String code, String state,
 			@Parameter(hidden = true) ServerHttpRequest request,
 			@Parameter(hidden = true) ServerHttpResponse response) throws UnsupportedEncodingException {
 		response.setContentType(MediaType.TEXT_HTML);

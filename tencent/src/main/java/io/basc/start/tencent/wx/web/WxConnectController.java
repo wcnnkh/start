@@ -22,7 +22,6 @@ import io.basc.framework.web.ServerHttpResponse;
 import io.basc.start.tencent.wx.WeiXinUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -59,11 +58,11 @@ public class WxConnectController {
 	@ApiResponse(responseCode = "302")
 	public void oauth2Authorize(@Parameter(hidden = true) ServerHttpRequest serverRequest,
 			@Parameter(hidden = true) ServerHttpResponse serverResponse,
-			@Schema(description = "服务主机的地址", required = true) @QueryParam("host") @NotEmpty String host,
-			@Schema(description = "微信appid", required = true) @QueryParam("appid") @NotEmpty String appid,
-			@Schema(description = "授权方式", required = true, defaultValue = "snsapi_base") @QueryParam("scope") @NotEmpty String scope,
-			@Schema(description = "回调地址", required = true) @QueryParam("redirectUri") @NotEmpty String redirectUri,
-			@Schema(description = "回调参数") @QueryParam("state") String state) throws IOException {
+			@Parameter(description = "服务主机的地址", required = true) @QueryParam("host") @NotEmpty String host,
+			@Parameter(description = "微信appid", required = true) @QueryParam("appid") @NotEmpty String appid,
+			@Parameter(description = "授权方式", example = "snsapi_base") @QueryParam("scope") @NotEmpty String scope,
+			@Parameter(description = "回调地址", required = true) @QueryParam("redirectUri") @NotEmpty String redirectUri,
+			@Parameter(description = "回调参数") @QueryParam("state") String state) throws IOException {
 		String callUrl = host + PATH + "/call" + URLEncoder.encode(redirectUri, serverRequest.getCharacterEncoding());
 		String url = WeiXinUtils.authorizeUlr(appid, callUrl, scope, state);
 		serverResponse.sendRedirect(url);
@@ -75,11 +74,11 @@ public class WxConnectController {
 	@ApiResponse(responseCode = "302")
 	public void qrconnect(@Parameter(hidden = true) ServerHttpRequest serverRequest,
 			@Parameter(hidden = true) ServerHttpResponse serverResponse,
-			@Schema(description = "服务主机的地址", required = true) @QueryParam("host") @NotEmpty String host,
-			@Schema(description = "微信appid", required = true) @QueryParam("appid") @NotEmpty String appid,
-			@Schema(description = "授权方式", required = true, defaultValue = "snsapi_base") @QueryParam("scope") @NotEmpty String scope,
-			@Schema(description = "回调地址", required = true) @QueryParam("redirectUri") @NotEmpty String redirectUri,
-			@Schema(description = "回调参数") @QueryParam("state") String state) throws IOException {
+			@Parameter(description = "服务主机的地址", required = true) @QueryParam("host") @NotEmpty String host,
+			@Parameter(description = "微信appid", required = true) @QueryParam("appid") @NotEmpty String appid,
+			@Parameter(description = "授权方式", required = true, example = "snsapi_login") @QueryParam("scope") @NotEmpty String scope,
+			@Parameter(description = "回调地址", required = true) @QueryParam("redirectUri") @NotEmpty String redirectUri,
+			@Parameter(description = "回调参数") @QueryParam("state") String state) throws IOException {
 		String callUrl = host + PATH + "/call" + URLEncoder.encode(redirectUri, serverRequest.getCharacterEncoding());
 		String url = WeiXinUtils.qrcodeAuthorizeUrl(appid, callUrl, scope, state);
 		serverResponse.sendRedirect(url);

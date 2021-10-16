@@ -6,6 +6,7 @@ import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.lang.Nullable;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
@@ -35,13 +36,15 @@ public final class WeiXinUtils {
 	 * @param state
 	 * @return
 	 */
-	public static String authorizeUlr(String appid, String redirect_uri, String scope, String state) {
+	public static String authorizeUlr(String appid, String redirect_uri, String scope, @Nullable String state) {
 		StringBuilder sb = new StringBuilder(weixin_authorize_url);
 		sb.append("?appid=").append(appid);
 		sb.append("&redirect_uri=").append(UriUtils.encode(redirect_uri));
 		sb.append("&response_type=code");
 		sb.append("&scope=").append(scope);
-		sb.append("&state=").append(state);
+		if(state != null) {
+			sb.append("&state=").append(state);
+		}
 		sb.append("#wechat_redirect");
 		return sb.toString();
 	}
@@ -55,13 +58,15 @@ public final class WeiXinUtils {
 	 * @param state
 	 * @return
 	 */
-	public static String qrcodeAuthorizeUrl(String appid, String redirect_uri, String scope, String state) {
+	public static String qrcodeAuthorizeUrl(String appid, String redirect_uri, String scope, @Nullable String state) {
 		StringBuilder sb = new StringBuilder(weixin_qrconnect_url);
 		sb.append("?appid=").append(appid);
 		sb.append("&redirect_uri=").append(UriUtils.encode(redirect_uri));
 		sb.append("&response_type=code");
 		sb.append("&scope=").append(scope);
-		sb.append("&state=").append(state);
+		if(state != null){
+			sb.append("&state=").append(state);
+		}
 		sb.append("#wechat_redirect");
 		return sb.toString();
 	}

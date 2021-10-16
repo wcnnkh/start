@@ -7,11 +7,15 @@
 		<artifactId>start</artifactId>
 		<version>1.8.0</version>
 	</parent>
-	<artifactId>tencent</artifactId>
+	<artifactId>start-app-impl</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.start</groupId>
-			<artifactId>trade</artifactId>
+			<artifactId>start-app</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>db</artifactId>
 		</dependency>
 	</dependencies>
 </project>

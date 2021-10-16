@@ -12,10 +12,6 @@
 	<packaging>pom</packaging>
 	<description>一些常见的实现</description>
 
-	<properties>
-		<basc.version>1.8.0</basc.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.framework</groupId>
@@ -37,44 +33,32 @@
 		<dependencies>
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-dev</artifactId>
-				<version>${basc.version}</version>
+				<artifactId>start-app</artifactId>
+				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-manage-system</artifactId>
-				<version>${basc.version}</version>
+				<artifactId>start-app-impl</artifactId>
+				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-address-service</artifactId>
-				<version>${basc.version}</version>
+				<artifactId>start-app-web</artifactId>
+				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-user-service</artifactId>
-				<version>${basc.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.basc.start</groupId>
-				<artifactId>start-web-service</artifactId>
-				<version>${basc.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.basc.start</groupId>
-				<artifactId>start-simple-app</artifactId>
-				<version>${basc.version}</version>
+				<artifactId>start-app-admin</artifactId>
+				<version>1.8.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>trade</artifactId>
-				<version>${basc.version}</version>
+				<version>1.8.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
@@ -95,24 +79,24 @@
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>tencent</artifactId>
-				<version>${basc.version}</version>
+				<version>1.8.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>kdniao</artifactId>
-				<version>${basc.version}</version>
+				<version>1.8.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>apple</artifactId>
-				<version>${basc.version}</version>
+				<version>1.8.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>bytedance</artifactId>
-				<version>${basc.version}</version>
+				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-core</artifactId>
@@ -133,15 +117,12 @@
 		<module>kdniao</module>
 		<module>apple</module>
 		<module>bytedance</module>
-		<module>start-dev</module>
-		<module>start-manage-system</module>
-		<module>start-address-service</module>
-		<module>start-user-service</module>
-		<module>start-web-service</module>
-		<module>start-simple-app</module>
 		<module>aliyun</module>
 		<module>alipay</module>
 		<module>verification-code</module>
-		<module>start-cms</module>
+		<module>start-app</module>
+		<module>start-app-impl</module>
+		<module>start-app-web</module>
+		<module>start-app-admin</module>
 	</modules>
 </project>

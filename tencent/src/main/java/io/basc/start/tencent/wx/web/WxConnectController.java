@@ -33,9 +33,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "微信公众号授权接口")
 @Path(WxConnectController.PATH)
-@EnableCondition(condition = "io.basc.start.tencel.wx.connect")
+@EnableCondition(condition = "io.basc.start.tencent.wx.connect")
 public class WxConnectController {
-	static final String PATH = "/io/basc/start/tencel/wx/connect";
+	static final String PATH = "/io/basc/start/tencent/wx/connect";
 
 	@Value(value = "classpath:/io/basc/start/tencent/wx-connect-call.html", processor = ResourceValueProcessor.class, listener = false)
 	private String html;

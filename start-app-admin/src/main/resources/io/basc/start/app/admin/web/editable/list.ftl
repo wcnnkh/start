@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh">
 <head>
-	<#include "/admin/ftl/include/head.ftl">
+	<#include "../ftl/include/head.ftl">
 </head>
 <body class="layui-anim layui-anim-up">
 <div class="x-nav">
@@ -19,9 +19,9 @@
 				${field.describe}:
 				<div class="layui-input-inline">
 					<#if field.type = "SELECT" && (field.options)??>
-						<#include "/editable/include/form-select.ftl">
+						<#include "include/form-select.ftl">
 					<#else>
-						<#include "/editable/include/form-input.ftl">
+						<#include "include/form-input.ftl">
 					</#if>
 				</div>
 				&nbsp;&nbsp
@@ -54,7 +54,7 @@
 						<#assign value=ToString((item[field.name])!'')>
 						<td fieldName="${field.name}" fieldValue="${value}" width="100">
 							<#if field.type == "SELECT">
-								<#include "/editable/include/form-select.ftl">
+								<#include "../ftl/include/form-select.ftl">
 							<#else>
 								${value}
 							</#if>
@@ -73,7 +73,7 @@
 		</#if>
 		</tbody>
 	</table>
-	<#include "/admin/ftl/include/pagination.ftl" />
+	<#include "../ftl/include/pagination.ftl" />
 </div>
 </body>
 <script>

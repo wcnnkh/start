@@ -1,23 +1,27 @@
 package io.basc.satrt.app.admin.editable.support;
 
 import io.basc.framework.context.annotation.Provider;
-import io.basc.satrt.app.admin.editable.DataManager;
+import io.basc.framework.context.result.ResultFactory;
 import io.basc.satrt.app.admin.editable.Editor;
 import io.basc.satrt.app.admin.editable.EditorResolver;
-import io.basc.satrt.app.admin.editable.annotation.Editable;
-import io.basc.start.app.user.security.SecurityProperties;
+import io.basc.start.app.configure.AppConfigure;
+import io.basc.start.data.DataService;
+import io.basc.start.data.annotation.Editable;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Provider
 public class DefaultEditorResolver implements EditorResolver {
-	private final DataManager dataManager;
-	private final SecurityProperties securityProperties;
+	private final DataService dataService;
+	private final AppConfigure appConfigure;
+	private final ResultFactory resultFactory;
 
-	public DefaultEditorResolver(DataManager dataManager, SecurityProperties securityProperties) {
-		this.dataManager = dataManager;
-		this.securityProperties = securityProperties;
+	public DefaultEditorResolver(DataService dataService, AppConfigure appConfigure,
+			ResultFactory resultFactory) {
+		this.dataService = dataService;
+		this.appConfigure = appConfigure;
+		this.resultFactory = resultFactory;
 	}
 
 	@Override
@@ -27,12 +31,12 @@ public class DefaultEditorResolver implements EditorResolver {
 
 	@Override
 	public List<Editor> resolve(Class<?> clazz) {
-		EditorParent parent = new EditorParent(dataManager, clazz, securityProperties);
-		EditorAddPage addPage = new EditorAddPage(dataManager, clazz, securityProperties);
-		EditorInfoPage infoPage = new EditorInfoPage(dataManager, clazz, securityProperties);
-		EditorAdd add = new EditorAdd(dataManager, clazz, securityProperties);
-		EditorUpdate update = new EditorUpdate(dataManager, clazz, securityProperties);
-		EditorDelete delete = new EditorDelete(dataManager, clazz, securityProperties);
+		EditorParent parent = new EditorParent(dataService, clazz, appConfigure);
+		EditorAddPage addPage = new EditorAddPage(dataService, clazz, appConfigure, resultFactory);
+		EditorInfoPage infoPage = new EditorInfoPage(dataService, clazz, appConfigure, resultFactory);
+		EditorAdd add = new EditorAdd(dataService, clazz, appConfigure, resultFactory);
+		EditorUpdate update = new EditorUpdate(dataService, clazz, appConfigure, resultFactory);
+		EditorDelete delete = new EditorDelete(dataService, clazz, appConfigure, resultFactory);
 		return Arrays.asList(parent, addPage, infoPage, add, update, delete);
 	}
 

@@ -5,7 +5,7 @@ import io.basc.framework.boot.ConfigurableApplication;
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.db.DB;
 import io.basc.satrt.app.admin.editable.EditorResolver;
-import io.basc.satrt.app.admin.editable.annotation.Editable;
+import io.basc.start.data.annotation.Editable;
 
 @Provider
 public class CreateTablePorcesser implements ApplicationPostProcessor{

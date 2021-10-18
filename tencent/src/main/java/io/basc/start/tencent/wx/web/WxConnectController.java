@@ -5,6 +5,7 @@ import io.basc.framework.beans.ioc.value.ResourceValueProcessor;
 import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.context.annotation.EnableCondition;
 import io.basc.framework.http.MediaType;
+import io.basc.framework.lang.Nullable;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.ServerHttpResponse;
@@ -95,5 +96,41 @@ public class WxConnectController {
 		String callUrl = toCallUrl(request, host, redirectUri);
 		String url = WeiXinUtils.qrcodeAuthorizeUrl(appid, callUrl, scope, state);
 		serverResponse.sendRedirect(url);
+	}
+	
+	public static String oauth2Authorize(String host, String appid, String redirectUri, @Nullable String scope, @Nullable String state){
+		StringBuilder sb = new StringBuilder();
+		sb.append(host);
+		sb.append(PATH);
+		sb.append("/oauth2/authorize");
+		sb.append("?host=").append(URLCodec.UTF_8.encode(host));
+		sb.append("&appid=").append(appid);
+		sb.append("&redirectUri=").append(URLCodec.UTF_8.encode(redirectUri));
+		if(scope != null){
+			sb.append("&scope=").append(scope);
+		}
+		
+		if(state != null){
+			sb.append("&state=").append(state);
+		}
+		return sb.toString();
+	}
+	
+	public static String qrconnect(String host, String appid, String redirectUri, @Nullable String scope, @Nullable String state){
+		StringBuilder sb = new StringBuilder();
+		sb.append(host);
+		sb.append(PATH);
+		sb.append("/qrconnect");
+		sb.append("?host=").append(URLCodec.UTF_8.encode(host));
+		sb.append("&appid=").append(appid);
+		sb.append("&redirectUri=").append(URLCodec.UTF_8.encode(redirectUri));
+		if(scope != null){
+			sb.append("&scope=").append(scope);
+		}
+		
+		if(state != null){
+			sb.append("&state=").append(state);
+		}
+		return sb.toString();
 	}
 }

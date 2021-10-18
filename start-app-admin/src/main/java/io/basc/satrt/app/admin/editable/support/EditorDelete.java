@@ -1,16 +1,19 @@
 package io.basc.satrt.app.admin.editable.support;
 
+import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.satrt.app.admin.editable.DataManager;
-import io.basc.start.app.user.security.SecurityProperties;
+import io.basc.start.app.configure.AppConfigure;
+import io.basc.start.data.DataService;
 
 public class EditorDelete extends EditorCURD {
 
-	public EditorDelete(DataManager dataManager, Class<?> editableClass, SecurityProperties securityProperties) {
-		super(dataManager, editableClass, HttpMethod.POST, securityProperties, "delete");
+	public EditorDelete(DataService dataService, Class<?> editableClass,
+			AppConfigure appConfigure, ResultFactory resultFactory) {
+		super(dataService, editableClass, HttpMethod.POST, appConfigure,
+				resultFactory, "delete");
 	}
-	
+
 	@Override
 	public String getName() {
 		return super.getName() + "(删除)";
@@ -19,6 +22,9 @@ public class EditorDelete extends EditorCURD {
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
-		return getDataManager().delete(getEditableClass(), requestBean);
+		boolean success = getDataService().delete(getEditableClass(),
+				requestBean);
+		return success ? getResultFactory().success() : getResultFactory()
+				.error("操作失败");
 	}
 }

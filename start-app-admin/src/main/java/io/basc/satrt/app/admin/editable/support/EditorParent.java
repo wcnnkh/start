@@ -11,19 +11,20 @@ import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.orm.annotation.PrimaryKey;
 import io.basc.framework.orm.sql.annotation.AutoIncrement;
 import io.basc.framework.util.Pair;
-import io.basc.satrt.app.admin.editable.DataManager;
+import io.basc.framework.util.page.Page;
 import io.basc.satrt.app.admin.editable.Editor;
-import io.basc.satrt.app.admin.editable.annotation.Editable;
-import io.basc.satrt.app.admin.editable.annotation.Image;
-import io.basc.satrt.app.admin.editable.annotation.Readonly;
-import io.basc.satrt.app.admin.editable.annotation.Select;
-import io.basc.satrt.app.admin.editable.annotation.SelectOption;
-import io.basc.satrt.app.admin.editable.annotation.Textarea;
 import io.basc.satrt.app.admin.editable.form.ImageInput;
 import io.basc.satrt.app.admin.editable.form.Input;
 import io.basc.satrt.app.admin.editable.form.SelectInput;
 import io.basc.satrt.app.admin.editable.form.TextareaInput;
-import io.basc.start.app.user.security.SecurityProperties;
+import io.basc.start.app.configure.AppConfigure;
+import io.basc.start.data.DataService;
+import io.basc.start.data.annotation.Editable;
+import io.basc.start.data.annotation.Image;
+import io.basc.start.data.annotation.Readonly;
+import io.basc.start.data.annotation.Select;
+import io.basc.start.data.annotation.SelectOption;
+import io.basc.start.data.annotation.Textarea;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,30 +33,30 @@ import java.util.Map;
 
 public class EditorParent implements Editor {
 	private final Class<?> editableClass;
-	private final DataManager dataManager;
-	private final SecurityProperties securityProperties;
+	private final DataService dataService;
+	private final AppConfigure appConfigure;
 
-	public EditorParent(DataManager dataManager, Class<?> editableClass, SecurityProperties securityProperties) {
+	public EditorParent(DataService dataService, Class<?> editableClass, AppConfigure appConfigure) {
 		this.editableClass = editableClass;
-		this.dataManager = dataManager;
-		this.securityProperties = securityProperties;
+		this.dataService = dataService;
+		this.appConfigure = appConfigure;
 	}
 
-	public SecurityProperties getSecurityProperties() {
-		return securityProperties;
+	public AppConfigure getAppConfigure() {
+		return appConfigure;
 	}
 
 	public Class<?> getEditableClass() {
 		return editableClass;
 	}
 
-	public DataManager getDataManager() {
-		return dataManager;
+	public DataService getDataService() {
+		return dataService;
 	}
 
 	@Override
 	public String getPath() {
-		return securityProperties.getController() + "/editable/" + editableClass.getName() + "/root";
+		return getAppConfigure().getAdminController() + "/editable/" + editableClass.getName() + "/root";
 	}
 
 	@Override
@@ -92,18 +93,18 @@ public class EditorParent implements Editor {
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(editableClass);
-		Integer page = httpChannel.getValue("page").getAsInteger();
+		Integer page = httpChannel.getInteger("page");
 		if (page == null || page < 1) {
 			page = 1;
 		}
 
-		Integer limit = httpChannel.getValue("limit").getAsInteger();
+		Integer limit = httpChannel.getInteger("limit");
 		if (limit == null || limit < 1) {
 			limit = 10;
 		}
 
-		io.basc.framework.util.page.Page<Object> pagination = dataManager.list(editableClass, requestBean, page, limit);
-		ModelAndView view = new ModelAndView("/io/basc/start/manage/web/editable/list.ftl");
+		Page<Object> pagination = dataService.list(editableClass, requestBean, page, limit);
+		ModelAndView view = new ModelAndView("/io/basc/start/app/admin/web/editable/list.ftl");
 		long maxPage = pagination == null ? 1 : pagination.getPages();
 		long currentPage = Math.min(page, maxPage);
 		view.put("page", currentPage);
@@ -136,7 +137,7 @@ public class EditorParent implements Editor {
 				}
 				select.setOptions(list);
 			} else {
-				select.setOptions(dataManager.queryOptions(selects.value(), null));
+				select.setOptions(dataService.queryOptions(selects.value(), null));
 			}
 			return select;
 		}

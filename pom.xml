@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -33,22 +32,28 @@
 		<dependencies>
 			<dependency>
 				<groupId>io.basc.start</groupId>
+				<artifactId>start-data</artifactId>
+				<version>1.8.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.basc.start</groupId>
 				<artifactId>start-app</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-app-impl</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-app-web</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-app-admin</artifactId>
@@ -96,7 +101,7 @@
 				<artifactId>bytedance</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-core</artifactId>
@@ -124,5 +129,6 @@
 		<module>start-app-impl</module>
 		<module>start-app-web</module>
 		<module>start-app-admin</module>
+		<module>start-data</module>
 	</modules>
 </project>

@@ -1,9 +1,13 @@
-package io.basc.start.app.thirdparty.oauth.pojo;
+package io.basc.satrt.app.admin.pojo;
 
+import io.basc.framework.orm.annotation.Entity;
 import io.basc.framework.orm.annotation.PrimaryKey;
+import io.basc.start.data.annotation.Editable;
 
 import java.io.Serializable;
 
+@Editable(name = "微信基础配置")
+@Entity
 public class WeixinMpConfig implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@PrimaryKey

@@ -1,15 +1,16 @@
 package io.basc.satrt.app.admin.editable.support;
 
+import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.model.ModelAndView;
-import io.basc.satrt.app.admin.editable.DataManager;
-import io.basc.start.app.user.security.SecurityProperties;
+import io.basc.start.app.configure.AppConfigure;
+import io.basc.start.data.DataService;
 
 public class EditorInfoPage extends EditorCURD {
 
-	public EditorInfoPage(DataManager dataManager, Class<?> editableClass, SecurityProperties securityProperties) {
-		super(dataManager, editableClass, HttpMethod.GET, securityProperties, "info");
+	public EditorInfoPage(DataService dataService, Class<?> editableClass, AppConfigure appConfigure, ResultFactory resultFactory) {
+		super(dataService, editableClass, HttpMethod.GET, appConfigure, resultFactory, "info");
 	}
 
 	@Override
@@ -20,8 +21,8 @@ public class EditorInfoPage extends EditorCURD {
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
-		Object info = getDataManager().info(getEditableClass(), requestBean);
-		ModelAndView page = new ModelAndView("/io/basc/start/manage/web/editable/info.ftl");
+		Object info = getDataService().info(getEditableClass(), requestBean);
+		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/editable/info.ftl");
 		page.put("info", info);
 		page.put("query", requestBean);
 		page.put("fields", getInputs(requestBean));

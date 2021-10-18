@@ -1,4 +1,4 @@
-package io.basc.satrt.app.admin.editable.annotation;
+package io.basc.start.data.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

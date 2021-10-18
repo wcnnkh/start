@@ -16,10 +16,11 @@ public class EditorRegistry {
 	}
 
 	public void register(Editor editor) {
-		Map<String, Editor> methodMap = map.get(editor.getPath());
+		String path = editor.getPath();
+		Map<String, Editor> methodMap = map.get(path);
 		if (methodMap == null) {
 			methodMap = new HashMap<String, Editor>();
-			Map<String, Editor> oldMethodMap = map.putIfAbsent(editor.getPath(), methodMap);
+			Map<String, Editor> oldMethodMap = map.putIfAbsent(path, methodMap);
 			if (oldMethodMap != null) {
 				methodMap = oldMethodMap;
 			}

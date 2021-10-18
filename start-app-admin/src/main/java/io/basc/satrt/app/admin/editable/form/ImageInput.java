@@ -1,6 +1,6 @@
 package io.basc.satrt.app.admin.editable.form;
 
-import io.basc.satrt.app.admin.editable.annotation.Image;
+import io.basc.start.data.annotation.Image;
 
 public class ImageInput extends Input {
 	private static final long serialVersionUID = 1L;

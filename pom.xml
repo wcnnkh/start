@@ -35,6 +35,12 @@
 				<artifactId>start-data</artifactId>
 				<version>1.8.0</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-data-db</artifactId>
+				<version>1.8.0</version>
+			</dependency>
 
 			<dependency>
 				<groupId>io.basc.start</groupId>

@@ -1,8 +1,5 @@
 package io.basc.satrt.app.admin;
 
-import java.util.List;
-import java.util.Map;
-
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
@@ -28,10 +25,12 @@ import io.basc.start.app.user.enums.AccountType;
 import io.basc.start.app.user.pojo.PermissionGroupAction;
 import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.security.LoginRequired;
-import io.basc.start.app.user.security.SecurityProperties;
 import io.basc.start.app.user.security.UserLoginService;
 import io.basc.start.app.user.service.PermissionGroupActionService;
 import io.basc.start.app.user.service.UserService;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller(value = AppConfigure.ADMIN_CONTROLLER)
 public class AdminIndexController {

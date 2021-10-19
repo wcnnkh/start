@@ -77,7 +77,7 @@ public class EditorParent implements Editor {
 	@Override
 	public String getName() {
 		Editable editable = editableClass.getAnnotation(Editable.class);
-		return editable == null ? getId() : editable.name();
+		return editable == null ? getId() : editable.title();
 	}
 
 	@Override

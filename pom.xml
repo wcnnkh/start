@@ -130,5 +130,6 @@
 		<module>start-app-web</module>
 		<module>start-app-admin</module>
 		<module>start-data</module>
+		<module>start-data-db</module>
 	</modules>
 </project>

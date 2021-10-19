@@ -1,5 +1,7 @@
 package io.basc.start.data;
 
+import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.core.Ordered;
 import io.basc.framework.factory.ConfigurableServices;
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.util.Pair;
@@ -9,9 +11,9 @@ import io.basc.framework.util.page.PageSupport;
 import java.util.Collections;
 import java.util.List;
 
+@Provider(order = Ordered.LOWEST_PRECEDENCE)
 @SuppressWarnings("rawtypes")
-public class DefaultDataService extends ConfigurableServices<DataManager>
-		implements DataService {
+public class DefaultDataService extends ConfigurableServices<DataManager> implements DataService {
 
 	public DefaultDataService() {
 		super(DataManager.class);
@@ -97,8 +99,7 @@ public class DefaultDataService extends ConfigurableServices<DataManager>
 	}
 
 	@Override
-	public <T> List<Pair<String, String>> queryOptions(
-			Class<? extends T> entityClass, T query) {
+	public <T> List<Pair<String, String>> queryOptions(Class<? extends T> entityClass, T query) {
 		DataManager<T> manager = getDataManager(entityClass);
 		if (manager == null) {
 			return Collections.emptyList();
@@ -107,8 +108,7 @@ public class DefaultDataService extends ConfigurableServices<DataManager>
 	}
 
 	@Override
-	public <T> Page<T> list(Class<? extends T> entityClass, T query, int page,
-			int limit) {
+	public <T> Page<T> list(Class<? extends T> entityClass, T query, int page, int limit) {
 		DataManager<T> manager = getDataManager(entityClass);
 		if (manager == null) {
 			return PageSupport.emptyPage(page, limit);

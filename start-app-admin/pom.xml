@@ -26,16 +26,9 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>upload</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>zookeeper</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>db</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

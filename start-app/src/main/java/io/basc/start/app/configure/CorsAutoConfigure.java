@@ -7,7 +7,6 @@ import io.basc.framework.core.Ordered;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.cors.Cors;
 import io.basc.framework.web.cors.CorsRegistry;
-import io.basc.start.app.configure.AppConfigure;
 
 /**
  * 默认的cors自动配置

@@ -146,7 +146,7 @@ public class AdminIndexController {
 	public Object login(HttpChannel httpChannel) {
 		UserSession<Long> userSession = httpChannel.getUserSession(Long.class);
 		if(userSession != null){
-			return new Redirect(httpChannel.getRequest().getContextPath() + appConfigure.getToAdminLoginPath());
+			return new Redirect(httpChannel.getRequest().getContextPath() + appConfigure.getAdminController());
 		}
 		return new ModelAndView("/io/basc/start/app/admin/web/ftl/login.ftl");
 	}

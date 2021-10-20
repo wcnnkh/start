@@ -10,6 +10,7 @@ import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.ServerHttpResponse;
 import io.basc.start.tencent.wx.WeiXinUtils;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,6 +50,7 @@ public class WxConnectController {
 
 	@Path("/call/{url}")
 	@GET
+	@Hidden
 	public String call(@PathParam("url") @NotEmpty String url, @NotEmpty String code, String state,
 			@Parameter(hidden = true) ServerHttpRequest request,
 			@Parameter(hidden = true) ServerHttpResponse response) throws UnsupportedEncodingException {

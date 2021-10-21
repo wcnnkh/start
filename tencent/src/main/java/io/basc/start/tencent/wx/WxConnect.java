@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import io.basc.framework.net.uri.UriUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class WeixinConnect implements Serializable {
+public class WxConnect implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String AUTHORIZE_HOST = "https://open.weixin.qq.com/connect/oauth2/authorize";
 	public static final String QRCONNECT_HOST = "https://open.weixin.qq.com/connect/qrconnect";

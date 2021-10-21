@@ -1,75 +1,29 @@
 package io.basc.start.tencent.wx;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
-import io.basc.framework.lang.Nullable;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
 import io.basc.start.tencent.wx.miniprogram.BaseResponse;
 import io.basc.start.tencent.wx.miniprogram.WeappTemplateMsg;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author shuchaowen
  */
 public final class WeiXinUtils {
 	private static final String CODE_NAME = "errcode";
-	public static final String weixin_authorize_url = "https://open.weixin.qq.com/connect/oauth2/authorize";
-	public static final String weixin_qrconnect_url = "https://open.weixin.qq.com/connect/qrconnect";
 
 	private WeiXinUtils() {
 	};
 
-	/**
-	 * 授权登录
-	 * 
-	 * @param appid
-	 * @param redirect_uri
-	 * @param scope
-	 * @param state
-	 * @return
-	 */
-	public static String authorizeUlr(String appid, String redirect_uri, String scope, @Nullable String state) {
-		StringBuilder sb = new StringBuilder(weixin_authorize_url);
-		sb.append("?appid=").append(appid);
-		sb.append("&redirect_uri=").append(UriUtils.encode(redirect_uri));
-		sb.append("&response_type=code");
-		sb.append("&scope=").append(scope);
-		if(state != null) {
-			sb.append("&state=").append(state);
-		}
-		sb.append("#wechat_redirect");
-		return sb.toString();
-	}
-
-	/**
-	 * 扫码登录
-	 * 
-	 * @param appid
-	 * @param redirect_uri
-	 * @param scope
-	 * @param state
-	 * @return
-	 */
-	public static String qrcodeAuthorizeUrl(String appid, String redirect_uri, String scope, @Nullable String state) {
-		StringBuilder sb = new StringBuilder(weixin_qrconnect_url);
-		sb.append("?appid=").append(appid);
-		sb.append("&redirect_uri=").append(UriUtils.encode(redirect_uri));
-		sb.append("&response_type=code");
-		sb.append("&scope=").append(scope);
-		if(state != null){
-			sb.append("&state=").append(state);
-		}
-		sb.append("#wechat_redirect");
-		return sb.toString();
-	}
 
 	public static String getPaySign(Map<String, String> paramMap, String apiKey) {
 		StringBuilder sb = new StringBuilder(UriUtils.toQueryString(paramMap, URLCodec.UTF_8));

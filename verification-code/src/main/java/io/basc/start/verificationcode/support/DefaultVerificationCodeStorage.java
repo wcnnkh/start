@@ -16,7 +16,7 @@ public class DefaultVerificationCodeStorage implements VerificationCodeStorage {
 	}
 
 	@Override
-	public void set(Receiver receiver, VerificationCode verificationCode, int expirationTime) {
+	public void set(Receiver receiver, VerificationCode verificationCode, long expirationTime) {
 		temporaryStorage.set(getKey(receiver), expirationTime, verificationCode);
 	}
 

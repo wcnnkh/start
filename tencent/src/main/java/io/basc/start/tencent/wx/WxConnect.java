@@ -76,7 +76,7 @@ public class WxConnect implements Serializable {
 		StringBuilder sb = new StringBuilder();
 		sb.append("appid=").append(getAppid());
 		sb.append("&redirect_uri=").append(UriUtils.encode(getRedirectUri()));
-		sb.append("&response_type=").append(getAppid());
+		sb.append("&response_type=").append(getResponseType());
 		sb.append("&scope=").append(getScope());
 		if (getState() != null) {
 			sb.append("&state=").append(getState());

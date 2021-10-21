@@ -1,14 +1,15 @@
 package io.basc.satrt.app.admin.editable.support;
 
+import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.satrt.app.admin.editable.DataManager;
-import io.basc.start.app.user.security.SecurityProperties;
+import io.basc.start.app.configure.AppConfigure;
+import io.basc.start.data.DataService;
 
 public class EditorUpdate extends EditorCURD {
 
-	public EditorUpdate(DataManager dataManager, Class<?> editableClass, SecurityProperties securityProperties) {
-		super(dataManager, editableClass, HttpMethod.POST, securityProperties, "update");
+	public EditorUpdate(DataService dataService, Class<?> editableClass, AppConfigure appConfigure, ResultFactory resultFactory) {
+		super(dataService, editableClass, HttpMethod.POST, appConfigure, resultFactory, "update");
 	}
 
 	@Override
@@ -19,6 +20,7 @@ public class EditorUpdate extends EditorCURD {
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
-		return getDataManager().update(getEditableClass(), requestBean);
+		boolean success = getDataService().update(getEditableClass(), requestBean);
+		return response(success);
 	}
 }

@@ -1,5 +1,8 @@
 package io.basc.satrt.app.admin;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
@@ -10,13 +13,10 @@ import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.value.Value;
 import io.basc.framework.zookeeper.ZookeeperCloudPropertyFactory;
-import io.basc.start.app.user.security.SecurityProperties;
-
-import java.util.HashMap;
-import java.util.Map;
+import io.basc.start.app.configure.AppConfigure;
 
 @ActionAuthority(value = "Zookeeper配置中心", menu = true)
-@Controller(value= SecurityProperties.ADMIN_CONTROLLER + "/zookeeper/config", methods={HttpMethod.GET, HttpMethod.POST})
+@Controller(value= AppConfigure.ADMIN_CONTROLLER + "/zookeeper/config", methods={HttpMethod.GET, HttpMethod.POST})
 public class ZookeeperConfigController {
 	private final ZookeeperCloudPropertyFactory cloudPropertyFactory;
 	@Autowired

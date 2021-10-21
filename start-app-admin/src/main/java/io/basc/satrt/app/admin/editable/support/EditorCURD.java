@@ -1,30 +1,45 @@
 package io.basc.satrt.app.admin.editable.support;
 
+import io.basc.framework.context.result.Result;
+import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.satrt.app.admin.editable.DataManager;
-import io.basc.start.app.user.security.SecurityProperties;
+import io.basc.start.app.configure.AppConfigure;
+import io.basc.start.data.DataService;
 
 import java.util.Map;
 
 public abstract class EditorCURD extends EditorParent {
 	private final HttpMethod method;
 	private final String name;
+	private final ResultFactory resultFactory;
 
-	public EditorCURD(DataManager dataManager, Class<?> editableClass, HttpMethod method, SecurityProperties securityProperties, String name) {
-		super(dataManager, editableClass, securityProperties);
+	public EditorCURD(DataService dataService, Class<?> editableClass,
+			HttpMethod method, AppConfigure appConfigure,
+			ResultFactory resultFactory, String name) {
+		super(dataService, editableClass, appConfigure);
+		this.resultFactory = resultFactory;
 		this.method = method;
 		this.name = name;
+	}
+
+	public ResultFactory getResultFactory() {
+		return resultFactory;
+	}
+
+	public Result response(boolean success) {
+		return success ? resultFactory.success() : resultFactory.error("操作失败");
 	}
 
 	@Override
 	public final String getMethod() {
 		return method.name();
 	}
-	
+
 	@Override
 	public String getPath() {
-		return getSecurityProperties().getController() + "/" + getEditableClass().getName() + "/" + name;
+		return getAppConfigure().getAdminController() + "/editable/"
+				+ getEditableClass().getName() + "/" + name;
 	}
 
 	@Override

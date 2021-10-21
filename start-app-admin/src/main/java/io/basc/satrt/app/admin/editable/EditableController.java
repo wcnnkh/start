@@ -11,11 +11,11 @@ import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.XUtils;
-import io.basc.start.app.user.security.SecurityProperties;
+import io.basc.start.app.configure.AppConfigure;
 
 import java.util.Date;
 
-@Controller(SecurityProperties.ADMIN_CONTROLLER + "/editable")
+@Controller(AppConfigure.ADMIN_CONTROLLER + "/editable")
 public class EditableController {
 	private final EditorRegistry editorRegistry;
 	@Autowired(required = false)

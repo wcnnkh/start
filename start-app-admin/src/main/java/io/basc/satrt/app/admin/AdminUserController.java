@@ -1,10 +1,5 @@
 package io.basc.satrt.app.admin;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import io.basc.framework.context.result.Result;
 import io.basc.framework.core.parameter.DefaultValue;
 import io.basc.framework.http.HttpMethod;
@@ -18,17 +13,22 @@ import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.page.PageSupport;
+import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.app.user.model.AdminUserModel;
 import io.basc.start.app.user.pojo.PermissionGroup;
 import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.security.LoginRequired;
-import io.basc.start.app.user.security.SecurityProperties;
 import io.basc.start.app.user.service.PermissionGroupService;
 import io.basc.start.app.user.service.UserService;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 @LoginRequired
 @ActionAuthority(value = "系统设置", menu = true)
-@Controller(value = SecurityProperties.ADMIN_CONTROLLER)
+@Controller(value = AppConfigure.ADMIN_CONTROLLER)
 public class AdminUserController {
 	private UserService userService;
 	private PermissionGroupService permissionGroupService;

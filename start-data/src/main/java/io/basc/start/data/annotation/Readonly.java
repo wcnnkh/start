@@ -1,4 +1,4 @@
-package io.basc.satrt.app.admin.editable.annotation;
+package io.basc.start.data.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Select {
-	Class<?> value();
+public @interface Readonly {
 }

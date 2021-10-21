@@ -8,7 +8,7 @@ public interface VerificationCodeStorage {
 	 * @param verificationCode
 	 * @param expirationTime   单位：秒
 	 */
-	void set(Receiver receiver, VerificationCode verificationCode, int expirationTime);
+	void set(Receiver receiver, VerificationCode verificationCode, long expirationTime);
 
 	void delete(Receiver receiver);
 

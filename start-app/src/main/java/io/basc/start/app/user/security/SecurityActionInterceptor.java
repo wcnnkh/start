@@ -21,6 +21,7 @@ import io.basc.framework.mvc.view.Redirect;
 import io.basc.framework.security.authority.http.HttpAuthority;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.StringUtils;
+import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.app.user.pojo.PermissionGroup;
 import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.service.PermissionGroupActionService;
@@ -32,7 +33,7 @@ public class SecurityActionInterceptor implements ActionInterceptor, ActionInter
 	private static Logger logger = LoggerFactory.getLogger(SecurityActionInterceptor.class);
 
 	@Autowired
-	private SecurityProperties securityConfigProperties;
+	private AppConfigure appConfigure;
 	
 	@Autowired(required = false)
 	private ResultFactory resultFactory;
@@ -113,7 +114,7 @@ public class SecurityActionInterceptor implements ActionInterceptor, ActionInter
 				return authorizationFailure(httpChannel, action);
 			}
 			
-			if (httpChannel.getRequest().getPath().startsWith(securityConfigProperties.getController())) {
+			if (httpChannel.getRequest().getPath().startsWith(appConfigure.getAdminController())) {
 				User user = userService.getUser(userSession.getUid());
 				if (user == null) {
 					return authorizationFailure(httpChannel, action);
@@ -155,9 +156,9 @@ public class SecurityActionInterceptor implements ActionInterceptor, ActionInter
 	}
 
 	protected Object authorizationFailure(HttpChannel httpChannel, Action action) throws Throwable {
-		if (httpChannel.getRequest().getPath().startsWith(securityConfigProperties.getController())) {
+		if (httpChannel.getRequest().getPath().startsWith(appConfigure.getAdminController())) {
 			if (!httpChannel.getRequest().getHeaders().isAjax()) {
-				return new Redirect(securityConfigProperties.getToLoginPath());
+				return new Redirect(appConfigure.getToAdminLoginPath());
 			}
 		}
 		return resultFactory.authorizationFailure();

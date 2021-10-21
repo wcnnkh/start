@@ -1,8 +1,5 @@
 package io.basc.satrt.app.admin;
 
-import java.util.List;
-import java.util.Map;
-
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
@@ -23,16 +20,19 @@ import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.ServerHttpRequest;
+import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.app.user.enums.AccountType;
 import io.basc.start.app.user.pojo.PermissionGroupAction;
 import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.security.LoginRequired;
-import io.basc.start.app.user.security.SecurityProperties;
 import io.basc.start.app.user.security.UserLoginService;
 import io.basc.start.app.user.service.PermissionGroupActionService;
 import io.basc.start.app.user.service.UserService;
 
-@Controller(value = SecurityProperties.ADMIN_CONTROLLER)
+import java.util.List;
+import java.util.Map;
+
+@Controller(value = AppConfigure.ADMIN_CONTROLLER)
 public class AdminIndexController {
 	private UserService userService;
 	@Autowired
@@ -43,7 +43,7 @@ public class AdminIndexController {
 	@Autowired
 	private UserLoginService userLoginService;
 	@Autowired
-	private SecurityProperties securityConfigProperties;
+	private AppConfigure appConfigure;
 
 	public AdminIndexController(UserService userService, PermissionGroupActionService permissionGroupActionService) {
 		this.userService = userService;
@@ -146,7 +146,7 @@ public class AdminIndexController {
 	public Object login(HttpChannel httpChannel) {
 		UserSession<Long> userSession = httpChannel.getUserSession(Long.class);
 		if(userSession != null){
-			return new Redirect(httpChannel.getRequest().getContextPath() + securityConfigProperties.getController());
+			return new Redirect(httpChannel.getRequest().getContextPath() + appConfigure.getAdminController());
 		}
 		return new ModelAndView("/io/basc/start/app/admin/web/ftl/login.ftl");
 	}
@@ -181,7 +181,7 @@ public class AdminIndexController {
 	@Controller(value = "cancel_login")
 	public View cacelLogin(UserSession<Long> requestUser, ServerHttpRequest request) {
 		requestUser.invalidate();
-		return new Redirect(request.getContextPath() + securityConfigProperties.getToLoginPath());
+		return new Redirect(request.getContextPath() + appConfigure.getToAdminLoginPath());
 	}
 
 	@Controller(value = "to_login")

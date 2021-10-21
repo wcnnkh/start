@@ -1,5 +1,5 @@
 <form class="layui-form">
-	<#include "/editable/include/form-fields.ftl">
+	<#include "form-fields.ftl">
 	<div class="layui-form-item">
 		<label for="L_repass" class="layui-form-label"> </label>
 		<button class="layui-btn" lay-filter="add" lay-submit="">保存</button>

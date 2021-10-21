@@ -19,19 +19,19 @@ import io.basc.framework.mvc.security.HttpActionAuthorityManager;
 import io.basc.framework.security.authority.http.HttpAuthority;
 import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.StringUtils;
+import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.app.user.model.PermissionGroupInfo;
 import io.basc.start.app.user.pojo.PermissionGroup;
 import io.basc.start.app.user.pojo.PermissionGroupAction;
 import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.security.LoginRequired;
-import io.basc.start.app.user.security.SecurityProperties;
 import io.basc.start.app.user.service.PermissionGroupActionService;
 import io.basc.start.app.user.service.PermissionGroupService;
 import io.basc.start.app.user.service.UserService;
 
 @LoginRequired
 @ActionAuthorityParent(AdminUserController.class)
-@Controller(value = SecurityProperties.ADMIN_CONTROLLER)
+@Controller(value = AppConfigure.ADMIN_CONTROLLER)
 public class PermissionGroupController {
 	private PermissionGroupService permissionGroupService;
 	private PermissionGroupActionService permissionGroupActionService;

@@ -11,6 +11,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.start</groupId>
+			<artifactId>start-data</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.basc.start</groupId>
 			<artifactId>start-app</artifactId>
 		</dependency>
 		<dependency>
@@ -22,16 +26,9 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>upload</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>zookeeper</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>db</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

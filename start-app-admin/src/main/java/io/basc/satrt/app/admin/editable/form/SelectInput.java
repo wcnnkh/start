@@ -1,7 +1,7 @@
 package io.basc.satrt.app.admin.editable.form;
 
 import io.basc.framework.util.Pair;
-import io.basc.satrt.app.admin.editable.annotation.Select;
+import io.basc.start.data.annotation.Select;
 
 import java.util.List;
 

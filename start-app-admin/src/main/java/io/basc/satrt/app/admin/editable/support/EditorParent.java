@@ -8,7 +8,7 @@ import io.basc.framework.mapper.FieldFeature;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.model.ModelAndView;
-import io.basc.framework.orm.annotation.PrimaryKey;
+import io.basc.framework.orm.OrmUtils;
 import io.basc.framework.orm.sql.annotation.AutoIncrement;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.page.Page;
@@ -161,7 +161,7 @@ public class EditorParent implements Editor {
 			input.setAutoFill(field.isAnnotationPresent(AutoIncrement.class));
 			input.setName(field.getGetter().getName());
 			input.setDescribe(AnnotatedElementUtils.getDescription(field));
-			input.setPrimaryKey(field.getGetter().isAnnotationPresent(PrimaryKey.class));
+			input.setPrimaryKey(OrmUtils.getMapping().isPrimaryKey(field));
 			if (input.getDescribe() == null) {
 				input.setDescribe(input.getName());
 			}
@@ -170,6 +170,7 @@ public class EditorParent implements Editor {
 				input.setReadonly(true);
 			}
 
+			input.setRequired(!OrmUtils.getMapping().isNullable(field) || input.isPrimaryKey());
 			list.add(input);
 		}
 		return list;

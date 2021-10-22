@@ -13,23 +13,65 @@ import java.util.Map;
 
 public final class JsApiSignature implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private final String nonceStr;// 注意 这个随机字符串的S在前端是大写的，可是在签名的时候是小写的
-	private final int timestamp;// 单位：秒
-	private final String url;
-	private final String signature;
+	private String nonceStr;// 注意 这个随机字符串的S在前端是大写的，可是在签名的时候是小写的
+	private long timestamp;// 单位：秒
+	private String url;
+	private String jsapi_ticket;
 
-	public JsApiSignature(String jsapi_ticket, String url) {
-		this(RandomUtils.getRandomStr(10), jsapi_ticket, (int) (System
-				.currentTimeMillis() / 1000), url);
+	public JsApiSignature() {
+		this.nonceStr = RandomUtils.getRandomStr(10);
+		this.timestamp = System.currentTimeMillis() / 1000;
 	}
 
-	public JsApiSignature(String nonceStr, String jsapi_ticket, int timestamp,
-			String url) {
+	public JsApiSignature(String jsapi_ticket, String url) {
+		this();
+		this.jsapi_ticket = jsapi_ticket;
+		this.url = url;
+	}
+
+	public JsApiSignature(String nonceStr, String jsapi_ticket, int timestamp, String url) {
 		Assert.isTrue(StringUtils.isNotEmpty(nonceStr, jsapi_ticket, url));
 		this.nonceStr = nonceStr;
 		this.timestamp = timestamp;
 		this.url = url;
+	}
 
+	public String getNonceStr() {
+		return nonceStr;
+	}
+
+	public void setNonceStr(String nonceStr) {
+		this.nonceStr = nonceStr;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	/**
+	 * @param timestamp 秒
+	 */
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getJsapi_ticket() {
+		return jsapi_ticket;
+	}
+
+	public void setJsapi_ticket(String jsapi_ticket) {
+		this.jsapi_ticket = jsapi_ticket;
+	}
+
+	public String getSignature() {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("noncestr", nonceStr);
 		map.put("timestamp", timestamp + "");
@@ -46,23 +88,6 @@ public final class JsApiSignature implements Serializable {
 				sb.append("&");
 			}
 		}
-		
-		this.signature = CharsetCodec.UTF_8.toEncoder(SHA1.DEFAULT).encode(sb.toString());
-	}
-
-	public String getNonceStr() {
-		return nonceStr;
-	}
-
-	public int getTimestamp() {
-		return timestamp;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public String getSignature() {
-		return signature;
+		return CharsetCodec.UTF_8.toEncoder(SHA1.DEFAULT).encode(sb.toString());
 	}
 }

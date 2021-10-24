@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EditorParent implements Editor {
 	private final Class<?> editableClass;
@@ -112,7 +113,10 @@ public class EditorParent implements Editor {
 		view.put("list", pagination == null ? null : pagination.rows());
 		view.put("totalCount", pagination == null ? 0 : pagination.getTotal());
 		view.put("query", requestBean);
-		view.put("fields", getInputs(requestBean));
+		view.put("fields", getInputs(requestBean).stream().map((field) -> {
+			field.setRequired(false);
+			return field;
+		}).collect(Collectors.toList()));
 		view.put("maxPage", maxPage);
 		view.put("name", getName());
 		return view;

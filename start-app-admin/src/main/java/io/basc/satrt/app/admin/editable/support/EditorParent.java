@@ -9,7 +9,7 @@ import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.orm.OrmUtils;
-import io.basc.framework.orm.sql.annotation.AutoIncrement;
+import io.basc.framework.sql.orm.annotation.AutoIncrement;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.page.Page;
 import io.basc.satrt.app.admin.editable.Editor;

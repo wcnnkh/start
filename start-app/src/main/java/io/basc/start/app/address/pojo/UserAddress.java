@@ -2,9 +2,9 @@ package io.basc.start.app.address.pojo;
 
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.orm.sql.annotation.AutoIncrement;
-import io.basc.framework.orm.sql.annotation.Index;
-import io.basc.framework.orm.sql.annotation.Table;
+import io.basc.framework.sql.orm.annotation.AutoIncrement;
+import io.basc.framework.sql.orm.annotation.Index;
+import io.basc.framework.sql.orm.annotation.Table;
 import io.basc.start.app.address.model.UserAddressModel;
 
 @Table

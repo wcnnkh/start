@@ -5,10 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import io.basc.framework.db.DB;
-import io.basc.framework.orm.sql.Column;
-import io.basc.framework.orm.sql.TableStructure;
 import io.basc.framework.sql.Sql;
 import io.basc.framework.sql.WhereSql;
+import io.basc.framework.sql.orm.Column;
+import io.basc.framework.sql.orm.TableStructure;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.page.Pages;

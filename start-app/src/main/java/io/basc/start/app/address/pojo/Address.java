@@ -2,7 +2,7 @@ package io.basc.start.app.address.pojo;
 
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.orm.sql.annotation.Table;
+import io.basc.framework.sql.orm.annotation.Table;
 import io.basc.start.app.address.model.AddressModel;
 
 @Table

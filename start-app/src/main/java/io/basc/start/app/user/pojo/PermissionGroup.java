@@ -1,8 +1,8 @@
 package io.basc.start.app.user.pojo;
 
 import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.orm.annotation.AutoIncrement;
 import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.sql.orm.annotation.AutoIncrement;
 import io.basc.framework.sql.orm.annotation.Table;
 import io.basc.start.app.user.model.PermissionGroupModel;
 

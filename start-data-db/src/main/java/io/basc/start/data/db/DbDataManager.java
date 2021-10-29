@@ -1,9 +1,5 @@
 package io.basc.start.data.db;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import io.basc.framework.db.DB;
 import io.basc.framework.sql.Sql;
 import io.basc.framework.sql.WhereSql;
@@ -15,6 +11,10 @@ import io.basc.framework.util.page.Pages;
 import io.basc.start.data.DataException;
 import io.basc.start.data.DataManager;
 import io.basc.start.data.annotation.SelectOption;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DbDataManager<T> implements DataManager<T> {
 	private final Class<? extends T> entityClass;
@@ -71,7 +71,7 @@ public class DbDataManager<T> implements DataManager<T> {
 		TableStructure tableStructure = db.resolve(entityClass, query, null);
 		WhereSql where = new WhereSql();
 		if (query != null) {
-			for (Column column : tableStructure.getRows()) {
+			for (Column column : tableStructure.getColumns()) {
 				Object value = column.getField().getGetter().get(query);
 				if (value == null) {
 					continue;
@@ -91,7 +91,7 @@ public class DbDataManager<T> implements DataManager<T> {
 			throw new DataException("主键数量只能存在一个[" + entityClass + "]");
 		}
 
-		Optional<Column> queryColumn = tableStructure.getRows().stream()
+		Optional<Column> queryColumn = tableStructure.getColumns().stream()
 				.filter((c) -> c.getField().isAnnotationPresent(SelectOption.class)).findFirst();
 		if (!queryColumn.isPresent()) {
 			throw new DataException("无法获取SelectOption[" + entityClass + "]");
@@ -109,7 +109,7 @@ public class DbDataManager<T> implements DataManager<T> {
 	public Pages<T> list(T query, int page, int limit) {
 		TableStructure tableStructure = db.resolve(entityClass, query, null);
 		WhereSql where = new WhereSql();
-		for (Column column : tableStructure.getRows()) {
+		for (Column column : tableStructure.getColumns()) {
 			Object value = column.getField().getGetter().get(query);
 			if (value == null) {
 				continue;

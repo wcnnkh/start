@@ -1,6 +1,5 @@
 package io.basc.satrt.app.admin.editable.support;
 
-import io.basc.framework.core.annotation.AnnotatedElementUtils;
 import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.Field;
@@ -8,8 +7,7 @@ import io.basc.framework.mapper.FieldFeature;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.model.ModelAndView;
-import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.orm.sql.annotation.AutoIncrement;
+import io.basc.framework.orm.support.OrmUtils;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.page.Page;
 import io.basc.satrt.app.admin.editable.Editor;
@@ -30,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class EditorParent implements Editor {
 	private final Class<?> editableClass;
@@ -112,7 +111,10 @@ public class EditorParent implements Editor {
 		view.put("list", pagination == null ? null : pagination.rows());
 		view.put("totalCount", pagination == null ? 0 : pagination.getTotal());
 		view.put("query", requestBean);
-		view.put("fields", getInputs(requestBean));
+		view.put("fields", getInputs(requestBean).stream().map((field) -> {
+			field.setRequired(false);
+			return field;
+		}).collect(Collectors.toList()));
 		view.put("maxPage", maxPage);
 		view.put("name", getName());
 		return view;
@@ -158,10 +160,10 @@ public class EditorParent implements Editor {
 		List<Input> list = new ArrayList<Input>();
 		for (Field field : MapperUtils.getFields(editableClass).entity().all()) {
 			Input input = createInput(query, field);
-			input.setAutoFill(field.isAnnotationPresent(AutoIncrement.class));
+			input.setAutoFill(OrmUtils.getMapping().isAutoIncrement(editableClass, field.getGetter()));
 			input.setName(field.getGetter().getName());
-			input.setDescribe(AnnotatedElementUtils.getDescription(field));
-			input.setPrimaryKey(field.getGetter().isAnnotationPresent(PrimaryKey.class));
+			input.setDescribe(OrmUtils.getMapping().getComment(editableClass, field.getGetter()));
+			input.setPrimaryKey(OrmUtils.getMapping().isPrimaryKey(editableClass, field.getGetter()));
 			if (input.getDescribe() == null) {
 				input.setDescribe(input.getName());
 			}
@@ -170,6 +172,7 @@ public class EditorParent implements Editor {
 				input.setReadonly(true);
 			}
 
+			input.setRequired(!OrmUtils.getMapping().isNullable(editableClass, field.getGetter()) || input.isPrimaryKey());
 			list.add(input);
 		}
 		return list;

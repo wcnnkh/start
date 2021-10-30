@@ -2,7 +2,7 @@ package io.basc.start.app.user.pojo;
 
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.orm.sql.annotation.Table;
+import io.basc.framework.sql.orm.annotation.Table;
 
 import java.io.Serializable;
 

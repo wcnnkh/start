@@ -1,14 +1,14 @@
 <#list fields as field>
-	<#if postUrl = "add" && field.autoFill>
+	<#assign readonly=(field.readonly || (postUrl == "update" && field.primaryKey))>
+	<#if postUrl == "add" && (field.autoFill || readonly)>
 	<#else>
 		<div class="layui-form-item">
 			<label for="name" class="layui-form-label">
-				<#if (field.requried)!false>
+				<#if (field.required)!false>
 					<span class="x-red">*</span>
 				</#if>
 				${field.describe}
 			</label>
-				<#assign readonly=(info[field.name])?? && (field.primaryKey || field.readonly)>
 				<#if field.type == "SELECT">
 					<#include "form-select.ftl">
 				<#elseif field.type == "IMAGE">

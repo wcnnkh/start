@@ -15,7 +15,7 @@
 	<div class="layui-row">
 		<form class="layui-form layui-col-md12 x-so">
 			<#list fields as field>
-				<#assign info=query>
+				<#assign required = false>
 				${field.describe}:
 				<div class="layui-input-inline">
 					<#if field.type = "SELECT" && (field.options)??>

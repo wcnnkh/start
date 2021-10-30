@@ -69,7 +69,7 @@ public class Input implements Serializable {
 	}
 
 	public boolean isReadonly() {
-		return readonly || isPrimaryKey();
+		return readonly;
 	}
 
 	public void setReadonly(boolean readonly) {

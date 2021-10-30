@@ -1,6 +1,7 @@
 package io.basc.start.tencent.wx;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.oauth2.AccessToken;
@@ -10,8 +11,8 @@ import io.basc.framework.security.Token;
 public class DefaultTokenFactory implements TokenFactory {
 	private final String appId;
 	private final String appSecret;
-	private final ConcurrentHashMap<String, AccessToken> accessTokenMap = new ConcurrentHashMap<String, AccessToken>(8);
-	private final ConcurrentHashMap<String, Token> ticketMap = new ConcurrentHashMap<String, Token>(8);
+	private volatile Map<String, AccessToken> accessTokenMap = new HashMap<String, AccessToken>(8);
+	private volatile Map<String, Token> ticketMap = new HashMap<String, Token>(8);
 	private int tokenExpireAheadTime = 60;// token提前过期时间
 
 	public DefaultTokenFactory(String appId, String appSecret) {
@@ -47,8 +48,13 @@ public class DefaultTokenFactory implements TokenFactory {
 	public AccessToken getAccessToken(String type) {
 		AccessToken accessToken = accessTokenMap.get(type);
 		if (accessToken == null || accessToken.getToken().isExpired(tokenExpireAheadTime)) {
-			accessToken = WeiXinUtils.getAccessToken(type, appId, appSecret);
-			accessTokenMap.putIfAbsent(type, accessToken);
+			synchronized (accessTokenMap) {
+				accessToken = accessTokenMap.get(type);
+				if (accessToken == null || accessToken.getToken().isExpired(tokenExpireAheadTime)) {
+					accessToken = WeiXinUtils.getAccessToken(type, appId, appSecret);
+					accessTokenMap.put(type, accessToken);
+				}
+			}
 		}
 		return accessToken;
 	}
@@ -60,8 +66,13 @@ public class DefaultTokenFactory implements TokenFactory {
 	public Token getTicket(String type) {
 		Token token = ticketMap.get(type);
 		if (token == null || token.isExpired(tokenExpireAheadTime)) {
-			token = WeiXinUtils.getTicket(getAccessToken().getToken().getToken(), type);
-			ticketMap.put(type, token);
+			synchronized (ticketMap) {
+				token = ticketMap.get(type);
+				if (token == null || token.isExpired(tokenExpireAheadTime)) {
+					token = WeiXinUtils.getTicket(getAccessToken().getToken().getToken(), type);
+					ticketMap.put(type, token);
+				}
+			}
 		}
 		return token;
 	}

@@ -29,8 +29,9 @@ public final class JsApiSignature implements Serializable {
 		this.url = url;
 	}
 
-	public JsApiSignature(String nonceStr, String jsapi_ticket, int timestamp, String url) {
+	public JsApiSignature(String nonceStr, String jsapi_ticket, long timestamp, String url) {
 		Assert.isTrue(StringUtils.isNotEmpty(nonceStr, jsapi_ticket, url));
+		this.jsapi_ticket = jsapi_ticket;
 		this.nonceStr = nonceStr;
 		this.timestamp = timestamp;
 		this.url = url;

@@ -1,6 +1,5 @@
 package io.basc.satrt.app.admin.editable.support;
 
-import io.basc.framework.core.annotation.AnnotatedElementUtils;
 import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.Field;
@@ -8,8 +7,7 @@ import io.basc.framework.mapper.FieldFeature;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.model.ModelAndView;
-import io.basc.framework.orm.OrmUtils;
-import io.basc.framework.orm.sql.annotation.AutoIncrement;
+import io.basc.framework.orm.support.OrmUtils;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.page.Page;
 import io.basc.satrt.app.admin.editable.Editor;
@@ -162,10 +160,10 @@ public class EditorParent implements Editor {
 		List<Input> list = new ArrayList<Input>();
 		for (Field field : MapperUtils.getFields(editableClass).entity().all()) {
 			Input input = createInput(query, field);
-			input.setAutoFill(field.isAnnotationPresent(AutoIncrement.class));
+			input.setAutoFill(OrmUtils.getMapping().isAutoIncrement(editableClass, field.getGetter()));
 			input.setName(field.getGetter().getName());
-			input.setDescribe(AnnotatedElementUtils.getDescription(field));
-			input.setPrimaryKey(OrmUtils.getMapping().isPrimaryKey(field));
+			input.setDescribe(OrmUtils.getMapping().getComment(editableClass, field.getGetter()));
+			input.setPrimaryKey(OrmUtils.getMapping().isPrimaryKey(editableClass, field.getGetter()));
 			if (input.getDescribe() == null) {
 				input.setDescribe(input.getName());
 			}
@@ -174,7 +172,7 @@ public class EditorParent implements Editor {
 				input.setReadonly(true);
 			}
 
-			input.setRequired(!OrmUtils.getMapping().isNullable(field) || input.isPrimaryKey());
+			input.setRequired(!OrmUtils.getMapping().isNullable(editableClass, field.getGetter()) || input.isPrimaryKey());
 			list.add(input);
 		}
 		return list;

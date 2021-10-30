@@ -17,5 +17,9 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>mvc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>sql</artifactId>
+		</dependency>
 	</dependencies>
 </project>

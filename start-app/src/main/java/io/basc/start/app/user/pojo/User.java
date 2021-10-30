@@ -1,10 +1,10 @@
 package io.basc.start.app.user.pojo;
 
 import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.orm.annotation.AutoIncrement;
 import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.orm.sql.annotation.AutoIncrement;
-import io.basc.framework.orm.sql.annotation.Table;
-import io.basc.framework.orm.sql.annotation.Unique;
+import io.basc.framework.orm.annotation.Unique;
+import io.basc.framework.sql.orm.annotation.Table;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
 import io.basc.start.app.user.model.UserAttributeModel;

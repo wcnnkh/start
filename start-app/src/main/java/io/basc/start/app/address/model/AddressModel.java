@@ -1,16 +1,16 @@
 package io.basc.start.app.address.model;
 
-import io.basc.framework.lang.Description;
 import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.orm.annotation.Comment;
 
 import java.io.Serializable;
 
 public class AddressModel implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private String name;
-	@Description("经度")
+	@Comment("经度")
 	private float longitude;
-	@Description("纬度")
+	@Comment("纬度")
 	private float latitude;
 
 	public String getName() {

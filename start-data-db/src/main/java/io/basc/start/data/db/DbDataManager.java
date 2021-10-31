@@ -71,14 +71,14 @@ public class DbDataManager<T> implements DataManager<T> {
 		TableStructure tableStructure = db.resolve(entityClass, query, null);
 		WhereSql where = new WhereSql();
 		if (query != null) {
-			for (Column column : tableStructure.getColumns()) {
+			tableStructure.columns().forEach((column) -> {
 				Object value = column.getField().getGetter().get(query);
 				if (value == null) {
-					continue;
+					return ;
 				}
 
 				where.and("`" + column.getName() + "`=?", value);
-			}
+			});
 		}
 		Sql sql = where.assembleSql("select * from " + tableStructure.getName(), null);
 		return db.query(entityClass, sql).first();
@@ -91,7 +91,7 @@ public class DbDataManager<T> implements DataManager<T> {
 			throw new DataException("主键数量只能存在一个[" + entityClass + "]");
 		}
 
-		Optional<Column> queryColumn = tableStructure.getColumns().stream()
+		Optional<Column> queryColumn = tableStructure.columns()
 				.filter((c) -> c.getField().isAnnotationPresent(SelectOption.class)).findFirst();
 		if (!queryColumn.isPresent()) {
 			throw new DataException("无法获取SelectOption[" + entityClass + "]");
@@ -109,18 +109,18 @@ public class DbDataManager<T> implements DataManager<T> {
 	public Pages<T> list(T query, int page, int limit) {
 		TableStructure tableStructure = db.resolve(entityClass, query, null);
 		WhereSql where = new WhereSql();
-		for (Column column : tableStructure.getColumns()) {
+		tableStructure.columns().forEach((column) -> {
 			Object value = column.getField().getGetter().get(query);
 			if (value == null) {
-				continue;
+				return ;
 			}
 
 			if (StringUtils.isEmpty(value)) {
-				continue;
+				return ;
 			}
 
 			where.and(column.getField().getGetter().getName() + "=?", value);
-		}
+		});
 		Sql sql = where.assembleSql("select * from `" + tableStructure.getName() + "`", null);
 		return db.getPages(entityClass, sql, page, limit);
 	}

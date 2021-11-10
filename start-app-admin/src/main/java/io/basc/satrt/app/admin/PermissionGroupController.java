@@ -13,12 +13,12 @@ import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.annotation.ActionAuthority;
 import io.basc.framework.mvc.annotation.ActionAuthorityParent;
-import io.basc.framework.mvc.annotation.Controller;
-import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.mvc.security.HttpActionAuthorityManager;
 import io.basc.framework.security.authority.http.HttpAuthority;
 import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.StringUtils;
+import io.basc.framework.web.message.model.ModelAndView;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.app.user.model.PermissionGroupInfo;
 import io.basc.start.app.user.pojo.PermissionGroup;
@@ -31,7 +31,7 @@ import io.basc.start.app.user.service.UserService;
 
 @LoginRequired
 @ActionAuthorityParent(AdminUserController.class)
-@Controller(value = AppConfigure.ADMIN_CONTROLLER)
+@RequestMapping(value = AppConfigure.ADMIN_CONTROLLER)
 public class PermissionGroupController {
 	private PermissionGroupService permissionGroupService;
 	private PermissionGroupActionService permissionGroupActionService;
@@ -49,7 +49,7 @@ public class PermissionGroupController {
 	}
 
 	@ActionAuthority(value = "权限组列表", menu = true)
-	@Controller(value = "group_list")
+	@RequestMapping(value = "group_list")
 	public ModelAndView group_list(UserToken<Long> requestUser, Integer parentId) {
 		User user = userService.getUser(requestUser.getUid());
 		int pid = (parentId == null || parentId == 0) ? user.getPermissionGroupId() : parentId;
@@ -62,7 +62,7 @@ public class PermissionGroupController {
 	}
 
 	@ActionAuthority(value = "(查看或修改)权限界面")
-	@Controller(value = "group_view")
+	@RequestMapping(value = "group_view")
 	public Object group_view(int parentId, int id) {
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/ftl/group_view.ftl");
 		page.put("parentId", parentId);
@@ -71,7 +71,7 @@ public class PermissionGroupController {
 	}
 
 	@LoginRequired
-	@Controller(value = "group_action_list")
+	@RequestMapping(value = "group_action_list")
 	public Result action_list(int groupId, UserToken<Long> requestUser, int parentId) {
 		List<HttpAuthority> httpAuthorities;
 		if (parentId == 0 && userService.isSuperAdmin(requestUser.getUid())) {
@@ -110,7 +110,7 @@ public class PermissionGroupController {
 	}
 
 	@ActionAuthority(value = "(添加/修改)权限")
-	@Controller(value = "group_add_or_update", methods = HttpMethod.POST)
+	@RequestMapping(value = "group_add_or_update", methods = HttpMethod.POST)
 	public Result group_add_or_update(UserToken<Long> requestUser, int id, int parentId, String name, boolean disable,
 			String ids) {
 		PermissionGroupInfo info = new PermissionGroupInfo();

@@ -10,7 +10,7 @@ import io.basc.framework.mvc.action.Action;
 import io.basc.framework.mvc.action.ActionInterceptor;
 import io.basc.framework.mvc.action.ActionInterceptorChain;
 import io.basc.framework.mvc.action.ActionParameters;
-import io.basc.framework.mvc.model.ModelAndView;
+import io.basc.framework.web.message.model.ModelAndView;
 
 @Provider
 public class AdminActionInterceptor implements ActionInterceptor {

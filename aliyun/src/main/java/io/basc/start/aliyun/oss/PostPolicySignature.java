@@ -6,8 +6,8 @@ import java.util.Map;
 
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
-import io.basc.framework.mvc.model.Text;
 import io.basc.framework.net.MimeType;
+import io.basc.framework.web.message.model.Text;
 
 /**
  * 请注意 由于历史遗留问题，导致字段和返回的json字符串名称不一致

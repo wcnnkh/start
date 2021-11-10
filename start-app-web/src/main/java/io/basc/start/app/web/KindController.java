@@ -2,18 +2,18 @@ package io.basc.start.app.web;
 
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.io.IOUtils;
-import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.net.message.multipart.MultipartMessage;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.upload.kind.KindDirType;
 import io.basc.framework.upload.kind.KindEditor;
 import io.basc.framework.upload.kind.KindOrderType;
 import io.basc.framework.web.MultiPartServerHttpRequest;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller(value = "kind")
+@RequestMapping(value = "kind")
 public class KindController {
 	private KindEditor kindEditor;
 
@@ -25,7 +25,7 @@ public class KindController {
 		return requestUser != null? (requestUser.getUid() + "") : null;
 	}
 
-	@Controller(value = "upload", methods = { HttpMethod.POST, HttpMethod.PUT })
+	@RequestMapping(value = "upload", methods = { HttpMethod.POST, HttpMethod.PUT })
 	public Object upload(UserSession<Long> requestUser, MultiPartServerHttpRequest request, KindDirType dir) {
 		MultipartMessage fileItem = request.getFirstFile();
 		if (fileItem == null) {
@@ -42,7 +42,7 @@ public class KindController {
 		}
 	}
 
-	@Controller(value = "manager", methods = { HttpMethod.GET })
+	@RequestMapping(value = "manager", methods = { HttpMethod.GET })
 	public Object manager(UserSession<Long> requestUser, KindDirType dir, String path, KindOrderType order) {
 		return kindEditor.manager(getRequestGroup(requestUser), dir, path, order);
 	}

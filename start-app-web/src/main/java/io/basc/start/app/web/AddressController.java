@@ -4,10 +4,10 @@ import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
-import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.ServerHttpResponse;
 import io.basc.framework.web.WebUtils;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.address.model.AddressTree;
 import io.basc.start.app.address.pojo.Address;
 import io.basc.start.app.address.service.AddressService;
@@ -15,7 +15,7 @@ import io.basc.start.app.address.service.AddressService;
 import java.util.Collections;
 import java.util.List;
 
-@Controller(value = "address", methods = { HttpMethod.GET, HttpMethod.POST })
+@RequestMapping(value = "address", methods = { HttpMethod.GET, HttpMethod.POST })
 public class AddressController {
 	private AddressService addressService;
 	@Autowired
@@ -25,7 +25,7 @@ public class AddressController {
 		this.addressService = addressService;
 	}
 
-	@Controller(value = "sub_list")
+	@RequestMapping(value = "sub_list")
 	public Result subList(int id) {
 		List<Address> list = addressService.getAddressSubList(id);
 		if (list == null) {
@@ -34,7 +34,7 @@ public class AddressController {
 		return resultFactory.success(list);
 	}
 
-	@Controller(value = "list")
+	@RequestMapping(value = "list")
 	public Result list(ServerHttpRequest request, ServerHttpResponse response) {
 		if (!WebUtils.isExpired(request, response, addressService.lastModified())) {
 			return null;
@@ -47,7 +47,7 @@ public class AddressController {
 		return resultFactory.success(list);
 	}
 
-	@Controller(value = "trees")
+	@RequestMapping(value = "trees")
 	public Result tree(ServerHttpRequest request, ServerHttpResponse response) {
 		if (!WebUtils.isExpired(request, response, addressService.lastModified())) {
 			return null;
@@ -60,7 +60,7 @@ public class AddressController {
 		return resultFactory.success(trees);
 	}
 
-	@Controller(value = "roots")
+	@RequestMapping(value = "roots")
 	public Result roots() {
 		List<Address> list = addressService.getRootAddressList();
 		if (list == null) {

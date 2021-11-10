@@ -5,8 +5,8 @@ import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.MapperUtils;
-import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.security.session.UserSession;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.address.model.UserAddressInfo;
 import io.basc.start.app.address.model.UserAddressModel;
 import io.basc.start.app.address.pojo.Address;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller(value = "/user/address", methods = { HttpMethod.GET, HttpMethod.POST })
+@RequestMapping(value = "/user/address", methods = { HttpMethod.GET, HttpMethod.POST })
 @LoginRequired
 public class UserAddressController {
 	private UserAddressService userAddressService;
@@ -37,7 +37,7 @@ public class UserAddressController {
 		this.userAddressService = userAddressService;
 	}
 
-	@Controller(value = "info")
+	@RequestMapping(value = "info")
 	public Result info(UserSession<Long> requestUser, long id) {
 		UserAddress userAddress = userAddressService.getById(id);
 		if (userAddress == null) {
@@ -55,7 +55,7 @@ public class UserAddressController {
 		return resultFactory.success(map);
 	}
 
-	@Controller(value = "list")
+	@RequestMapping(value = "list")
 	public Result list(UserSession<Long> requestUser) {
 		User user = userService.getUser(requestUser.getUid());
 		if (user == null) {
@@ -73,12 +73,12 @@ public class UserAddressController {
 		return resultFactory.success(map);
 	}
 
-	@Controller(value = "create")
+	@RequestMapping(value = "create")
 	public Result create(UserSession<Long> requestUser, UserAddressModel userAddressModel) {
 		return userAddressService.create(requestUser.getUid(), userAddressModel);
 	}
 
-	@Controller(value = "update")
+	@RequestMapping(value = "update")
 	public Result update(long id, UserSession<Long> requestUser, UserAddressModel userAddressModel) {
 		UserAddress userAddress = userAddressService.getById(id);
 		if (userAddress == null) {
@@ -92,7 +92,7 @@ public class UserAddressController {
 		return userAddressService.update(id, userAddressModel);
 	}
 
-	@Controller(value = "update_default_id")
+	@RequestMapping(value = "update_default_id")
 	public Result updateDefaultAddressId(UserSession<Long> requestUser, long id) {
 		UserAddress userAddress = userAddressService.getById(id);
 		if (userAddress == null) {

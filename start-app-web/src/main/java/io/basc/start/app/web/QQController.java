@@ -6,9 +6,9 @@ import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.util.StringUtils;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.enums.SexType;
 import io.basc.start.app.user.enums.UnionIdType;
 import io.basc.start.app.user.model.UserAttributeModel;
@@ -22,7 +22,7 @@ import io.basc.start.tencent.qq.connect.UserInfoResponse;
 
 import java.util.Map;
 
-@Controller(value = "qq", methods = { HttpMethod.GET, HttpMethod.POST })
+@RequestMapping(value = "qq", methods = { HttpMethod.GET, HttpMethod.POST })
 @io.basc.framework.mvc.annotation.FactoryResult
 public class QQController {
 	private QQ qq;
@@ -37,7 +37,7 @@ public class QQController {
 		this.qq = qq;
 	}
 
-	@Controller(value = "login")
+	@RequestMapping(value = "login")
 	public Result login(String openid, String accessToken, HttpChannel httpChannel) {
 		if (StringUtils.isEmpty(openid, accessToken)) {
 			return resultFactory.parameterError();
@@ -61,7 +61,7 @@ public class QQController {
 		return resultFactory.success(infoMap);
 	}
 
-	@Controller(value = "web_login")
+	@RequestMapping(value = "web_login")
 	public Result webLogin(String code, String redirect_uri, HttpChannel httpChannel) {
 		if (StringUtils.isEmpty(code, redirect_uri)) {
 			return resultFactory.parameterError();
@@ -73,7 +73,7 @@ public class QQController {
 	}
 
 	@LoginRequired
-	@Controller(value = "bind")
+	@RequestMapping(value = "bind")
 	public Result bind(long uid, String openid, String accessToken) {
 		if (StringUtils.isEmpty(openid, accessToken)) {
 			return resultFactory.parameterError();
@@ -97,7 +97,7 @@ public class QQController {
 		return userService.updateUserAttribute(uid, userAttributeModel);
 	}
 
-	@Controller(value = "web_bind")
+	@RequestMapping(value = "web_bind")
 	@LoginRequired
 	public Result webBind(long uid, String code, String redirect_uri) {
 		if (StringUtils.isEmpty(code, redirect_uri)) {

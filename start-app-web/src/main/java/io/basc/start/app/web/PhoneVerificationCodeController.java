@@ -8,10 +8,10 @@ import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.Status;
 import io.basc.framework.util.StringUtils;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.enums.VerificationCodeType;
 import io.basc.start.app.user.enums.AccountType;
 import io.basc.start.app.user.pojo.User;
@@ -21,7 +21,7 @@ import io.basc.start.app.user.service.UserService;
 import io.basc.start.verificationcode.VerificationCodeService;
 import io.basc.start.verificationcode.support.PhoneReceiver;
 
-@Controller(value = "/phone/code", methods = { HttpMethod.GET, HttpMethod.POST })
+@RequestMapping(value = "/phone/code", methods = { HttpMethod.GET, HttpMethod.POST })
 public class PhoneVerificationCodeController {
 	private final VerificationCodeService verificationCodeService;
 	private final UserService userService;
@@ -36,7 +36,7 @@ public class PhoneVerificationCodeController {
 		this.userService = userService;
 	}
 
-	@Controller(value = "send")
+	@RequestMapping(value = "send")
 	public Result send(String phone, VerificationCodeType type) {
 		if (type == null || StringUtils.isEmpty(phone)) {
 			return resultFactory.parameterError();
@@ -60,7 +60,7 @@ public class PhoneVerificationCodeController {
 		return resultFactory.success();
 	}
 
-	@Controller(value = "login")
+	@RequestMapping(value = "login")
 	public Result login(String phone, String code, HttpChannel httpChannel) {
 		if (StringUtils.isEmpty(phone, code)) {
 			return resultFactory.parameterError();
@@ -85,7 +85,7 @@ public class PhoneVerificationCodeController {
 		return resultFactory.success(infoMap);
 	}
 
-	@Controller(value = "update_pwd")
+	@RequestMapping(value = "update_pwd")
 	public Result updatePassword(String phone, String code, String password) {
 		if (StringUtils.isEmpty(phone, code, password)) {
 			return resultFactory.parameterError();
@@ -104,7 +104,7 @@ public class PhoneVerificationCodeController {
 		return userService.updatePassword(user.getUid(), password);
 	}
 
-	@Controller(value = "bind")
+	@RequestMapping(value = "bind")
 	@LoginRequired
 	public Result bind(UserSession<Long> requestUser, String phone, String code) {
 		if (StringUtils.isEmpty(phone, code)) {
@@ -119,7 +119,7 @@ public class PhoneVerificationCodeController {
 		return userService.bind(requestUser.getUid(), AccountType.PHONE, phone);
 	}
 
-	@Controller(value = "register")
+	@RequestMapping(value = "register")
 	public Result register(String phone, String code, String password) {
 		if (StringUtils.isEmpty(phone, code, password)) {
 			return resultFactory.parameterError();

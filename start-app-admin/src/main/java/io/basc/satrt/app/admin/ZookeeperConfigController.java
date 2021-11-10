@@ -8,15 +8,15 @@ import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.annotation.ActionAuthority;
-import io.basc.framework.mvc.annotation.Controller;
-import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.value.Value;
+import io.basc.framework.web.message.model.ModelAndView;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.framework.zookeeper.ZookeeperCloudPropertyFactory;
 import io.basc.start.app.configure.AppConfigure;
 
 @ActionAuthority(value = "Zookeeper配置中心", menu = true)
-@Controller(value= AppConfigure.ADMIN_CONTROLLER + "/zookeeper/config", methods={HttpMethod.GET, HttpMethod.POST})
+@RequestMapping(value= AppConfigure.ADMIN_CONTROLLER + "/zookeeper/config", methods={HttpMethod.GET, HttpMethod.POST})
 public class ZookeeperConfigController {
 	private final ZookeeperCloudPropertyFactory cloudPropertyFactory;
 	@Autowired
@@ -27,7 +27,7 @@ public class ZookeeperConfigController {
 	}
 	
 	@ActionAuthority(menu=true, value="配置列表")
-	@Controller(value="list")
+	@RequestMapping(value="list")
 	public ModelAndView list(){
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/ftl/config_list.ftl");
 		Map<String, String> configMap = new HashMap<String, String>();
@@ -50,7 +50,7 @@ public class ZookeeperConfigController {
 	}
 	
 	@ActionAuthority(value="添加/修改配置(界面)")
-	@Controller(value="view")
+	@RequestMapping(value="view")
 	public ModelAndView view(String key){
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/ftl/config_view.ftl");
 		page.put("key", key);
@@ -59,7 +59,7 @@ public class ZookeeperConfigController {
 	}
 	
 	@ActionAuthority(value="添加/修改配置操作")
-	@Controller(value="save_or_update")
+	@RequestMapping(value="save_or_update")
 	public Result saveOrUpdate(String key, String value){
 		if(StringUtils.isEmpty(key, value)){
 			return resultFactory.parameterError();
@@ -70,7 +70,7 @@ public class ZookeeperConfigController {
 	}
 	
 	@ActionAuthority(value="删除配置操作")
-	@Controller(value="delete")
+	@RequestMapping(value="delete")
 	public Result delete(String key){
 		if(StringUtils.isEmpty(key)){
 			return resultFactory.parameterError();

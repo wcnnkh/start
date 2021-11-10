@@ -6,9 +6,9 @@ import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.StringUtils;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.enums.SexType;
 import io.basc.start.app.user.enums.AccountType;
 import io.basc.start.app.user.enums.UnionIdType;
@@ -29,7 +29,7 @@ import io.basc.start.tencent.wx.miniprogram.WeixinMiniprogram;
 
 import java.util.Map;
 
-@Controller(value = "weixin", methods = { HttpMethod.GET, HttpMethod.POST })
+@RequestMapping(value = "weixin", methods = { HttpMethod.GET, HttpMethod.POST })
 @io.basc.framework.mvc.annotation.FactoryResult
 public class WeiXinController {
 	public static final String WX_XCX_SESSION_KEY = "wx.xcx.session.key";
@@ -48,7 +48,7 @@ public class WeiXinController {
 		this.userService = userService;
 	}
 
-	@Controller(value = "login")
+	@RequestMapping(value = "login")
 	public Result login(String code, Scope scope, HttpChannel httpChannel) {
 		if(userGrantClient == null){
 			return resultFactory.error("暂不支持微信登录");
@@ -85,7 +85,7 @@ public class WeiXinController {
 	}
 
 	@LoginRequired
-	@Controller(value = "bind")
+	@RequestMapping(value = "bind")
 	public Result bind(long uid, String code, Scope scope) {
 		if(userGrantClient == null){
 			return resultFactory.error("暂不支持微信绑定");
@@ -115,7 +115,7 @@ public class WeiXinController {
 		return resultFactory.success(user);
 	}
 	
-	@Controller(value="/xcx/login")
+	@RequestMapping(value="/xcx/login")
 	public Result xcx_login(String code, HttpChannel httpChannel){
 		if(weixinMiniprogram == null){
 			return resultFactory.error("暂不支持小程序登录");
@@ -146,7 +146,7 @@ public class WeiXinController {
 	}
 	
 	@LoginRequired
-	@Controller(value="/xcx/getPhoneNumber")
+	@RequestMapping(value="/xcx/getPhoneNumber")
 	public Result xcx_bind(String encryptedData, String iv, UserSession<Long> userSession){
 		if(StringUtils.isEmpty(encryptedData, iv)){
 			return resultFactory.parameterError();

@@ -7,8 +7,6 @@ import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.Field;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.mvc.annotation.Controller;
-import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.mvc.security.HttpActionAuthorityManager;
 import io.basc.framework.mvc.view.Redirect;
 import io.basc.framework.mvc.view.View;
@@ -20,6 +18,8 @@ import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.ServerHttpRequest;
+import io.basc.framework.web.message.model.ModelAndView;
+import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.app.user.enums.AccountType;
 import io.basc.start.app.user.pojo.PermissionGroupAction;
@@ -32,7 +32,7 @@ import io.basc.start.app.user.service.UserService;
 import java.util.List;
 import java.util.Map;
 
-@Controller(value = AppConfigure.ADMIN_CONTROLLER)
+@RequestMapping(value = AppConfigure.ADMIN_CONTROLLER)
 public class AdminIndexController {
 	private UserService userService;
 	@Autowired
@@ -51,7 +51,7 @@ public class AdminIndexController {
 	}
 
 	@LoginRequired
-	@Controller(value = "menus")
+	@RequestMapping(value = "menus")
 	@io.basc.framework.mvc.annotation.FactoryResult
 	public List<AuthorityTree<HttpAuthority>> getMenus(UserToken<Long> requestUser) {
 		if (userService.isSuperAdmin(requestUser.getUid())) {
@@ -70,7 +70,7 @@ public class AdminIndexController {
 		}
 	}
 	
-	@Controller(value = "login", methods=HttpMethod.POST)
+	@RequestMapping(value = "login", methods=HttpMethod.POST)
 	public Result login(String username, String password, HttpChannel httpChannel) {
 		if (StringUtils.isEmpty(username, password)) {
 			return resultFactory.parameterError();
@@ -94,7 +94,7 @@ public class AdminIndexController {
 		return resultFactory.success(infoMap);
 	}
 
-	@Controller
+	@RequestMapping
 	@LoginRequired
 	public ModelAndView index(UserToken<Long> requestUser, ServerHttpRequest request) {
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/ftl/index.ftl");
@@ -142,7 +142,7 @@ public class AdminIndexController {
 		}
 	}
 
-	@Controller(value = "login")
+	@RequestMapping(value = "login")
 	public Object login(HttpChannel httpChannel) {
 		UserSession<Long> userSession = httpChannel.getUserSession(Long.class);
 		if(userSession != null){
@@ -152,19 +152,19 @@ public class AdminIndexController {
 	}
 
 	@LoginRequired
-	@Controller(value = "welcome")
+	@RequestMapping(value = "welcome")
 	public ModelAndView welcome() {
 		return new ModelAndView("/io/basc/start/app/admin/web/ftl/welcome.ftl");
 	}
 
 	@LoginRequired
-	@Controller(value = "update_pwd")
+	@RequestMapping(value = "update_pwd")
 	public ModelAndView update_pwd() {
 		return new ModelAndView("/io/basc/start/app/admin/web/ftl/update_pwd.ftl");
 	}
 
 	@LoginRequired
-	@Controller(value = "update_pwd", methods = HttpMethod.POST)
+	@RequestMapping(value = "update_pwd", methods = HttpMethod.POST)
 	public Result update_pwd(UserToken<Long> requestUser, String oldPwd, String newPwd) {
 		if (StringUtils.isEmpty(oldPwd, newPwd)) {
 			return resultFactory.parameterError();
@@ -178,13 +178,13 @@ public class AdminIndexController {
 		return userService.updatePassword(requestUser.getUid(), newPwd);
 	}
 
-	@Controller(value = "cancel_login")
+	@RequestMapping(value = "cancel_login")
 	public View cacelLogin(UserSession<Long> requestUser, ServerHttpRequest request) {
 		requestUser.invalidate();
 		return new Redirect(request.getContextPath() + appConfigure.getToAdminLoginPath());
 	}
 
-	@Controller(value = "to_login")
+	@RequestMapping(value = "to_login")
 	public ModelAndView toLogin() {
 		return new ModelAndView("/io/basc/start/app/admin/web/ftl/to_login.ftl");
 	}

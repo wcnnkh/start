@@ -1,20 +1,17 @@
 package io.basc.start.data.db;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import io.basc.framework.db.DB;
-import io.basc.framework.sql.Sql;
-import io.basc.framework.sql.WhereSql;
 import io.basc.framework.sql.orm.Column;
 import io.basc.framework.sql.orm.TableStructure;
 import io.basc.framework.util.Pair;
-import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.page.Pages;
 import io.basc.start.data.DataException;
 import io.basc.start.data.DataManager;
 import io.basc.start.data.annotation.SelectOption;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class DbDataManager<T> implements DataManager<T> {
 	private final Class<? extends T> entityClass;
@@ -67,21 +64,8 @@ public class DbDataManager<T> implements DataManager<T> {
 	}
 
 	@Override
-	public T info(T query) {
-		TableStructure tableStructure = db.resolve(entityClass, query, null);
-		WhereSql where = new WhereSql();
-		if (query != null) {
-			tableStructure.columns().forEach((column) -> {
-				Object value = column.getField().getGetter().get(query);
-				if (value == null) {
-					return ;
-				}
-
-				where.and("`" + column.getName() + "`=?", value);
-			});
-		}
-		Sql sql = where.assembleSql("select * from " + tableStructure.getName(), null);
-		return db.query(entityClass, sql).first();
+	public T getByPrimaryKeys(T query) {
+		return db.queryByPrimaryKeys(entityClass, query).first();
 	}
 
 	@Override
@@ -107,21 +91,6 @@ public class DbDataManager<T> implements DataManager<T> {
 
 	@Override
 	public Pages<T> list(T query, int page, int limit) {
-		TableStructure tableStructure = db.resolve(entityClass, query, null);
-		WhereSql where = new WhereSql();
-		tableStructure.columns().forEach((column) -> {
-			Object value = column.getField().getGetter().get(query);
-			if (value == null) {
-				return ;
-			}
-
-			if (StringUtils.isEmpty(value)) {
-				return ;
-			}
-
-			where.and(column.getField().getGetter().getName() + "=?", value);
-		});
-		Sql sql = where.assembleSql("select * from `" + tableStructure.getName() + "`", null);
-		return db.getPages(entityClass, sql, page, limit);
+		return db.getPages(entityClass, query, page, limit).shared();
 	}
 }

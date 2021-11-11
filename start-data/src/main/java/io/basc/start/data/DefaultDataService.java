@@ -90,12 +90,12 @@ public class DefaultDataService extends ConfigurableServices<DataManager> implem
 	}
 
 	@Override
-	public <T> T info(Class<? extends T> entityClass, T query) {
+	public <T> T getByPrimaryKeys(Class<? extends T> entityClass, T query) {
 		DataManager<T> manager = getDataManager(entityClass);
 		if (manager == null) {
 			return null;
 		}
-		return manager.info(query);
+		return manager.getByPrimaryKeys(query);
 	}
 
 	@Override

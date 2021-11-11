@@ -24,6 +24,7 @@ public class EditorAddPage extends EditorCURD {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/editable/add.ftl");
 		page.put("fields", getInputs(requestBean));
+		page.put("info", requestBean);
 		return page;
 	}
 }

@@ -21,7 +21,7 @@ public class EditorInfoPage extends EditorCURD {
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
-		Object info = getDataService().info(getEditableClass(), requestBean);
+		Object info = getDataService().getByPrimaryKeys(getEditableClass(), requestBean);
 		ModelAndView page = new ModelAndView("/io/basc/start/app/admin/web/editable/info.ftl");
 		page.put("info", info);
 		page.put("query", requestBean);

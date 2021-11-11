@@ -29,7 +29,7 @@ public interface DataManager<T> {
 	@Nullable
 	T getById(Object... ids);
 	
-	T info(T query);
+	T getByPrimaryKeys(T query);
 	
 	List<Pair<String, String>> queryOptions(@Nullable T query);
 	

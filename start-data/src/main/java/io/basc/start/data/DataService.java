@@ -13,7 +13,7 @@ public interface DataService extends EntityOperations {
 	<T> Page<T> list(Class<? extends T> entityClass, T query, int page, int limit);
 
 	@Nullable
-	<T> T info(Class<? extends T> entityClass, T query);
+	<T> T getByPrimaryKeys(Class<? extends T> entityClass, T query);
 
 	<T> List<Pair<String, String>> queryOptions(Class<? extends T> entityClass,
 			@Nullable T query);

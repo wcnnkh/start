@@ -102,7 +102,7 @@ public class EditorParent implements Editor {
 			limit = 10;
 		}
 
-		Page<Object> pagination = dataService.list(editableClass, requestBean, page, limit);
+		Page<Object> pagination = dataService.list(editableClass, requestBean, page, limit).shared();
 		ModelAndView view = new ModelAndView("/io/basc/start/app/admin/web/editable/list.ftl");
 		long maxPage = pagination == null ? 1 : pagination.getPages();
 		long currentPage = Math.min(page, maxPage);
@@ -110,7 +110,7 @@ public class EditorParent implements Editor {
 		view.put("limit", limit);
 		view.put("list", pagination == null ? null : pagination.rows());
 		view.put("totalCount", pagination == null ? 0 : pagination.getTotal());
-		view.put("query", requestBean);
+		view.put("info", requestBean);
 		view.put("fields", getInputs(requestBean).stream().map((field) -> {
 			field.setRequired(false);
 			return field;

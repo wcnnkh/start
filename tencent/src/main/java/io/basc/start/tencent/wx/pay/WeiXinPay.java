@@ -44,7 +44,7 @@ public class WeiXinPay {
 	private static final String SENDREDPACK = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
 	private static final String SENDGROUPREDPACK = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack";
 	private static final String GETHBINFO = "https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo";
-	
+
 	private final SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
 	private final String appId;
 	private final String mch_id;
@@ -143,8 +143,7 @@ public class WeiXinPay {
 	 * 
 	 * @param url
 	 * @param parameterMap
-	 * @param isCertTrustFile
-	 *            请求中是否包含证书
+	 * @param isCertTrustFile 请求中是否包含证书
 	 * @return
 	 */
 	public WeiXinPayResponse invoke(String url, Map<String, ?> parameterMap, boolean isCertTrustFile) {
@@ -209,19 +208,21 @@ public class WeiXinPay {
 		String content = XmlUtils.getTemplate().getTransformer().toString(element);
 
 		logger.debug("微信支付请求xml内容:{}", content);
-		
-		HttpConnection httpConnection = HttpUtils.getHttpClient().createConnection(HttpMethod.POST, url).setRequestFactory(requestFactory).body(content).contentType(MediaType.APPLICATION_XML, charsetName);
+
+		HttpConnection httpConnection = HttpUtils.getHttpClient().createConnection(HttpMethod.POST, url)
+				.setRequestFactory(requestFactory).body(content).contentType(MediaType.APPLICATION_XML, charsetName);
 		String res = httpConnection.execute(String.class).getBody();
 		if (res == null) {
 			throw new RuntimeException("请求：" + url + "失败");
 		}
 
 		logger.debug("请求：{}，返回{}", url, res);
-		
+
 		Document responseDocument = XmlUtils.getTemplate().getParser().parse(res);
-		
+
 		@SuppressWarnings("unchecked")
-		Map<String, String> map = (Map<String, String>) Sys.env.getConversionService().convert(responseDocument, TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
+		Map<String, String> map = (Map<String, String>) Sys.env.getConversionService().convert(responseDocument,
+				TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
 		JsonObject jsonObject = JSONUtils.getJsonSupport().parseObject(JSONUtils.getJsonSupport().toJSONString(map));
 		return new WeiXinPayResponse(jsonObject);
 	}
@@ -319,8 +320,7 @@ public class WeiXinPay {
 	/**
 	 * 关闭订单
 	 * 
-	 * @param out_trade_no
-	 *            商户订单号
+	 * @param out_trade_no 商户订单号
 	 * @return
 	 */
 	public WeiXinPayResponse closeorder(String out_trade_no) {
@@ -332,10 +332,8 @@ public class WeiXinPay {
 	/**
 	 * 两个参数选择其中一个
 	 * 
-	 * @param transactionId
-	 *            微信的订单号，优先使用
-	 * @param outTradeNo
-	 *            商户系统内部的订单号，当没提供transaction_id时需要传这个。
+	 * @param transactionId 微信的订单号，优先使用
+	 * @param outTradeNo    商户系统内部的订单号，当没提供transaction_id时需要传这个。
 	 * @return
 	 */
 	public OrderQueryResponse orderQuery(String transactionId, String outTradeNo) {
@@ -362,7 +360,8 @@ public class WeiXinPay {
 	 * @return
 	 */
 	public SendredpackResponse sendredpack(SendredpackRequest request) {
-		Map<String, Object> parameter = MapperUtils.getFields(SendredpackRequest.class).all().getValueMap(request);
+		Map<String, Object> parameter = MapperUtils.getFields(SendredpackRequest.class).entity().all()
+				.getValueMap(request);
 		WeiXinPayResponse response = invoke(SENDREDPACK, parameter, true);
 		return new SendredpackResponse(response);
 	}
@@ -375,13 +374,15 @@ public class WeiXinPay {
 	 * @return
 	 */
 	public SendredpackResponse sendgroupredpack(SendgroupredpackRequest request) {
-		Map<String, Object> parameter = MapperUtils.getFields(SendgroupredpackRequest.class).all().getValueMap(request);
+		Map<String, Object> parameter = MapperUtils.getFields(SendgroupredpackRequest.class).entity().all()
+				.getValueMap(request);
 		WeiXinPayResponse response = invoke(SENDGROUPREDPACK, parameter, true);
 		return new SendredpackResponse(response);
 	}
 
 	public GethbinfoResponse gethbinfo(GethbinfoRequest request) {
-		Map<String, Object> parameter = MapperUtils.getFields(GethbinfoRequest.class).all().getValueMap(request);
+		Map<String, Object> parameter = MapperUtils.getFields(GethbinfoRequest.class).entity().all()
+				.getValueMap(request);
 		WeiXinPayResponse response = invoke(GETHBINFO, parameter, true);
 		return new GethbinfoResponse(response);
 	}

@@ -1,4 +1,4 @@
-package io.basc.start.aliyun.sms;
+package io.basc.star.aliyun.sms;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

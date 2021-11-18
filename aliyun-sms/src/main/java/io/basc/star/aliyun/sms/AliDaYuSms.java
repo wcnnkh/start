@@ -1,4 +1,4 @@
-package io.basc.start.aliyun.sms;
+package io.basc.star.aliyun.sms;
 
 import java.util.Arrays;
 import java.util.Collection;

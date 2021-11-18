@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -19,7 +20,7 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>testing</artifactId>
@@ -93,7 +94,17 @@
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>aliyun</artifactId>
+				<artifactId>aliyun-sms</artifactId>
+				<version>1.8.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>aliyun-oss</artifactId>
+				<version>1.8.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>aliyun-ons</artifactId>
 				<version>1.8.0</version>
 			</dependency>
 			<dependency>
@@ -148,7 +159,6 @@
 		<module>kdniao</module>
 		<module>apple</module>
 		<module>bytedance</module>
-		<module>aliyun</module>
 		<module>alipay</module>
 		<module>verification-code</module>
 		<module>start-app</module>
@@ -157,5 +167,8 @@
 		<module>start-app-admin</module>
 		<module>start-data</module>
 		<module>start-data-db</module>
+		<module>aliyun-sms</module>
+		<module>aliyun-oss</module>
+		<module>aliyun-ons</module>
 	</modules>
 </project>

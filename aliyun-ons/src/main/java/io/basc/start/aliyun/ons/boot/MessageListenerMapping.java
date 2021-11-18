@@ -1,4 +1,4 @@
-package io.basc.start.aliyun.ons;
+package io.basc.start.aliyun.ons.boot;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

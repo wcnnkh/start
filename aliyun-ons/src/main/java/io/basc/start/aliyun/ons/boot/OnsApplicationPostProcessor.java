@@ -1,4 +1,4 @@
-package io.basc.start.aliyun.ons;
+package io.basc.start.aliyun.ons.boot;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -28,6 +28,7 @@ import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.ArrayUtils;
 import io.basc.framework.util.CollectionFactory;
 import io.basc.framework.util.StringUtils;
+import io.basc.start.aliyun.ons.OnsException;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class OnsApplicationPostProcessor implements ApplicationPostProcessor {

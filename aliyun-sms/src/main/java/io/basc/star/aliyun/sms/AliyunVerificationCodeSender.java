@@ -1,6 +1,5 @@
 package io.basc.star.aliyun.sms;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +12,7 @@ import io.basc.start.verificationcode.support.PhoneReceiver;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class AliyunVerificationCodeSender implements VerificationCodeSender {
-	private final Map<String, MessageModel> messageModelMap = new HashMap<>();
+	private final Map<String, AliSmsModel> messageModelMap = new HashMap<>();
 	private final AliyunSms aliyunSms;
 	/**
 	 * 是否接受全部接收人
@@ -65,17 +64,17 @@ public class AliyunVerificationCodeSender implements VerificationCodeSender {
 		return receiver instanceof PhoneReceiver;
 	}
 
-	public MessageModel getMessageModel(Receiver receiver) {
+	public AliSmsModel getMessageModel(Receiver receiver) {
 		return messageModelMap.get(receiver.getTag());
 	}
 
-	public void registerMessageModel(String tag, MessageModel messageModel) {
+	public void registerMessageModel(String tag, AliSmsModel messageModel) {
 		messageModelMap.put(tag, messageModel);
 	}
 
 	@Override
 	public Status<String> send(String code, Receiver receiver) {
-		MessageModel messageModel = getMessageModel(receiver);
+		AliSmsModel messageModel = getMessageModel(receiver);
 		if (messageModel == null) {
 			throw new IllegalArgumentException(receiver.toString());
 		}
@@ -83,7 +82,6 @@ public class AliyunVerificationCodeSender implements VerificationCodeSender {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("code", code);
 		params.put("product", getProduct());
-		return getAliyunSms().send(messageModel, params,
-				Arrays.asList(receiver.getReceiver()));
+		return getAliyunSms().send(messageModel, params, receiver.getReceiver());
 	}
 }

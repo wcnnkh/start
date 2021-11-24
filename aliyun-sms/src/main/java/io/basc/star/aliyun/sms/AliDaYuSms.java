@@ -85,8 +85,11 @@ public class AliDaYuSms implements AliyunSms {
 	}
 
 	@Override
-	public Status<String> send(MessageModel messageModel,
-			Map<String, ?> parameterMap, Collection<String> phones) {
+	public Status<String> send(AliSmsModel messageModel, Map<String, ?> parameterMap, String phone) {
+		return send(messageModel, parameterMap, Arrays.asList(phone));
+	}
+
+	public Status<String> send(AliSmsModel messageModel, Map<String, ?> parameterMap, Collection<String> phones) {
 		Assert.requiredArgument(messageModel != null, "messageModel");
 		Assert.requiredArgument(!CollectionUtils.isEmpty(phones), "phones");
 		Map<String, String> map = new HashMap<String, String>();
@@ -95,30 +98,24 @@ public class AliDaYuSms implements AliyunSms {
 		map.put("format", format);
 		map.put("sign_method", getSignMethod());
 
-		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(),
-				"yyyy-MM-dd HH:mm:ss"));
-		map.put("sms_free_sign_name", messageModel.getSms_free_sign_name());
+		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
+		map.put("sms_free_sign_name", messageModel.getSignName());
 		if (!CollectionUtils.isEmpty(parameterMap)) {
-			map.put("sms_param",
-					JSONUtils.getJsonSupport().toJSONString(parameterMap));
+			map.put("sms_param", JSONUtils.getJsonSupport().toJSONString(parameterMap));
 		}
-		map.put("sms_template_code", messageModel.getSms_template_code());
+		map.put("sms_template_code", messageModel.getTemplateCode());
 		map.put("method", "alibaba.aliqin.fc.sms.num.send");
 		map.put("sms_type", "normal");
 		map.put("rec_num", StringUtils.collectionToCommaDelimitedString(phones));
 		map.put("sign", getSign(map));
-		JsonObject response = HttpUtils
-				.getHttpClient()
-				.post(JsonObject.class, host, map,
-						MediaType.APPLICATION_FORM_URLENCODED).getBody();
+		JsonObject response = HttpUtils.getHttpClient()
+				.post(JsonObject.class, host, map, MediaType.APPLICATION_FORM_URLENCODED).getBody();
 		if (response.containsKey("alibaba_aliqin_fc_sms_num_send_response")) {
-			response = response
-					.getJsonObject("alibaba_aliqin_fc_sms_num_send_response");
+			response = response.getJsonObject("alibaba_aliqin_fc_sms_num_send_response");
 		}
 
 		response = response.getJsonObject("result");
-		if (response.containsKey("err_code")
-				&& response.getIntValue("err_code") == 0) {
+		if (response.containsKey("err_code") && response.getIntValue("err_code") == 0) {
 			return XUtils.status(true, response.toJSONString());
 		}
 
@@ -161,11 +158,10 @@ public class AliDaYuSms implements AliyunSms {
 		String bytes = null;
 		if (isMd5) {
 			sb.append(appSecret);
-			bytes = MD5.DEFAULT.fromEncoder(CharsetCodec.UTF_8).encode(
-					sb.toString());
+			bytes = MD5.DEFAULT.fromEncoder(CharsetCodec.UTF_8).encode(sb.toString());
 		} else {
-			bytes = new HmacMD5(CharsetCodec.UTF_8.encode(appSecret)).toHex()
-					.fromEncoder(CharsetCodec.UTF_8).encode(sb.toString());
+			bytes = new HmacMD5(CharsetCodec.UTF_8.encode(appSecret)).toHex().fromEncoder(CharsetCodec.UTF_8)
+					.encode(sb.toString());
 		}
 
 		return bytes.toUpperCase();

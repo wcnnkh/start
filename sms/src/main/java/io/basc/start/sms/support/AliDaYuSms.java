@@ -94,6 +94,7 @@ public class AliDaYuSms implements Sms {
 			try {
 				responses.add(send(request));
 			} catch (Exception e) {
+				logger.error(e, "send sms request: {}", request);
 				responses.add(SmsResponse.builder().request(request).success(false)
 						.message(NestedExceptionUtils.getNonEmptyMessage(e, false)).build());
 			}

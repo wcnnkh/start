@@ -1,15 +1,20 @@
 package io.basc.start.sms.support;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
+import io.basc.framework.logger.Logger;
+import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.CollectionUtils;
+import io.basc.framework.util.Pair;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.sms.MessageTemplate;
 import io.basc.start.sms.Sms;
@@ -22,6 +27,7 @@ import io.basc.start.verificationcode.VerificationCodeSenderAdapter;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderAdapter {
+	private static Logger logger = LoggerFactory.getLogger(SmsVerificationCodeSenderAdapter.class);
 	private final Map<String, MessageTemplate> templateMap = new HashMap<>();
 	private final Sms sms;
 	private String product;
@@ -81,21 +87,33 @@ public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderA
 		if (CollectionUtils.isEmpty(requests)) {
 			return Collections.emptyList();
 		}
-
-		List<VerificationCodeResponse> responses = new ArrayList<>(requests.size());
-		List<SmsRequest> smsRequests = requests.stream().map((r) -> {
-			SmsRequest request = wrap(r);
-			if (request == null) {
-				responses.add(VerificationCodeResponse.builder().request(r).success(false).message("not supported")
-						.build());
-				return null;
+		
+		VerificationCodeRequest[] arrays = requests.toArray(new VerificationCodeRequest[0]);
+		List<Pair<Integer, SmsRequest>> list = new ArrayList<Pair<Integer,SmsRequest>>();
+		for(int i=0; i<arrays.length; i++) {
+			SmsRequest smsRequest = wrap(arrays[i]);
+			if(smsRequest == null) {
+				continue;
 			}
-			return request;
-		}).collect(Collectors.toList());
-
-		List<SmsResponse> smsResponses = sms.send(smsRequests);
-		smsResponses.stream().map((r) -> VerificationCodeResponse.builder().request(VerificationCodeRequest.builder().recipient(VerificationCodeRecipient.builder().user(r.getRequest().getPhone()).type(r.getRequest()))))
-		return responses;
+			
+			list.add(new Pair<Integer, SmsRequest>(i, smsRequest));
+		}
+		
+		VerificationCodeResponse[] responses = new VerificationCodeResponse[arrays.length];
+		List<SmsResponse> smsResponses = sms.send(list.stream().map((e) -> e.getValue()).collect(Collectors.toList()));
+		if(smsResponses.size() != list.size()) {
+			logger.error("The number of requests[{}] and responses[{}] is inconsistent", list, smsResponses);
+		}
+		
+		Iterator<SmsResponse> responseIterator = smsResponses.iterator();
+		Iterator<Pair<Integer, SmsRequest>> requestIterator = list.iterator();
+		while(responseIterator.hasNext() && requestIterator.hasNext()) {
+			SmsResponse response = responseIterator.next();
+			Pair<Integer, SmsRequest> request = requestIterator.next();
+			VerificationCodeRequest verificationCodeRequest = arrays[request.getKey()];
+			responses[request.getKey()] = VerificationCodeResponse.builder().request(verificationCodeRequest).success(response.isSuccess()).message(response.getMessage()).build();
+		}
+		return Arrays.asList(responses);
 	}
 	
 }

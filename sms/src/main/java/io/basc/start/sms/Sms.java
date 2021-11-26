@@ -12,7 +12,7 @@ public interface Sms {
 	 * 批量发送
 	 * 
 	 * @param requests
-	 * @return
+	 * @return 返回应该和请求顺序一致
 	 */
 	List<SmsResponse> send(List<SmsRequest> requests);
 }

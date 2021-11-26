@@ -1,14 +1,12 @@
 package io.basc.start.verificationcode.support;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import io.basc.framework.context.annotation.Provider;
@@ -18,6 +16,7 @@ import io.basc.framework.factory.ConfigurableServices;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.CollectionUtils;
+import io.basc.framework.util.Pair;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.Status;
 import io.basc.framework.util.TimeUtils;
@@ -74,7 +73,7 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 
 		if (getConfiguration().isTest()) {
 			logger.info("测试模式发送验证码请求：{}", requests);
-			return requests.stream().map((r) -> VerificationCodeResponse.builder().request(r).success(true).build())
+			return requests.stream().map((r) -> r == null? null:VerificationCodeResponse.builder().request(r).success(true).build())
 					.collect(Collectors.toList());
 		}
 
@@ -82,7 +81,7 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 		VerificationCodeResponse[] responses = new VerificationCodeResponse[arrays.length];
 		Map<VerificationCodeRecipient, VerificationCode> verificationCodeMap = new HashMap<>();
 		for (VerificationCodeSenderAdapter adapter : this) {
-			LinkedHashMap<Integer, VerificationCodeRequest> requestMap = new LinkedHashMap<>();
+			List<Pair<Integer, VerificationCodeRequest>> list = new ArrayList<Pair<Integer,VerificationCodeRequest>>();
 			for (int i = 0; i < arrays.length; i++) {
 				VerificationCodeRequest request = arrays[i];
 				if(request == null) {
@@ -107,62 +106,35 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 				}
 				
 				if(adapter.canSend(request.getRecipient())) {
-					requestMap.put(i, request);
+					list.add(new Pair<Integer, VerificationCodeRequest>(i, request));
 					arrays[i] = null;
 					continue;
 				}
 			}
 			
-			if(!requestMap.isEmpty()) {
-				List<VerificationCodeResponse> sendResponses = send(verificationCodeMap, requestMap.entrySet().stream().map((e) -> e.getValue()).collect(Collectors.toList()), adapter);
-				Iterator<Entry<Integer, VerificationCodeRequest>> entryIterator = requestMap.entrySet().iterator();
+			if(!list.isEmpty()) {
+				List<VerificationCodeResponse> sendResponses = send(verificationCodeMap, list.stream().map((e) -> e.getValue()).collect(Collectors.toList()), adapter);
+				Iterator<Pair<Integer, VerificationCodeRequest>> entryIterator = list.iterator();
 				Iterator<VerificationCodeResponse> sendIterator = sendResponses.iterator();
 				while(entryIterator.hasNext() && sendIterator.hasNext()) {
-					Entry<Integer, VerificationCodeRequest> entry = entryIterator.next();
+					Pair<Integer, VerificationCodeRequest> entry = entryIterator.next();
+					VerificationCodeResponse response = sendIterator.next();
+					responses[entry.getKey()] = response;
 				}
-			}
-
-			while (iterator.hasNext()) {
-				VerificationCodeRequest codeRequest = iterator.next();
-
-				VerificationCode verificationCode = verificationCodeMap.get(codeRequest.getRecipient());
-				if (verificationCode == null) {
-					verificationCode = strategy.getVerificationCode(codeRequest.getRecipient());
-					if (verificationCode == null) {
-						verificationCode = new VerificationCode();
-					}
-					verificationCodeMap.put(codeRequest.getRecipient(), verificationCode);
-				}
-
-				Status<String> status = getConfiguration().check(verificationCode);
-				if (!status.isActive()) {
-					responses.add(VerificationCodeResponse.builder().request(codeRequest).success(false)
-							.message(status.get()).build());
-					iterator.remove();
-					continue;
-				}
-
-				if (adapter.canSend(codeRequest.getRecipient())) {
-					codeRequests.add(codeRequest);
-					iterator.remove();
-					continue;
-				}
-			}
-
-			if (!codeRequests.isEmpty()) {
-				List<VerificationCodeResponse> sendResponses = send(verificationCodeMap, codeRequests, adapter);
-				responses.addAll(sendResponses);
 			}
 		}
 
-		if (!list.isEmpty()) {
-			logger.error("Not support send verification code requests: ", list);
-			for (VerificationCodeRequest request : list) {
-				responses.add(VerificationCodeResponse.builder().request(request).success(false).message("not support")
-						.build());
+		for(int i=0; i<arrays.length; i++) {
+			VerificationCodeRequest request = arrays[i];
+			if(request == null) {
+				continue;
 			}
+			
+			logger.error("Not support send verification code request: ", request);
+			responses[i] = VerificationCodeResponse.builder().request(request).success(false).message("not support")
+						.build();
 		}
-		return responses;
+		return Arrays.asList(responses);
 	}
 
 	private List<VerificationCodeResponse> send(Map<VerificationCodeRecipient, VerificationCode> verificationCodeMap,

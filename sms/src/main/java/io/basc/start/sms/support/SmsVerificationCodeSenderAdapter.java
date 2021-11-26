@@ -94,7 +94,8 @@ public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderA
 		}).collect(Collectors.toList());
 
 		List<SmsResponse> smsResponses = sms.send(smsRequests);
-
+		smsResponses.stream().map((r) -> VerificationCodeResponse.builder().request(VerificationCodeRequest.builder().recipient(VerificationCodeRecipient.builder().user(r.getRequest().getPhone()).type(r.getRequest()))))
 		return responses;
 	}
+	
 }

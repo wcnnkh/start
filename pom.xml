@@ -170,5 +170,6 @@
 		<module>aliyun-sms</module>
 		<module>aliyun-oss</module>
 		<module>aliyun-ons</module>
+		<module>sms</module>
 	</modules>
 </project>

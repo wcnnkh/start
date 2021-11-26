@@ -1,8 +1,9 @@
-package io.basc.star.aliyun.sms;
+package io.basc.start.sms.support;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.basc.framework.codec.encode.HmacMD5;
@@ -14,17 +15,19 @@ import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.lang.NestedExceptionUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.Assert;
 import io.basc.framework.util.CollectionUtils;
-import io.basc.framework.util.Status;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
-import io.basc.framework.util.XUtils;
+import io.basc.start.sms.Sms;
+import io.basc.start.sms.SmsRequest;
+import io.basc.start.sms.SmsResponse;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
-public class AliDaYuSms implements AliyunSms {
+public class AliDaYuSms implements Sms {
 	private static Logger logger = LoggerFactory.getLogger(AliDaYuSms.class);
 
 	private String host = "http://gw.api.taobao.com/router/rest";
@@ -85,13 +88,21 @@ public class AliDaYuSms implements AliyunSms {
 	}
 
 	@Override
-	public Status<String> send(AliSmsModel messageModel, Map<String, ?> parameterMap, String phone) {
-		return send(messageModel, parameterMap, Arrays.asList(phone));
+	public List<SmsResponse> send(List<SmsRequest> requests) {
+		List<SmsResponse> responses = new ArrayList<>();
+		for (SmsRequest request : requests) {
+			try {
+				responses.add(send(request));
+			} catch (Exception e) {
+				responses.add(SmsResponse.builder().request(request).success(false)
+						.message(NestedExceptionUtils.getNonEmptyMessage(e, false)).build());
+			}
+		}
+		return responses;
 	}
 
-	public Status<String> send(AliSmsModel messageModel, Map<String, ?> parameterMap, Collection<String> phones) {
-		Assert.requiredArgument(messageModel != null, "messageModel");
-		Assert.requiredArgument(!CollectionUtils.isEmpty(phones), "phones");
+	public SmsResponse send(SmsRequest request) {
+		Assert.requiredArgument(request != null, "request");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("app_key", appKey);
 		map.put("v", version);
@@ -99,14 +110,14 @@ public class AliDaYuSms implements AliyunSms {
 		map.put("sign_method", getSignMethod());
 
 		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
-		map.put("sms_free_sign_name", messageModel.getSignName());
-		if (!CollectionUtils.isEmpty(parameterMap)) {
-			map.put("sms_param", JSONUtils.getJsonSupport().toJSONString(parameterMap));
+		map.put("sms_free_sign_name", request.getTemplate().getSignName());
+		if (!CollectionUtils.isEmpty(request.getTemplateParams())) {
+			map.put("sms_param", JSONUtils.getJsonSupport().toJSONString(request.getTemplateParams()));
 		}
-		map.put("sms_template_code", messageModel.getTemplateCode());
+		map.put("sms_template_code", request.getTemplate().getCode());
 		map.put("method", "alibaba.aliqin.fc.sms.num.send");
 		map.put("sms_type", "normal");
-		map.put("rec_num", StringUtils.collectionToCommaDelimitedString(phones));
+		map.put("rec_num", request.getPhone());
 		map.put("sign", getSign(map));
 		JsonObject response = HttpUtils.getHttpClient()
 				.post(JsonObject.class, host, map, MediaType.APPLICATION_FORM_URLENCODED).getBody();
@@ -116,7 +127,7 @@ public class AliDaYuSms implements AliyunSms {
 
 		response = response.getJsonObject("result");
 		if (response.containsKey("err_code") && response.getIntValue("err_code") == 0) {
-			return XUtils.status(true, response.toJSONString());
+			return SmsResponse.builder().request(request).success(true).message(response.toJSONString()).build();
 		}
 
 		logger.error(response.toString());
@@ -125,7 +136,7 @@ public class AliDaYuSms implements AliyunSms {
 		if (StringUtils.isEmpty(msg)) {
 			msg = errorResponse.getString("msg");
 		}
-		return XUtils.status(false, msg);
+		return SmsResponse.builder().request(request).success(false).message(msg).build();
 	}
 
 	/**

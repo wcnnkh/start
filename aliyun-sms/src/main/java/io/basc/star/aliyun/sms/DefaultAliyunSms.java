@@ -46,8 +46,7 @@ public class DefaultAliyunSms implements AliyunSms {
 		SendSmsRequest sendSmsRequest = new SendSmsRequest();
 		sendSmsRequest.setOutId(request.getQutId());
 		sendSmsRequest.setSmsUpExtendCode(request.getUpExtendCode());
-		sendSmsRequest.setSignName(request.getSend().getTemplate()
-				.getSignName());
+		sendSmsRequest.setSignName(request.getSend().getTemplate().getSignName());
 		sendSmsRequest.setPhoneNumbers(request.getSend().getPhone());
 		sendSmsRequest.setTemplateCode(request.getSend().getTemplate()
 				.getCode());

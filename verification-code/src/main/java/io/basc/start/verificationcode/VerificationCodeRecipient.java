@@ -2,6 +2,8 @@ package io.basc.start.verificationcode;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +18,7 @@ public class VerificationCodeRecipient implements Serializable {
 	/**
 	 * 用户
 	 */
+	@NotEmpty
 	private String user;
 	/**
 	 * 类型

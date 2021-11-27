@@ -2,6 +2,9 @@ package io.basc.start.verificationcode;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +19,8 @@ public class VerificationCodeRequest implements Serializable {
 	/**
 	 * 接收人
 	 */
+	@NotNull
+	@Valid
 	private VerificationCodeRecipient recipient;
 	private String code;
 }

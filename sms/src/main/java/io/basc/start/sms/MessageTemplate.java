@@ -2,6 +2,7 @@ package io.basc.start.sms;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Valid
 public class MessageTemplate implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Schema(description = "短信模版签名", required = true)

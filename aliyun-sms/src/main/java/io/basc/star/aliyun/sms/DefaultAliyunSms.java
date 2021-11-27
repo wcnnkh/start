@@ -6,6 +6,7 @@ import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.Pair;
+import io.basc.framework.validation.FastValidator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,11 +21,20 @@ import com.aliyun.dysmsapi20170525.models.SendBatchSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendBatchSmsResponse;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
+import com.aliyun.teaopenapi.models.Config;
 
 public class DefaultAliyunSms implements AliyunSms {
 	private static Logger logger = LoggerFactory
 			.getLogger(DefaultAliyunSms.class);
 	private final Client client;
+
+	public DefaultAliyunSms(String accessKeyId, String accessKeySecret)
+			throws Exception {
+		Config config = new Config();
+		config.setAccessKeyId(accessKeyId);
+		config.setAccessKeySecret(accessKeySecret);
+		this.client = new Client(config);
+	}
 
 	public DefaultAliyunSms(Client client) {
 		this.client = client;
@@ -32,6 +42,7 @@ public class DefaultAliyunSms implements AliyunSms {
 
 	@Override
 	public AliyunSendSmsResponse send(AliyunSendSmsRequest request) {
+		FastValidator.validate(request);
 		SendSmsRequest sendSmsRequest = new SendSmsRequest();
 		sendSmsRequest.setOutId(request.getQutId());
 		sendSmsRequest.setSmsUpExtendCode(request.getUpExtendCode());
@@ -76,6 +87,10 @@ public class DefaultAliyunSms implements AliyunSms {
 
 		if (requests.size() == 1) {
 			return Arrays.asList(send(requests.get(0)));
+		}
+
+		for (AliyunSendSmsRequest request : requests) {
+			FastValidator.validate(request);
 		}
 
 		AliyunSendSmsResponse[] responses = new AliyunSendSmsResponse[requests

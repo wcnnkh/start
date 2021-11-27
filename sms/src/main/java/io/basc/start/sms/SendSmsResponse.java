@@ -1,7 +1,6 @@
 package io.basc.start.sms;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SmsRequest implements Serializable {
+public class SendSmsResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private MessageTemplate template;
-	private Map<String, ?> templateParams;
-	private String phone;
+	private SendSmsRequest request;
+	private boolean success;
+	private String message;
 }

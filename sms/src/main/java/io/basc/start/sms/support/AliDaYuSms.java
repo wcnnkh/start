@@ -23,8 +23,8 @@ import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
 import io.basc.start.sms.Sms;
-import io.basc.start.sms.SmsRequest;
-import io.basc.start.sms.SmsResponse;
+import io.basc.start.sms.SendSmsRequest;
+import io.basc.start.sms.SendSmsResponse;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class AliDaYuSms implements Sms {
@@ -88,21 +88,21 @@ public class AliDaYuSms implements Sms {
 	}
 
 	@Override
-	public List<SmsResponse> send(List<SmsRequest> requests) {
-		List<SmsResponse> responses = new ArrayList<>();
-		for (SmsRequest request : requests) {
+	public List<SendSmsResponse> send(List<SendSmsRequest> requests) {
+		List<SendSmsResponse> responses = new ArrayList<>();
+		for (SendSmsRequest request : requests) {
 			try {
 				responses.add(send(request));
 			} catch (Exception e) {
 				logger.error(e, "send sms request: {}", request);
-				responses.add(SmsResponse.builder().request(request).success(false)
+				responses.add(SendSmsResponse.builder().request(request).success(false)
 						.message(NestedExceptionUtils.getNonEmptyMessage(e, false)).build());
 			}
 		}
 		return responses;
 	}
 
-	public SmsResponse send(SmsRequest request) {
+	public SendSmsResponse send(SendSmsRequest request) {
 		Assert.requiredArgument(request != null, "request");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("app_key", appKey);
@@ -128,7 +128,7 @@ public class AliDaYuSms implements Sms {
 
 		response = response.getJsonObject("result");
 		if (response.containsKey("err_code") && response.getIntValue("err_code") == 0) {
-			return SmsResponse.builder().request(request).success(true).message(response.toJSONString()).build();
+			return SendSmsResponse.builder().request(request).success(true).message(response.toJSONString()).build();
 		}
 
 		logger.error(response.toString());
@@ -137,7 +137,7 @@ public class AliDaYuSms implements Sms {
 		if (StringUtils.isEmpty(msg)) {
 			msg = errorResponse.getString("msg");
 		}
-		return SmsResponse.builder().request(request).success(false).message(msg).build();
+		return SendSmsResponse.builder().request(request).success(false).message(msg).build();
 	}
 
 	/**

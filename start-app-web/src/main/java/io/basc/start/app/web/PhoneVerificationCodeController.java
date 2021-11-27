@@ -54,7 +54,7 @@ public class PhoneVerificationCodeController {
 		}
 
 		VerificationCodeResponse response = verificationCodeService
-				.sendRandomCode(new VerificationCodeRecipient(phone, type.name()));
+				.random(new VerificationCodeRecipient(phone, type.name()));
 		if (!response.isSuccess()) {
 			return resultFactory.error(response.getMessage());
 		}

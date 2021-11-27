@@ -18,8 +18,8 @@ import io.basc.framework.util.Pair;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.sms.MessageTemplate;
 import io.basc.start.sms.Sms;
-import io.basc.start.sms.SmsRequest;
-import io.basc.start.sms.SmsResponse;
+import io.basc.start.sms.SendSmsRequest;
+import io.basc.start.sms.SendSmsResponse;
 import io.basc.start.verificationcode.VerificationCodeRecipient;
 import io.basc.start.verificationcode.VerificationCodeRequest;
 import io.basc.start.verificationcode.VerificationCodeResponse;
@@ -67,7 +67,7 @@ public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderA
 		return templateMap.containsKey(recipient.getType());
 	}
 
-	protected SmsRequest wrap(VerificationCodeRequest request) {
+	protected SendSmsRequest wrap(VerificationCodeRequest request) {
 		MessageTemplate messageTemplate = templateMap.get(request.getRecipient().getType());
 		if (messageTemplate == null) {
 			return null;
@@ -78,7 +78,7 @@ public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderA
 		if (StringUtils.isNotEmpty(product)) {
 			params.put(productKey, product);
 		}
-		return SmsRequest.builder().template(messageTemplate).phone(request.getRecipient().getUser())
+		return SendSmsRequest.builder().template(messageTemplate).phone(request.getRecipient().getUser())
 				.templateParams(params).build();
 	}
 
@@ -89,27 +89,27 @@ public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderA
 		}
 		
 		VerificationCodeRequest[] arrays = requests.toArray(new VerificationCodeRequest[0]);
-		List<Pair<Integer, SmsRequest>> list = new ArrayList<Pair<Integer,SmsRequest>>();
+		List<Pair<Integer, SendSmsRequest>> list = new ArrayList<Pair<Integer,SendSmsRequest>>();
 		for(int i=0; i<arrays.length; i++) {
-			SmsRequest smsRequest = wrap(arrays[i]);
+			SendSmsRequest smsRequest = wrap(arrays[i]);
 			if(smsRequest == null) {
 				continue;
 			}
 			
-			list.add(new Pair<Integer, SmsRequest>(i, smsRequest));
+			list.add(new Pair<Integer, SendSmsRequest>(i, smsRequest));
 		}
 		
 		VerificationCodeResponse[] responses = new VerificationCodeResponse[arrays.length];
-		List<SmsResponse> smsResponses = sms.send(list.stream().map((e) -> e.getValue()).collect(Collectors.toList()));
+		List<SendSmsResponse> smsResponses = sms.send(list.stream().map((e) -> e.getValue()).collect(Collectors.toList()));
 		if(smsResponses.size() != list.size()) {
 			logger.error("The number of requests[{}] and responses[{}] is inconsistent", list, smsResponses);
 		}
 		
-		Iterator<SmsResponse> responseIterator = smsResponses.iterator();
-		Iterator<Pair<Integer, SmsRequest>> requestIterator = list.iterator();
+		Iterator<SendSmsResponse> responseIterator = smsResponses.iterator();
+		Iterator<Pair<Integer, SendSmsRequest>> requestIterator = list.iterator();
 		while(responseIterator.hasNext() && requestIterator.hasNext()) {
-			SmsResponse response = responseIterator.next();
-			Pair<Integer, SmsRequest> request = requestIterator.next();
+			SendSmsResponse response = responseIterator.next();
+			Pair<Integer, SendSmsRequest> request = requestIterator.next();
 			VerificationCodeRequest verificationCodeRequest = arrays[request.getKey()];
 			responses[request.getKey()] = VerificationCodeResponse.builder().request(verificationCodeRequest).success(response.isSuccess()).message(response.getMessage()).build();
 		}

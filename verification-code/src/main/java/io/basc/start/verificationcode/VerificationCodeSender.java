@@ -18,7 +18,7 @@ public interface VerificationCodeSender {
 	 * 批量发送验证码
 	 * 
 	 * @param requests
-	 * @return 返回和请求顺序应该一致
+	 * @return 返回和请求的顺序一致
 	 */
 	List<VerificationCodeResponse> send(List<VerificationCodeRequest> requests);
 }

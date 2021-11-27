@@ -15,17 +15,17 @@ public interface VerificationCodeService extends VerificationCodeSender {
 	 * @param recipient
 	 * @return
 	 */
-	default VerificationCodeResponse sendRandomCode(VerificationCodeRecipient recipient) {
-		return sendRandomCode(Arrays.asList(recipient)).get(0);
+	default VerificationCodeResponse random(VerificationCodeRecipient recipient) {
+		return random(Arrays.asList(recipient)).get(0);
 	}
 
 	/**
 	 * 批量发送随机验证码
 	 * 
 	 * @param recipients
-	 * @return
+	 * @return 返回和请求的顺序一致
 	 */
-	default List<VerificationCodeResponse> sendRandomCode(List<VerificationCodeRecipient> recipients) {
+	default List<VerificationCodeResponse> random(List<VerificationCodeRecipient> recipients) {
 		if (CollectionUtils.isEmpty(recipients)) {
 			return Collections.emptyList();
 		}

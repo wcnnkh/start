@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.start</groupId>
-			<artifactId>verification-code</artifactId>
+			<artifactId>sms</artifactId>
 		</dependency>
 
 		<dependency>

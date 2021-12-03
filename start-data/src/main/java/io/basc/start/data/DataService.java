@@ -5,12 +5,12 @@ import java.util.List;
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.orm.EntityOperations;
 import io.basc.framework.util.Pair;
-import io.basc.framework.util.page.Page;
+import io.basc.framework.util.page.Paginations;
 
 public interface DataService extends EntityOperations {
 	boolean canOperations(Class<?> entityClass);
 	
-	<T> Page<T> list(Class<? extends T> entityClass, T query, int page, int limit);
+	<T> Paginations<T> list(Class<? extends T> entityClass, T query, int page, int limit);
 
 	@Nullable
 	<T> T getByPrimaryKeys(Class<? extends T> entityClass, T query);

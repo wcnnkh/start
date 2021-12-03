@@ -15,6 +15,7 @@ import io.basc.framework.mvc.annotation.ActionAuthority;
 import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.page.PageSupport;
+import io.basc.framework.util.page.Pagination;
 import io.basc.framework.web.message.annotation.RequestBody;
 import io.basc.framework.web.message.model.ModelAndView;
 import io.basc.framework.web.pattern.annotation.RequestMapping;
@@ -65,9 +66,9 @@ public class AdminUserController {
 			// else 该分组下没有子分组了
 		}
 
-		io.basc.framework.util.page.Page<User> pagination;
+		Pagination<User> pagination;
 		if (groupIds == null) {
-			pagination = PageSupport.emptyPage(page, limit);
+			pagination = PageSupport.emptyPagination(PageSupport.getStart(page, limit), limit);
 		} else {
 			pagination = userService.search(groupIds, search, page, limit);
 		}

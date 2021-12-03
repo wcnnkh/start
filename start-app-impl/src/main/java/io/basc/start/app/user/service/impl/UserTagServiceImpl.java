@@ -6,7 +6,7 @@ import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.db.DB;
 import io.basc.framework.sql.SimpleSql;
 import io.basc.framework.sql.Sql;
-import io.basc.framework.util.page.Page;
+import io.basc.framework.util.page.Pagination;
 import io.basc.start.app.configure.BaseServiceConfiguration;
 import io.basc.start.app.user.pojo.UserTag;
 import io.basc.start.app.user.service.UserTagService;
@@ -45,13 +45,13 @@ public class UserTagServiceImpl extends BaseServiceConfiguration implements User
 	}
 
 	@Override
-	public Page<UserTag> getUserTags(long uid, int page, int limit) {
+	public Pagination<UserTag> getUserTags(long uid, int page, int limit) {
 		Sql sql = new SimpleSql("select * from user_tag where uid=?", uid);
 		return db.getPage(UserTag.class, sql, page, limit);
 	}
 
 	@Override
-	public Page<UserTag> getUserTags(String tag, int page, int limit) {
+	public Pagination<UserTag> getUserTags(String tag, int page, int limit) {
 		Sql sql = new SimpleSql("select * from user_tag where tag=?", tag);
 		return db.getPage(UserTag.class, sql, page, limit);
 	}

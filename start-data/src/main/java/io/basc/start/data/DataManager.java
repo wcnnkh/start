@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.util.Pair;
-import io.basc.framework.util.page.Pages;
+import io.basc.framework.util.page.Paginations;
 
 public interface DataManager<T> {
 	Class<T> getDataType();
@@ -33,5 +33,5 @@ public interface DataManager<T> {
 	
 	List<Pair<String, String>> queryOptions(@Nullable T query);
 	
-	Pages<T> list(T query, int page, int limit);
+	Paginations<T> list(T query, int page, int limit);
 }

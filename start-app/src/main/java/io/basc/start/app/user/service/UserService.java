@@ -1,8 +1,11 @@
 package io.basc.start.app.user.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
-import io.basc.framework.util.page.Page;
+import io.basc.framework.util.page.Pagination;
 import io.basc.start.app.user.enums.AccountType;
 import io.basc.start.app.user.enums.UnionIdType;
 import io.basc.start.app.user.model.AdminUserModel;
@@ -10,9 +13,6 @@ import io.basc.start.app.user.model.UserAttributeModel;
 import io.basc.start.app.user.pojo.UidToUnionId;
 import io.basc.start.app.user.pojo.UnionIdToUid;
 import io.basc.start.app.user.pojo.User;
-
-import java.util.Collection;
-import java.util.List;
 
 public interface UserService {
 	/**
@@ -23,7 +23,7 @@ public interface UserService {
 	 * @param limit
 	 * @return
 	 */
-	Page<User> search(Collection<Integer> permissionGroupIds, String search, int page, int limit);
+	Pagination<User> search(Collection<Integer> permissionGroupIds, String search, int page, int limit);
 	
 	List<User> getUsers(Collection<Long> uids);
 

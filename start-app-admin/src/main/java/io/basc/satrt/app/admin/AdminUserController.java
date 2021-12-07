@@ -15,6 +15,7 @@ import io.basc.framework.mvc.annotation.ActionAuthority;
 import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.page.PageSupport;
+import io.basc.framework.util.page.Pagination;
 import io.basc.framework.web.message.annotation.RequestBody;
 import io.basc.framework.web.message.model.ModelAndView;
 import io.basc.framework.web.pattern.annotation.RequestMapping;
@@ -65,16 +66,16 @@ public class AdminUserController {
 			// else 该分组下没有子分组了
 		}
 
-		io.basc.framework.util.page.Page<User> pagination;
+		Pagination<User> pagination;
 		if (groupIds == null) {
-			pagination = PageSupport.emptyPage(page, limit);
+			pagination = PageSupport.emptyPagination(PageSupport.getStart(page, limit), limit);
 		} else {
 			pagination = userService.search(groupIds, search, page, limit);
 		}
 
 		List<Object> list = new ArrayList<Object>();
 		Fields fields = MapperUtils.getFields(User.class).entity();
-		for (User user : pagination.rows()) {
+		for (User user : pagination.getList()) {
 			PermissionGroup group = permissionGroupService.getById(user.getPermissionGroupId());
 			String groupName = group == null ? "系统分组" : group.getName();
 			boolean groupDisable = group == null ? false : group.isDisable();

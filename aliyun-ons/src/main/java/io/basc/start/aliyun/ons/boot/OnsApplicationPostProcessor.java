@@ -1,6 +1,5 @@
 package io.basc.start.aliyun.ons.boot;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
@@ -21,8 +20,8 @@ import io.basc.framework.boot.ConfigurableApplication;
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.convert.TypeDescriptor;
 import io.basc.framework.core.Ordered;
-import io.basc.framework.core.annotation.AnnotationUtils;
 import io.basc.framework.core.reflect.MethodInvoker;
+import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.ArrayUtils;
@@ -54,7 +53,7 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 				}
 			}
 
-			for (Method method : AnnotationUtils.getAnnoationMethods(clazz, true, true, MessageListenerMapping.class)) {
+			ReflectionUtils.getDeclaredMethods(clazz).stream().filter((e) -> e.isAnnotationPresent(MessageListenerMapping.class)).forEach((method) -> {
 				Class<?>[] parameterTypes = method.getParameterTypes();
 				if (ArrayUtils.isEmpty(parameterTypes)) {
 					throw new OnsException("The message parameter must exist: " + method.toString());
@@ -149,7 +148,7 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 					};
 					subscribe(application, mapping, messageListener);
 				}
-			}
+			});
 		}
 	}
 

@@ -7,11 +7,11 @@
 		<artifactId>start</artifactId>
 		<version>1.8.0</version>
 	</parent>
-	<artifactId>verification-code</artifactId>
+	<artifactId>sms</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>data</artifactId>
+			<groupId>io.basc.start</groupId>
+			<artifactId>verification-code</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,9 +1,24 @@
 package io.basc.start.verificationcode;
 
-import io.basc.framework.util.Status;
+import java.util.Arrays;
+import java.util.List;
 
 public interface VerificationCodeSender {
-	boolean canSend(Receiver receiver);
+	/**
+	 * 发送验证码
+	 * 
+	 * @param receiver
+	 * @return
+	 */
+	default VerificationCodeResponse send(VerificationCodeRequest request) {
+		return send(Arrays.asList(request)).get(0);
+	}
 
-	Status<String> send(String code, Receiver receiver);
+	/**
+	 * 批量发送验证码
+	 * 
+	 * @param requests
+	 * @return 返回和请求的顺序一致
+	 */
+	List<VerificationCodeResponse> send(List<VerificationCodeRequest> requests);
 }

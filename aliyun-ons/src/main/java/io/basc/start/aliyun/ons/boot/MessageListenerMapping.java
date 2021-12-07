@@ -9,8 +9,11 @@ import com.aliyun.openservices.ons.api.Consumer;
 import com.aliyun.openservices.ons.api.ExpressionType;
 import com.aliyun.openservices.ons.api.batch.BatchConsumer;
 
+import io.basc.framework.context.annotation.Indexed;
+
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
+@Indexed
 public @interface MessageListenerMapping {
 	/**
 	 * @see Consumer

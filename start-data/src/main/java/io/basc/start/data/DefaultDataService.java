@@ -1,15 +1,15 @@
 package io.basc.start.data;
 
+import java.util.Collections;
+import java.util.List;
+
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.factory.ConfigurableServices;
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.util.Pair;
-import io.basc.framework.util.page.Page;
 import io.basc.framework.util.page.PageSupport;
-
-import java.util.Collections;
-import java.util.List;
+import io.basc.framework.util.page.Paginations;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
 @SuppressWarnings("rawtypes")
@@ -108,10 +108,10 @@ public class DefaultDataService extends ConfigurableServices<DataManager> implem
 	}
 
 	@Override
-	public <T> Page<T> list(Class<? extends T> entityClass, T query, int page, int limit) {
+	public <T> Paginations<T> list(Class<? extends T> entityClass, T query, int page, int limit) {
 		DataManager<T> manager = getDataManager(entityClass);
 		if (manager == null) {
-			return PageSupport.emptyPage(page, limit);
+			return PageSupport.emptyPaginations(PageSupport.getStart(page, limit), limit);
 		}
 		return manager.list(query, page, limit);
 	}

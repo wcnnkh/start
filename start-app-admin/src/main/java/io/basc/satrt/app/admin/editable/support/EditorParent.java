@@ -1,5 +1,11 @@
 package io.basc.satrt.app.admin.editable.support;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.Field;
@@ -8,7 +14,7 @@ import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.orm.support.OrmUtils;
 import io.basc.framework.util.Pair;
-import io.basc.framework.util.page.Page;
+import io.basc.framework.util.page.Pagination;
 import io.basc.framework.web.message.model.ModelAndView;
 import io.basc.satrt.app.admin.editable.Editor;
 import io.basc.satrt.app.admin.editable.form.ImageInput;
@@ -23,12 +29,6 @@ import io.basc.start.data.annotation.Readonly;
 import io.basc.start.data.annotation.Select;
 import io.basc.start.data.annotation.SelectOption;
 import io.basc.start.data.annotation.Textarea;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class EditorParent implements Editor {
 	private final Class<?> editableClass;
@@ -102,13 +102,13 @@ public class EditorParent implements Editor {
 			limit = 10;
 		}
 
-		Page<Object> pagination = dataService.list(editableClass, requestBean, page, limit).shared();
+		Pagination<Object> pagination = dataService.list(editableClass, requestBean, page, limit).shared();
 		ModelAndView view = new ModelAndView("/io/basc/start/app/admin/web/editable/list.ftl");
 		long maxPage = pagination == null ? 1 : pagination.getPages();
 		long currentPage = Math.min(page, maxPage);
 		view.put("page", currentPage);
 		view.put("limit", limit);
-		view.put("list", pagination == null ? null : pagination.rows());
+		view.put("list", pagination == null ? null : pagination.getList());
 		view.put("totalCount", pagination == null ? 0 : pagination.getTotal());
 		view.put("info", requestBean);
 		view.put("fields", getInputs(requestBean).stream().map((field) -> {

@@ -1,23 +1,35 @@
 package io.basc.start.verificationcode.support;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.data.memory.MemoryDataOperations;
 import io.basc.framework.factory.ConfigurableServices;
-import io.basc.framework.logger.Levels;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
+import io.basc.framework.util.CollectionUtils;
+import io.basc.framework.util.Pair;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.Status;
 import io.basc.framework.util.TimeUtils;
-import io.basc.framework.util.XUtils;
-import io.basc.start.verificationcode.Receiver;
+import io.basc.start.verificationcode.VerificationCodeRecipient;
+import io.basc.start.verificationcode.VerificationCodeRequest;
+import io.basc.start.verificationcode.VerificationCodeResponse;
 import io.basc.start.verificationcode.VerificationCodeSender;
+import io.basc.start.verificationcode.VerificationCodeSenderAdapter;
 import io.basc.start.verificationcode.VerificationCodeService;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE, value = VerificationCodeService.class)
-public class DefaultVerificationCodeService extends ConfigurableServices<VerificationCodeSender>
-		implements VerificationCodeService, VerificationCodeSender {
+public class DefaultVerificationCodeService extends ConfigurableServices<VerificationCodeSenderAdapter>
+		implements VerificationCodeService {
 	private static Logger logger = LoggerFactory.getLogger(DefaultVerificationCodeService.class);
 
 	private VerificationCodeConfiguration configuration;
@@ -28,18 +40,8 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 	}
 
 	public DefaultVerificationCodeService(VerificationCodeStorage strategy) {
-		super(VerificationCodeSender.class);
+		super(VerificationCodeSenderAdapter.class);
 		this.strategy = strategy;
-	}
-
-	@Override
-	public boolean canSend(Receiver receiver) {
-		for (VerificationCodeSender sender : this) {
-			if (sender.canSend(receiver)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public VerificationCodeConfiguration getConfiguration() {
@@ -55,70 +57,127 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 	}
 
 	@Override
-	public Status<String> send(Receiver receiver) {
-		String code = RandomUtils.getNumCode(getConfiguration().getCodeLength());
-		Status<String> status = send(code, receiver);
-		if (status.isActive()) {
-			return XUtils.status(true, code);
+	public String[] getRandomCodes(int size) {
+		String[] codes = new String[size];
+		for (int i = 0; i < codes.length; i++) {
+			codes[i] = RandomUtils.getNumCode(getConfiguration().getCodeLength());
 		}
-		return status;
+		return codes;
 	}
 
 	@Override
-	public Status<String> send(String code, Receiver receiver) {
-		VerificationCode verificationCode = getStrategy().getVerificationCode(receiver);
-		if (verificationCode == null) {
-			verificationCode = new VerificationCode();
+	public List<VerificationCodeResponse> send(List<VerificationCodeRequest> requests) {
+		if (CollectionUtils.isEmpty(requests)) {
+			return Collections.emptyList();
 		}
 
-		Status<String> status = getConfiguration().check(verificationCode);
-		if (!status.isActive()) {
-			return status;
+		if (getConfiguration().isTest()) {
+			logger.info("测试模式发送验证码请求：{}", requests);
+			return requests.stream().map((r) -> r == null? null:VerificationCodeResponse.builder().request(r).success(true).build())
+					.collect(Collectors.toList());
 		}
 
-		status = send(code, getConfiguration().isTest(), receiver);
-		if (!status.isActive()) {
-			return status;
-		}
+		VerificationCodeRequest[] arrays = requests.toArray(new VerificationCodeRequest[0]);
+		VerificationCodeResponse[] responses = new VerificationCodeResponse[arrays.length];
+		Map<VerificationCodeRecipient, VerificationCode> verificationCodeMap = new HashMap<>();
+		for (VerificationCodeSenderAdapter adapter : this) {
+			List<Pair<Integer, VerificationCodeRequest>> list = new ArrayList<Pair<Integer,VerificationCodeRequest>>();
+			for (int i = 0; i < arrays.length; i++) {
+				VerificationCodeRequest request = arrays[i];
+				if(request == null) {
+					continue;
+				}
+				
+				VerificationCode verificationCode = verificationCodeMap.get(request.getRecipient());
+				if (verificationCode == null) {
+					verificationCode = strategy.getVerificationCode(request.getRecipient());
+					if (verificationCode == null) {
+						verificationCode = new VerificationCode();
+					}
+					verificationCodeMap.put(request.getRecipient(), verificationCode);
+				}
 
-		if (System.currentTimeMillis() - verificationCode.getLastSendTime() > TimeUtils.ONE_DAY) {
-			verificationCode.setCount(1);
-		} else {
-			verificationCode.setCount(verificationCode.getCount() + 1);
-		}
-
-		verificationCode.setCode(code);
-		verificationCode.setLastSendTime(System.currentTimeMillis());
-		strategy.set(receiver, verificationCode, TimeUtils.ONE_DAY / 1000);
-		return XUtils.status(true, code);
-	}
-
-	public Status<String> send(String code, boolean test, Receiver receiver) {
-		Levels level = test ? Levels.INFO : Levels.DEBUG;
-		if (logger.isLoggable(level.getValue())) {
-			logger.log(level.getValue(), (test ? "测试模式" : "") + "向用户[{}]发送验证码[{}]", receiver, code);
-		}
-
-		if (test) {
-			return XUtils.status(true, code);
-		}
-
-		for (VerificationCodeSender sender : this) {
-			if (sender.canSend(receiver)) {
-				return sender.send(code, receiver);
+				Status<String> status = getConfiguration().check(verificationCode);
+				if (!status.isActive()) {
+					responses[i] = VerificationCodeResponse.builder().request(request).success(false)
+							.message(status.get()).build();
+					arrays[i] = null;
+					continue;
+				}
+				
+				if(adapter.canSend(request.getRecipient())) {
+					list.add(new Pair<Integer, VerificationCodeRequest>(i, request));
+					arrays[i] = null;
+					continue;
+				}
+			}
+			
+			if(!list.isEmpty()) {
+				List<VerificationCodeResponse> sendResponses = send(verificationCodeMap, list.stream().map((e) -> e.getValue()).collect(Collectors.toList()), adapter);
+				Iterator<Pair<Integer, VerificationCodeRequest>> entryIterator = list.iterator();
+				Iterator<VerificationCodeResponse> sendIterator = sendResponses.iterator();
+				while(entryIterator.hasNext() && sendIterator.hasNext()) {
+					Pair<Integer, VerificationCodeRequest> entry = entryIterator.next();
+					VerificationCodeResponse response = sendIterator.next();
+					responses[entry.getKey()] = response;
+				}
 			}
 		}
-		return XUtils.status(false,
-				"Not support send verification code [" + code + "] to [" + receiver.getReceiver() + "]");
+
+		for(int i=0; i<arrays.length; i++) {
+			VerificationCodeRequest request = arrays[i];
+			if(request == null) {
+				continue;
+			}
+			
+			logger.error("Not support send verification code request: ", request);
+			responses[i] = VerificationCodeResponse.builder().request(request).success(false).message("not support")
+						.build();
+		}
+		return Arrays.asList(responses);
+	}
+
+	private List<VerificationCodeResponse> send(Map<VerificationCodeRecipient, VerificationCode> verificationCodeMap,
+			List<VerificationCodeRequest> requests, VerificationCodeSender sender) {
+		List<VerificationCodeResponse> sendResponses = sender.send(requests);
+		if (sendResponses.size() != requests.size()) {
+			logger.error("The number of requests[{}] and responses[{}] is inconsistent", requests, sendResponses);
+		}
+
+		Iterator<VerificationCodeResponse> responseIterator = sendResponses.iterator();
+		while (responseIterator.hasNext()) {
+			VerificationCodeResponse response = responseIterator.next();
+			if (response.isSuccess()) {
+				VerificationCode verificationCode = verificationCodeMap.get(response.getRequest().getRecipient());
+				// 不可能为空
+				if (System.currentTimeMillis() - verificationCode.getLastSendTime() > TimeUtils.ONE_DAY) {
+					verificationCode.setCount(1);
+				} else {
+					verificationCode.setCount(verificationCode.getCount() + 1);
+				}
+
+				verificationCode.setCode(response.getRequest().getCode());
+				verificationCode.setLastSendTime(System.currentTimeMillis());
+				strategy.set(response.getRequest().getRecipient(), verificationCode, TimeUtils.ONE_DAY / 1000);
+			}
+		}
+		return sendResponses;
 	}
 
 	@Override
-	public Status<String> validate(String code, Receiver receiver) {
-		VerificationCode info = getStrategy().getVerificationCode(receiver);
-		Status<String> status = getConfiguration().check(code, info);
-		if (status.isActive() && getConfiguration().isDeleteAfterCheck()) {
-			getStrategy().delete(receiver);
+	public List<VerificationCodeResponse> validate(List<VerificationCodeRequest> requests) {
+		if (CollectionUtils.isEmpty(requests)) {
+			return Collections.emptyList();
 		}
-		return status;
+
+		return requests.stream().map((request) -> {
+			VerificationCode info = getStrategy().getVerificationCode(request.getRecipient());
+			Status<String> status = getConfiguration().check(request.getCode(), info);
+			if (status.isActive() && getConfiguration().isDeleteAfterCheck()) {
+				getStrategy().delete(request.getRecipient());
+			}
+			return VerificationCodeResponse.builder().request(request).success(status.isActive())
+					.message(status.isActive() ? null : status.get()).build();
+		}).collect(Collectors.toList());
 	}
 }

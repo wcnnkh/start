@@ -1,7 +1,7 @@
 package io.basc.start.app.user.service;
 
 import io.basc.framework.context.result.Result;
-import io.basc.framework.util.page.Page;
+import io.basc.framework.util.page.Pagination;
 import io.basc.start.app.user.pojo.UserTag;
 
 public interface UserTagService {
@@ -38,7 +38,7 @@ public interface UserTagService {
 	 * @param limit
 	 * @return
 	 */
-	Page<UserTag> getUserTags(long uid, int page, int limit);
+	Pagination<UserTag> getUserTags(long uid, int page, int limit);
 
 	/**
 	 * 获取此标签的用户
@@ -48,5 +48,5 @@ public interface UserTagService {
 	 * @param limit
 	 * @return
 	 */
-	Page<UserTag> getUserTags(String tag, int page, int limit);
+	Pagination<UserTag> getUserTags(String tag, int page, int limit);
 }

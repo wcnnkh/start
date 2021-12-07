@@ -1,8 +1,9 @@
-package io.basc.star.aliyun.sms;
+package io.basc.start.sms.support;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.basc.framework.codec.encode.HmacMD5;
@@ -14,17 +15,19 @@ import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.lang.NestedExceptionUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.Assert;
 import io.basc.framework.util.CollectionUtils;
-import io.basc.framework.util.Status;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
-import io.basc.framework.util.XUtils;
+import io.basc.start.sms.Sms;
+import io.basc.start.sms.SendSmsRequest;
+import io.basc.start.sms.SendSmsResponse;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
-public class AliDaYuSms implements AliyunSms {
+public class AliDaYuSms implements Sms {
 	private static Logger logger = LoggerFactory.getLogger(AliDaYuSms.class);
 
 	private String host = "http://gw.api.taobao.com/router/rest";
@@ -85,41 +88,47 @@ public class AliDaYuSms implements AliyunSms {
 	}
 
 	@Override
-	public Status<String> send(MessageModel messageModel,
-			Map<String, ?> parameterMap, Collection<String> phones) {
-		Assert.requiredArgument(messageModel != null, "messageModel");
-		Assert.requiredArgument(!CollectionUtils.isEmpty(phones), "phones");
+	public List<SendSmsResponse> send(List<SendSmsRequest> requests) {
+		List<SendSmsResponse> responses = new ArrayList<>();
+		for (SendSmsRequest request : requests) {
+			try {
+				responses.add(send(request));
+			} catch (Exception e) {
+				logger.error(e, "send sms request: {}", request);
+				responses.add(SendSmsResponse.builder().request(request).success(false)
+						.message(NestedExceptionUtils.getNonEmptyMessage(e, false)).build());
+			}
+		}
+		return responses;
+	}
+
+	public SendSmsResponse send(SendSmsRequest request) {
+		Assert.requiredArgument(request != null, "request");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("app_key", appKey);
 		map.put("v", version);
 		map.put("format", format);
 		map.put("sign_method", getSignMethod());
 
-		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(),
-				"yyyy-MM-dd HH:mm:ss"));
-		map.put("sms_free_sign_name", messageModel.getSms_free_sign_name());
-		if (!CollectionUtils.isEmpty(parameterMap)) {
-			map.put("sms_param",
-					JSONUtils.getJsonSupport().toJSONString(parameterMap));
+		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
+		map.put("sms_free_sign_name", request.getTemplate().getSignName());
+		if (!CollectionUtils.isEmpty(request.getTemplateParams())) {
+			map.put("sms_param", JSONUtils.getJsonSupport().toJSONString(request.getTemplateParams()));
 		}
-		map.put("sms_template_code", messageModel.getSms_template_code());
+		map.put("sms_template_code", request.getTemplate().getCode());
 		map.put("method", "alibaba.aliqin.fc.sms.num.send");
 		map.put("sms_type", "normal");
-		map.put("rec_num", StringUtils.collectionToCommaDelimitedString(phones));
+		map.put("rec_num", request.getPhone());
 		map.put("sign", getSign(map));
-		JsonObject response = HttpUtils
-				.getHttpClient()
-				.post(JsonObject.class, host, map,
-						MediaType.APPLICATION_FORM_URLENCODED).getBody();
+		JsonObject response = HttpUtils.getHttpClient()
+				.post(JsonObject.class, host, map, MediaType.APPLICATION_FORM_URLENCODED).getBody();
 		if (response.containsKey("alibaba_aliqin_fc_sms_num_send_response")) {
-			response = response
-					.getJsonObject("alibaba_aliqin_fc_sms_num_send_response");
+			response = response.getJsonObject("alibaba_aliqin_fc_sms_num_send_response");
 		}
 
 		response = response.getJsonObject("result");
-		if (response.containsKey("err_code")
-				&& response.getIntValue("err_code") == 0) {
-			return XUtils.status(true, response.toJSONString());
+		if (response.containsKey("err_code") && response.getIntValue("err_code") == 0) {
+			return SendSmsResponse.builder().request(request).success(true).message(response.toJSONString()).build();
 		}
 
 		logger.error(response.toString());
@@ -128,7 +137,7 @@ public class AliDaYuSms implements AliyunSms {
 		if (StringUtils.isEmpty(msg)) {
 			msg = errorResponse.getString("msg");
 		}
-		return XUtils.status(false, msg);
+		return SendSmsResponse.builder().request(request).success(false).message(msg).build();
 	}
 
 	/**
@@ -161,11 +170,10 @@ public class AliDaYuSms implements AliyunSms {
 		String bytes = null;
 		if (isMd5) {
 			sb.append(appSecret);
-			bytes = MD5.DEFAULT.fromEncoder(CharsetCodec.UTF_8).encode(
-					sb.toString());
+			bytes = MD5.DEFAULT.fromEncoder(CharsetCodec.UTF_8).encode(sb.toString());
 		} else {
-			bytes = new HmacMD5(CharsetCodec.UTF_8.encode(appSecret)).toHex()
-					.fromEncoder(CharsetCodec.UTF_8).encode(sb.toString());
+			bytes = new HmacMD5(CharsetCodec.UTF_8.encode(appSecret)).toHex().fromEncoder(CharsetCodec.UTF_8)
+					.encode(sb.toString());
 		}
 
 		return bytes.toUpperCase();

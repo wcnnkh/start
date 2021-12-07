@@ -21,7 +21,7 @@ import io.basc.framework.sql.SqlUtils;
 import io.basc.framework.sql.WhereSql;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.page.Page;
+import io.basc.framework.util.page.Pagination;
 import io.basc.start.app.configure.BaseServiceConfiguration;
 import io.basc.start.app.event.AppEvent;
 import io.basc.start.app.event.AppEventDispatcher;
@@ -129,7 +129,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		return false;
 	}
 
-	public Page<User> search(Collection<Integer> permissionGroupIds, String search, int page, int limit) {
+	public Pagination<User> search(Collection<Integer> permissionGroupIds, String search, int page, int limit) {
 		WhereSql sql = new WhereSql();
 		sql.and("permissionGroupId>0");
 		if (!CollectionUtils.isEmpty(permissionGroupIds)) {

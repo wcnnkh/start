@@ -8,7 +8,7 @@ import io.basc.framework.db.DB;
 import io.basc.framework.sql.orm.Column;
 import io.basc.framework.sql.orm.TableStructure;
 import io.basc.framework.util.Pair;
-import io.basc.framework.util.page.Pages;
+import io.basc.framework.util.page.Paginations;
 import io.basc.start.data.DataException;
 import io.basc.start.data.DataManager;
 import io.basc.start.data.annotation.SelectOption;
@@ -81,7 +81,7 @@ public class DbDataManager<T> implements DataManager<T> {
 			throw new DataException("无法获取SelectOption[" + entityClass + "]");
 		}
 
-		Pages<T> pages = list(query, 0, 100);
+		Paginations<T> pages = list(query, 0, 100);
 		return pages.streamAll().map((obj) -> {
 			String id = String.valueOf(tableStructure.getPrimaryKeys().get(0).getField().getGetter().get(obj));
 			String text = String.valueOf(queryColumn.get().getField().getGetter().get(obj));
@@ -90,7 +90,7 @@ public class DbDataManager<T> implements DataManager<T> {
 	}
 
 	@Override
-	public Pages<T> list(T query, int page, int limit) {
+	public Paginations<T> list(T query, int page, int limit) {
 		return db.getPages(entityClass, query, page, limit).shared();
 	}
 }

@@ -75,7 +75,7 @@ public class AdminUserController {
 
 		List<Object> list = new ArrayList<Object>();
 		Fields fields = MapperUtils.getFields(User.class).entity();
-		for (User user : pagination.rows()) {
+		for (User user : pagination.getList()) {
 			PermissionGroup group = permissionGroupService.getById(user.getPermissionGroupId());
 			String groupName = group == null ? "系统分组" : group.getName();
 			boolean groupDisable = group == null ? false : group.isDisable();

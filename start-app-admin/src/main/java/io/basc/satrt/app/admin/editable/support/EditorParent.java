@@ -108,7 +108,7 @@ public class EditorParent implements Editor {
 		long currentPage = Math.min(page, maxPage);
 		view.put("page", currentPage);
 		view.put("limit", limit);
-		view.put("list", pagination == null ? null : pagination.rows());
+		view.put("list", pagination == null ? null : pagination.getList());
 		view.put("totalCount", pagination == null ? 0 : pagination.getTotal());
 		view.put("info", requestBean);
 		view.put("fields", getInputs(requestBean).stream().map((field) -> {

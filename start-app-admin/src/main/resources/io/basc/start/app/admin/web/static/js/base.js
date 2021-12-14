@@ -320,6 +320,11 @@ function uploadImageByPolicy(url, fileInput, successCall) {
 			"suffix": fileName
 		}, function(response){
 			var data = response.data;
+			if(!response.success){
+				layer.alert(response.msg, {icon: 5});
+				return ;
+			}
+			
 			var index = layer.load(1, {
 				shade : [ 0.8, '#fff' ]
 			});
@@ -345,6 +350,9 @@ function uploadImageByPolicy(url, fileInput, successCall) {
 				info.name = $(fileInput).attr("name");
 				info.url = imgUrl;
 				successCall(info);
+			}).fail(function(){
+				layer.close(index);
+				layer.alert("上传失败, 网络或系统错误!", {icon: 5});
 			});
 		})
 	}

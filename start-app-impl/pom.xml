@@ -17,5 +17,9 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>db</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>start-data-db</artifactId>
+		</dependency>
 	</dependencies>
 </project>

@@ -34,7 +34,7 @@ public class SecurityActionInterceptor implements ActionInterceptor, ActionInter
 
 	@Autowired
 	private AppConfigure appConfigure;
-	
+
 	@Autowired(required = false)
 	private ResultFactory resultFactory;
 	@Autowired(required = false)
@@ -48,80 +48,82 @@ public class SecurityActionInterceptor implements ActionInterceptor, ActionInter
 	private PermissionGroupService permissionGroupService;
 	@Autowired(required = false)
 	private UserService userService;
-	
+
 	private boolean isSupported() {
-		return resultFactory != null && httpActionAuthorityManager != null && loginRequiredRegistry != null && userService != null && permissionGroupActionService != null && permissionGroupService != null;
+		return resultFactory != null && httpActionAuthorityManager != null && loginRequiredRegistry != null
+				&& userService != null && permissionGroupActionService != null && permissionGroupService != null;
 	}
-	
+
 	private Object getUnsupportedDesc() {
 		return new Object() {
 			@Override
 			public String toString() {
 				List<Object> list = new ArrayList<Object>(8);
-				if(resultFactory == null) {
+				if (resultFactory == null) {
 					list.add(ResultFactory.class.getName());
 				}
-				
-				if(httpActionAuthorityManager == null) {
+
+				if (httpActionAuthorityManager == null) {
 					list.add(HttpActionAuthorityManager.class);
 				}
-				
-				if(loginRequiredRegistry == null) {
+
+				if (loginRequiredRegistry == null) {
 					list.add(LoginRequiredRegistry.class);
 				}
-				
-				if(permissionGroupActionService == null) {
+
+				if (permissionGroupActionService == null) {
 					list.add(PermissionGroupActionService.class);
 				}
-				
-				if(permissionGroupService == null) {
+
+				if (permissionGroupService == null) {
 					list.add(PermissionGroupService.class);
 				}
-				
-				if(userService == null) {
+
+				if (userService == null) {
 					list.add(UserService.class);
 				}
 				return "@Autowired fail " + StringUtils.collectionToCommaDelimitedString(list);
 			}
 		};
 	}
-	
+
 	private boolean loginRequired(LoginRequired loginRequired, HttpChannel httpChannel) {
-		return httpActionAuthorityManager.getAuthority(httpChannel.getRequest().getPath(), httpChannel.getRequest().getMethod()) != null || (loginRequired != null && loginRequired.value());
+		return httpActionAuthorityManager.getAuthority(httpChannel.getRequest().getPath(),
+				httpChannel.getRequest().getMethod()) != null || (loginRequired != null && loginRequired.value());
 	}
 
 	public boolean isAccept(HttpChannel httpChannel, Action action, ActionParameters parameters) {
-		LoginRequired required = AnnotationUtils.getAnnotation(LoginRequired.class, action.getDeclaringClass(),
-				action);
+		LoginRequired required = AnnotationUtils.getAnnotation(LoginRequired.class, action.getSourceClass(), action);
 		return loginRequired(required, httpChannel)
 				|| (loginRequiredRegistry == null || loginRequiredRegistry.isLoginRequried(httpChannel.getRequest()));
 	}
 
 	public Object intercept(HttpChannel httpChannel, Action action, ActionParameters parameters,
 			ActionInterceptorChain chain) throws Throwable {
-		LoginRequired required = AnnotationUtils.getAnnotation(LoginRequired.class, action.getDeclaringClass(),
-				action);
+		LoginRequired required = AnnotationUtils.getAnnotation(LoginRequired.class, action.getSourceClass(), action);
 		ActionAuthority actionAuthority = action.getAnnotation(ActionAuthority.class);
 		boolean loginRequired = loginRequired(required, httpChannel);
-		if(loginRequired && !isSupported()) {
-			logger.warn("Authentication is required, but authentication service is not supported! {}, {}", getUnsupportedDesc(), httpChannel);
+		if (loginRequired && !isSupported()) {
+			logger.warn("Authentication is required, but authentication service is not supported! {}, {}",
+					getUnsupportedDesc(), httpChannel);
 			return resultFactory.error("Authentication is required, but authentication service is not supported");
 		}
-		
+
 		if (loginRequired || loginRequiredRegistry.isLoginRequried(httpChannel.getRequest())) {
 			UserSession<Long> userSession = httpChannel.getUserSession(Long.class);
 			if (userSession == null) {
 				return authorizationFailure(httpChannel, action);
 			}
-			
+
 			if (httpChannel.getRequest().getPath().startsWith(appConfigure.getAdminController())) {
 				User user = userService.getUser(userSession.getUid());
 				if (user == null) {
 					return authorizationFailure(httpChannel, action);
 				}
 			}
-			
-			HttpAuthority authority = httpActionAuthorityManager.getAuthority(httpChannel.getRequest().getPath(), httpChannel.getRequest().getMethod());
+
+			HttpAuthority authority = httpActionAuthorityManager.getAuthority(httpChannel.getRequest().getPath(),
+					httpChannel.getRequest().getMethod());
 			if (actionAuthority != null || authority != null) {
 				if (!userService.isSuperAdmin(userSession.getUid())) {
 					if (authority == null) {

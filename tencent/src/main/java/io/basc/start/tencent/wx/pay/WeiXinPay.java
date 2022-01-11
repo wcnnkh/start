@@ -157,7 +157,7 @@ public class WeiXinPay {
 		}
 
 		if (!params.containsKey("nonce_str")) {
-			params.put("nonce_str", RandomUtils.getRandomStr(10));
+			params.put("nonce_str", RandomUtils.randomString(10));
 		}
 
 		if (!params.containsKey("wxappid") && !params.containsKey("appid")) {

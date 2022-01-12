@@ -60,7 +60,7 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 	public String[] getRandomCodes(int size) {
 		String[] codes = new String[size];
 		for (int i = 0; i < codes.length; i++) {
-			codes[i] = RandomUtils.getNumCode(getConfiguration().getCodeLength());
+			codes[i] = RandomUtils.randomNumCode(getConfiguration().getCodeLength());
 		}
 		return codes;
 	}

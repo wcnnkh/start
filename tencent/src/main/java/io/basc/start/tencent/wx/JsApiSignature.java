@@ -19,7 +19,7 @@ public final class JsApiSignature implements Serializable {
 	private String jsapi_ticket;
 
 	public JsApiSignature() {
-		this.nonceStr = RandomUtils.getRandomStr(10);
+		this.nonceStr = RandomUtils.randomString(10);
 		this.timestamp = System.currentTimeMillis() / 1000;
 	}
 

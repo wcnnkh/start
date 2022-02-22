@@ -3,16 +3,32 @@ package io.basc.start.tencent.wx;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
 
-public interface TokenFactory{
+public interface TokenFactory {
 	String getAppId();
 
 	String getAppSecret();
 
-	AccessToken getAccessToken();
+	default AccessToken getAccessToken() {
+		return getAccessToken(false);
+	}
 
-	AccessToken getAccessToken(String type);
+	AccessToken getAccessToken(boolean forceUpdate);
 
-	Token getJsApiTicket();
+	default AccessToken getAccessToken(String type) {
+		return getAccessToken(type, false);
+	}
 
-	Token getTicket(String type);
+	AccessToken getAccessToken(String type, boolean forceUpdate);
+
+	default Token getJsApiTicket() {
+		return getJsApiTicket(false);
+	}
+
+	Token getJsApiTicket(boolean forceUpdate);
+
+	default Token getTicket(String type) {
+		return getTicket(type, false);
+	}
+
+	Token getTicket(String type, boolean forceUpdate);
 }

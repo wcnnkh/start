@@ -41,13 +41,15 @@ public class DefaultTokenFactory implements TokenFactory {
 		this.tokenExpireAheadTime = tokenExpireAheadTime;
 	}
 
-	public final AccessToken getAccessToken() {
-		return getAccessToken("client_credential");
+	@Override
+	public final AccessToken getAccessToken(boolean forceUpdate) {
+		return getAccessToken("client_credential", forceUpdate);
 	}
 
-	public AccessToken getAccessToken(String type) {
+	@Override
+	public AccessToken getAccessToken(String type, boolean forceUpdate) {
 		AccessToken accessToken = accessTokenMap.get(type);
-		if (accessToken == null || accessToken.getToken().isExpired(tokenExpireAheadTime)) {
+		if (accessToken == null || forceUpdate || accessToken.getToken().isExpired(tokenExpireAheadTime)) {
 			synchronized (accessTokenMap) {
 				accessToken = accessTokenMap.get(type);
 				if (accessToken == null || accessToken.getToken().isExpired(tokenExpireAheadTime)) {
@@ -59,13 +61,15 @@ public class DefaultTokenFactory implements TokenFactory {
 		return accessToken;
 	}
 
-	public final Token getJsApiTicket() {
-		return getTicket("jsapi");
+	@Override
+	public final Token getJsApiTicket(boolean forceUpdate) {
+		return getTicket("jsapi", forceUpdate);
 	}
 
-	public Token getTicket(String type) {
+	@Override
+	public Token getTicket(String type, boolean forceUpdate) {
 		Token token = ticketMap.get(type);
-		if (token == null || token.isExpired(tokenExpireAheadTime)) {
+		if (token == null || forceUpdate || token.isExpired(tokenExpireAheadTime)) {
 			synchronized (ticketMap) {
 				token = ticketMap.get(type);
 				if (token == null || token.isExpired(tokenExpireAheadTime)) {

@@ -24,7 +24,6 @@ public final class WeiXinUtils {
 	private WeiXinUtils() {
 	};
 
-
 	public static String getPaySign(Map<String, String> paramMap, String apiKey) {
 		StringBuilder sb = new StringBuilder(UriUtils.toQueryString(paramMap, URLCodec.UTF_8));
 		sb.append("&key=").append(apiKey);
@@ -71,7 +70,8 @@ public final class WeiXinUtils {
 	}
 
 	public static JsonObject doPost(String url, Map<String, ?> data) {
-		String content = HttpUtils.getHttpClient().post(String.class, url, data, MediaType.APPLICATION_FORM_URLENCODED).getBody();
+		String content = HttpUtils.getHttpClient().post(String.class, url, data, MediaType.APPLICATION_FORM_URLENCODED)
+				.getBody();
 		JsonObject json = JSONUtils.getJsonSupport().parseObject(content);
 		if (!checkResponse(json)) {
 			throw new RuntimeException(
@@ -99,11 +99,11 @@ public final class WeiXinUtils {
 		sb.append("&appid=").append(appId);
 		sb.append("&secret=").append(appSecret);
 		JsonObject json = doGet(sb.toString());
-		return parseAccessToken(json);
+		return parseAccessToken(json, grant_type);
 	}
 
-	private static AccessToken parseAccessToken(JsonObject json) {
-		return new AccessToken(new Token(json.getString("access_token"), json.getIntValue("expires_in")), null,
+	private static AccessToken parseAccessToken(JsonObject json, String type) {
+		return new AccessToken(new Token(json.getString("access_token"), json.getIntValue("expires_in")), type,
 				new Token(json.getString("refresh_token"), 30 * 24 * 3600), json.getString("scope"), null);
 	}
 
@@ -126,7 +126,7 @@ public final class WeiXinUtils {
 		map.put("code", code);
 		map.put("grant_type", "authorization_code");
 		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/access_token", map);
-		return new UserAccessToken(parseAccessToken(json), json.getString("openid"));
+		return new UserAccessToken(parseAccessToken(json, "authorization_code"), json.getString("openid"));
 	}
 
 	public static UserAccessToken refreshWebUserAccesstoken(String appid, String refresh_token) {
@@ -135,7 +135,7 @@ public final class WeiXinUtils {
 		map.put("grant_type", "refresh_token");
 		map.put("refresh_token", refresh_token);
 		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/refresh_token", map);
-		return new UserAccessToken(parseAccessToken(json), json.getString("openid"));
+		return new UserAccessToken(parseAccessToken(json, "refresh_token"), json.getString("openid"));
 	}
 
 	public static Userinfo getUserinfo(String openid, String user_access_token) {

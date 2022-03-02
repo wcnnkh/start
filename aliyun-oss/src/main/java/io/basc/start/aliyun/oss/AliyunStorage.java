@@ -23,8 +23,9 @@ import com.aliyun.oss.model.ObjectListing;
 import com.aliyun.oss.model.PolicyConditions;
 
 import io.basc.framework.codec.support.CharsetCodec;
-import io.basc.framework.data.ResourceStorageService;
-import io.basc.framework.data.StorageException;
+import io.basc.framework.data.DataException;
+import io.basc.framework.data.resource.ResourceStorageService;
+import io.basc.framework.data.resource.ResourceUploadPolicy;
 import io.basc.framework.http.HttpRequestEntity;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.io.IOUtils;
@@ -68,12 +69,12 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	@Override
-	public Resource get(String key) throws StorageException, IOException {
+	public Resource get(String key) throws DataException, IOException {
 		return new UrlResource(baseUrl + key);
 	}
 
 	@Override
-	public boolean put(String key, InputMessage input) throws StorageException, IOException {
+	public boolean put(String key, InputMessage input) throws DataException, IOException {
 		InputStream is = null;
 		try {
 			is = input.getInputStream();
@@ -85,13 +86,13 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	@Override
-	public boolean delete(String key) throws StorageException {
+	public boolean delete(String key) throws DataException {
 		oss.deleteObject(bucketName, key.startsWith("/") ? key.substring(1) : key);
 		return true;
 	}
 
 	@Override
-	public boolean delete(URI uri) throws StorageException {
+	public boolean delete(URI uri) throws DataException {
 		String str = uri.toString();
 		if (!str.startsWith(baseUrl)) {
 			return false;
@@ -101,7 +102,7 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	@Override
-	public List<Resource> list(String prefix, String marker, int limit) throws StorageException, IOException {
+	public List<Resource> list(String prefix, String marker, int limit) throws DataException, IOException {
 		ListObjectsRequest listObjectsRequest = new ListObjectsRequest(bucketName, prefix, marker, null, limit);
 		ObjectListing objectListing = oss.listObjects(listObjectsRequest);
 		if (objectListing == null) {
@@ -143,7 +144,7 @@ public class AliyunStorage implements ResourceStorageService {
 	 * web端直传 {@link https://help.aliyun.com/document_detail/31923.html}
 	 */
 	@Override
-	public UploadPolicy generatePolicy(String key, Date expiration) throws StorageException {
+	public ResourceUploadPolicy generatePolicy(String key, Date expiration) throws DataException {
 		PolicyConditions policyConditions = new PolicyConditions();
 		policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
 		policyConditions.addConditionItem(MatchMode.Exact, PolicyConditions.COND_KEY, key);
@@ -160,7 +161,7 @@ public class AliyunStorage implements ResourceStorageService {
 
 		HttpRequestEntity<?> requestEntity = HttpRequestEntity.post(oss.getEndpoint())
 				.contentType(MediaType.MULTIPART_FORM_DATA).body(parameters);
-		return new UploadPolicy(getBaseUrl(), requestEntity);
+		return new ResourceUploadPolicy(getBaseUrl(), requestEntity);
 	}
 
 }

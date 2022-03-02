@@ -2,6 +2,7 @@ package io.basc.start.tencent.wx;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.codec.support.URLCodec;
@@ -103,8 +104,9 @@ public final class WeiXinUtils {
 	}
 
 	private static AccessToken parseAccessToken(JsonObject json, String type) {
-		return new AccessToken(new Token(json.getString("access_token"), json.getIntValue("expires_in")), type,
-				new Token(json.getString("refresh_token"), 30 * 24 * 3600), json.getString("scope"), null);
+		return new AccessToken(
+				new Token(json.getString("access_token"), json.getIntValue("expires_in"), TimeUnit.SECONDS), type,
+				new Token(json.getString("refresh_token"), 30, TimeUnit.DAYS), json.getString("scope"), null);
 	}
 
 	public static Token getJsApiTicket(String access_token) {
@@ -116,7 +118,7 @@ public final class WeiXinUtils {
 		sb.append("?access_token=").append(access_token);
 		sb.append("&type=").append(type);
 		JsonObject json = doGet(sb.toString());
-		return new Token(json.getString("ticket"), json.getIntValue("expires_in"));
+		return new Token(json.getString("ticket"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
 	}
 
 	public static UserAccessToken getUserAccesstoken(String appid, String appsecret, String code) {

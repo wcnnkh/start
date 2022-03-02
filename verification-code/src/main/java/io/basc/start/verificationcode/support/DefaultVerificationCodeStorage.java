@@ -1,13 +1,15 @@
 package io.basc.start.verificationcode.support;
 
-import io.basc.framework.data.TemporaryStorage;
+import java.util.concurrent.TimeUnit;
+
+import io.basc.framework.data.TemporaryStorageOperations;
 import io.basc.start.verificationcode.VerificationCodeRecipient;
 
 public class DefaultVerificationCodeStorage implements VerificationCodeStorage {
-	private final TemporaryStorage temporaryStorage;
+	private final TemporaryStorageOperations storageOperations;
 
-	public DefaultVerificationCodeStorage(TemporaryStorage temporaryStorage) {
-		this.temporaryStorage = temporaryStorage;
+	public DefaultVerificationCodeStorage(TemporaryStorageOperations storageOperations) {
+		this.storageOperations = storageOperations;
 	}
 
 	protected String getKey(VerificationCodeRecipient recipient) {
@@ -16,18 +18,19 @@ public class DefaultVerificationCodeStorage implements VerificationCodeStorage {
 	}
 
 	@Override
-	public void set(VerificationCodeRecipient recipient, VerificationCode verificationCode, long expirationTime) {
-		temporaryStorage.set(getKey(recipient), expirationTime, verificationCode);
+	public void set(VerificationCodeRecipient recipient, VerificationCode verificationCode, long expirationTime,
+			TimeUnit timeUnit) {
+		storageOperations.set(getKey(recipient), verificationCode, expirationTime, timeUnit);
 	}
 
 	@Override
 	public void delete(VerificationCodeRecipient recipient) {
-		temporaryStorage.delete(getKey(recipient));
+		storageOperations.delete(getKey(recipient));
 	}
 
 	@Override
 	public VerificationCode getVerificationCode(VerificationCodeRecipient recipient) {
-		return temporaryStorage.get(getKey(recipient));
+		return storageOperations.get(VerificationCode.class, getKey(recipient));
 	}
 
 }

@@ -1,10 +1,12 @@
 package io.basc.satrt.app.admin.editable;
 
+import java.util.Date;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
-import io.basc.framework.data.ResourceStorageService;
-import io.basc.framework.data.ResourceStorageService.UploadPolicy;
+import io.basc.framework.data.resource.ResourceStorageService;
+import io.basc.framework.data.resource.ResourceUploadPolicy;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.http.HttpStatus;
 import io.basc.framework.mvc.HttpChannel;
@@ -12,8 +14,6 @@ import io.basc.framework.security.session.UserSession;
 import io.basc.framework.util.XUtils;
 import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.configure.AppConfigure;
-
-import java.util.Date;
 
 @RequestMapping(AppConfigure.ADMIN_CONTROLLER + "/editable")
 public class EditableController {
@@ -44,7 +44,7 @@ public class EditableController {
 			return resultFactory.error("不支持资源上传");
 		}
 
-		UploadPolicy uploadPolicy = resourceStorageService.generatePolicy(
+		ResourceUploadPolicy uploadPolicy = resourceStorageService.generatePolicy(
 				group + "/" + requestUser.getUid() + "/" + XUtils.getUUID() + "." + suffix,
 				new Date(System.currentTimeMillis() + 60000L));
 		return resultFactory.success(uploadPolicy);

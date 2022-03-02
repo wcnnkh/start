@@ -1,12 +1,14 @@
 package io.basc.start.app.web;
 
+import java.util.Map;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.security.Token;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.enums.SexType;
@@ -19,8 +21,6 @@ import io.basc.start.app.user.service.UserService;
 import io.basc.start.tencent.qq.connect.QQ;
 import io.basc.start.tencent.qq.connect.QQRequest;
 import io.basc.start.tencent.qq.connect.UserInfoResponse;
-
-import java.util.Map;
 
 @RequestMapping(value = "qq", methods = { HttpMethod.GET, HttpMethod.POST })
 @io.basc.framework.mvc.annotation.FactoryResult
@@ -42,7 +42,7 @@ public class QQController {
 		if (StringUtils.isEmpty(openid, accessToken)) {
 			return resultFactory.parameterError();
 		}
-		
+
 		User user = userService.getUserByUnionId(openid, UnionIdType.QQ_OPENID);
 		if (user == null) {
 			UserInfoResponse userinfo = qq.getUserinfo(new QQRequest(accessToken, openid));
@@ -50,7 +50,8 @@ public class QQController {
 			userAttributeModel.setSex(SexType.forDescribe(userinfo.getGender()));
 			userAttributeModel.setHeadImg(userinfo.getfigureUrlQQ1());
 			userAttributeModel.setNickname(userinfo.getNickname());
-			DataResult<User> dataResult = userService.registerUnionId(UnionIdType.QQ_OPENID, openid, null, userAttributeModel);
+			DataResult<User> dataResult = userService.registerUnionId(UnionIdType.QQ_OPENID, openid, null,
+					userAttributeModel);
 			if (dataResult.isError()) {
 				return dataResult;
 			}
@@ -67,9 +68,9 @@ public class QQController {
 			return resultFactory.parameterError();
 		}
 
-		AccessToken accessToken = qq.getAccessToken(redirect_uri, code);
-		String openid = qq.getOpenid(accessToken.getToken().getToken());
-		return login(openid, accessToken.getToken().getToken(), httpChannel);
+		Token token = qq.getToken(redirect_uri, code);
+		String openid = qq.getOpenid(token.getToken());
+		return login(openid, token.getToken(), httpChannel);
 	}
 
 	@LoginRequired
@@ -83,9 +84,9 @@ public class QQController {
 		if (user == null) {
 			return resultFactory.error("用户不存在");
 		}
-		
+
 		Result result = userService.bindUnionId(uid, UnionIdType.QQ_OPENID, openid);
-		if(result.isError()){
+		if (result.isError()) {
 			return result;
 		}
 
@@ -104,8 +105,8 @@ public class QQController {
 			return resultFactory.parameterError();
 		}
 
-		AccessToken accessToken = qq.getAccessToken(redirect_uri, code);
-		String openid = qq.getOpenid(accessToken.getToken().getToken());
-		return bind(uid, openid, accessToken.getToken().getToken());
+		Token token = qq.getToken(redirect_uri, code);
+		String openid = qq.getOpenid(token.getToken());
+		return bind(uid, openid, token.getToken());
 	}
 }

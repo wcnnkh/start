@@ -1,6 +1,7 @@
 package io.basc.start.tencent.wx;
 
 import io.basc.framework.oauth2.AccessToken;
+import io.basc.framework.security.InvalidTokenException;
 import io.basc.framework.security.Token;
 
 public interface TokenFactory {
@@ -8,7 +9,7 @@ public interface TokenFactory {
 
 	String getAppSecret();
 
-	default AccessToken getAccessToken() {
+	default AccessToken getAccessToken() throws InvalidTokenException {
 		return getAccessToken(false);
 	}
 
@@ -20,15 +21,15 @@ public interface TokenFactory {
 
 	AccessToken getAccessToken(String type, boolean forceUpdate);
 
-	default Token getJsApiTicket() {
+	default Token getJsApiTicket() throws InvalidTokenException {
 		return getJsApiTicket(false);
 	}
 
 	Token getJsApiTicket(boolean forceUpdate);
 
-	default Token getTicket(String type) {
+	default Token getTicket(String type) throws InvalidTokenException {
 		return getTicket(type, false);
 	}
 
-	Token getTicket(String type, boolean forceUpdate);
+	Token getTicket(String type, boolean forceUpdate) throws InvalidTokenException;
 }

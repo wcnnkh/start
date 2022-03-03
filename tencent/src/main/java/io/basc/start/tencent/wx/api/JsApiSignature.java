@@ -1,4 +1,4 @@
-package io.basc.start.tencent.wx;
+package io.basc.start.tencent.wx.api;
 
 import io.basc.framework.codec.encode.SHA1;
 import io.basc.framework.codec.support.CharsetCodec;

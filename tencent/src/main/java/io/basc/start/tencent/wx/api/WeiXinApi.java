@@ -116,18 +116,42 @@ public class WeiXinApi {
 		return parseJson(content);
 	}
 
+	/**
+	 * 直接从服务器获取
+	 * 
+	 * @param appid
+	 * @param appsecret
+	 * @param grantType
+	 * @return
+	 * @throws WeiXinApiException
+	 */
+	public Token getToken(String appid, String appsecret, String grantType) throws WeiXinApiException {
+		StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/token");
+		sb.append("?grant_type=").append(grantType);
+		sb.append("&appid=").append(appid);
+		sb.append("&secret=").append(appsecret);
+		JsonObject json = doGet(sb.toString());
+		return new Token(json.getString("access_token"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 直接从服务器获取
+	 * 
+	 * @param grantType
+	 * @return
+	 * @throws WeiXinApiException
+	 */
+	public final Token getToken(String grantType) throws WeiXinApiException {
+		return getToken(this.appid, this.appsecret, grantType);
+	}
+
 	public Token getToken(String grantType, boolean forceUpdate) throws WeiXinApiException {
 		Token token = tokenMap.get(grantType);
 		if (forceUpdate || isInvalidToken(token)) {
 			synchronized (tokenMap) {
 				token = tokenMap.get(grantType);
 				if (forceUpdate || isInvalidToken(token)) {
-					StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/token");
-					sb.append("?grant_type=").append(grantType);
-					sb.append("&appid=").append(appid);
-					sb.append("&secret=").append(appsecret);
-					JsonObject json = doGet(sb.toString());
-					token = new Token(json.getString("access_token"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
+					token = getToken(grantType);
 					tokenMap.put(grantType, token);
 				}
 			}
@@ -163,6 +187,22 @@ public class WeiXinApi {
 		});
 	}
 
+	/**
+	 * 直接从服务器获取
+	 * 
+	 * @param access_token
+	 * @param type
+	 * @return
+	 * @throws WeiXinApiException
+	 */
+	public Token getTicket(String access_token, String type) throws WeiXinApiException {
+		StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/ticket/getticket");
+		sb.append("?access_token=").append(access_token);
+		sb.append("&type=").append(type);
+		JsonObject json = doGet(sb.toString());
+		return new Token(json.getString("ticket"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
+	}
+
 	public Token getTicket(String type, boolean forceUpdate) throws WeiXinApiException {
 		Token ticket = tokenMap.get(type);
 		if (forceUpdate || isInvalidToken(ticket)) {
@@ -170,11 +210,7 @@ public class WeiXinApi {
 				ticket = ticketMap.get(type);
 				if (forceUpdate || isInvalidToken(ticket)) {
 					ticket = processWithClientCredential((token) -> {
-						StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/ticket/getticket");
-						sb.append("?access_token=").append(token.getToken());
-						sb.append("&type=").append(type);
-						JsonObject json = doGet(sb.toString());
-						return new Token(json.getString("ticket"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
+						return getTicket(token.getToken(), type);
 					});
 					ticketMap.put(type, ticket);
 				}

@@ -19,6 +19,17 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		return getTicket("jsapi", forceUpdate);
 	}
 
+	/**
+	 * 直接从服务器获取
+	 * 
+	 * @param access_token
+	 * @return
+	 * @throws WeiXinApiException
+	 */
+	public final Token getJsapiTicket(String access_token) throws WeiXinApiException {
+		return getTicket(access_token, "jsapi");
+	}
+
 	public final <T, E extends Throwable> T processWithJsapiTicket(Processor<Token, T, E> processor)
 			throws WeiXinApiException, E {
 		return processWithTicket("jsapi", processor);

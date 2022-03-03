@@ -1,4 +1,4 @@
-package io.basc.start.tencent.wx;
+package io.basc.start.tencent.wx.open;
 
 import java.io.Serializable;
 

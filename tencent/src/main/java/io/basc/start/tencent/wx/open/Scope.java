@@ -1,4 +1,4 @@
-package io.basc.start.tencent.wx;
+package io.basc.start.tencent.wx.open;
 
 public enum Scope {
 	BASE("snsapi_base"), LOGIN("snsapi_login"), USERINFO("snsapi_userinfo"),;

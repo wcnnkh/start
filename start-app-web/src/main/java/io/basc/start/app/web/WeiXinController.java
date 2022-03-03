@@ -19,13 +19,13 @@ import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.security.LoginRequired;
 import io.basc.start.app.user.security.UserLoginService;
 import io.basc.start.app.user.service.UserService;
-import io.basc.start.tencent.wx.Scope;
 import io.basc.start.tencent.wx.api.PhoneNumber;
 import io.basc.start.tencent.wx.api.Session;
 import io.basc.start.tencent.wx.api.UserAccessToken;
 import io.basc.start.tencent.wx.api.Userinfo;
 import io.basc.start.tencent.wx.api.WeiXinApplet;
 import io.basc.start.tencent.wx.api.WeiXinOffiaccount;
+import io.basc.start.tencent.wx.open.Scope;
 
 @RequestMapping(value = "weixin", methods = { HttpMethod.GET, HttpMethod.POST })
 @io.basc.framework.mvc.annotation.FactoryResult

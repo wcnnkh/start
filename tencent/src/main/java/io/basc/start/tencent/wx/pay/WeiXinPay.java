@@ -32,7 +32,6 @@ import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.xml.XmlUtils;
 import io.basc.start.tencent.wx.WeiXinException;
-import io.basc.start.tencent.wx.WeiXinUtils;
 
 public class WeiXinPay {
 	private static Logger logger = LoggerFactory.getLogger(WeiXinPay.class);
@@ -128,6 +127,43 @@ public class WeiXinPay {
 			signTypeToUse = SignType.valueOf(params.get("sign_type").toString());
 		}
 		return signTypeToUse;
+	}
+
+	public static String getPaySign(Map<String, String> paramMap, String apiKey) {
+		StringBuilder sb = new StringBuilder(UriUtils.toQueryString(paramMap, URLCodec.UTF_8));
+		sb.append("&key=").append(apiKey);
+		return CharsetCodec.UTF_8.toMD5().encode(sb.toString()).toUpperCase();
+	}
+
+	/**
+	 * 获取微信公众号支付签名
+	 * 
+	 * @param timeStamp
+	 * @param nonceStr
+	 * @param prepay_id
+	 * @return
+	 */
+	public static String getBrandWCPayRequestSign(String appId, String apiKey, String timeStamp, String nonceStr,
+			String prepay_id) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("appId", appId);
+		map.put("timeStamp", timeStamp);
+		map.put("nonceStr", nonceStr);
+		map.put("package", "prepay_id=" + prepay_id);
+		map.put("signType", "MD5");
+		return getPaySign(map, apiKey);
+	}
+
+	public static String getAppPayRequestSign(String appId, String mch_id, String apiKey, long timeStamp,
+			String noceStr, String prepay_id) {
+		Map<String, String> signMap = new HashMap<String, String>();
+		signMap.put("appid", appId);
+		signMap.put("partnerid", mch_id);
+		signMap.put("prepayid", prepay_id);
+		signMap.put("package", "Sign=WXPay");
+		signMap.put("noncestr", noceStr);
+		signMap.put("timestamp", timeStamp + "");
+		return getPaySign(signMap, apiKey);
 	}
 
 	public SSLSocketFactory getSslSocketFactory() {
@@ -287,10 +323,10 @@ public class WeiXinPay {
 		unifiedorder.setTimestamp(timestamp);
 		unifiedorder.setNonce_str(response.getNonceStr());
 		if (response.getTradeType() == TradeType.JSAPI || response.getTradeType() == TradeType.MWEB) {
-			unifiedorder.setPaySign(WeiXinUtils.getBrandWCPayRequestSign(appId, apiKey,
-					String.valueOf(unifiedorder.getTimestamp()), unifiedorder.getNonce_str(), prepay_id));
+			unifiedorder.setPaySign(getBrandWCPayRequestSign(appId, apiKey, String.valueOf(unifiedorder.getTimestamp()),
+					unifiedorder.getNonce_str(), prepay_id));
 		} else {
-			unifiedorder.setPaySign(WeiXinUtils.getAppPayRequestSign(appId, mch_id, apiKey, unifiedorder.getTimestamp(),
+			unifiedorder.setPaySign(getAppPayRequestSign(appId, mch_id, apiKey, unifiedorder.getTimestamp(),
 					unifiedorder.getNonce_str(), prepay_id));
 		}
 		unifiedorder.setPrepay_id(prepay_id);

@@ -13,14 +13,10 @@ import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
-import io.basc.framework.logger.Logger;
-import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.tencent.wx.WeiXinException;
 
 public class WeiXinApplet extends ClusterWeiXinApi {
-	private static Logger logger = LoggerFactory.getLogger(WeiXinApplet.class);
-
 	public WeiXinApplet(String appid, String appsecret) {
 		super(appid, appsecret);
 	}
@@ -43,15 +39,21 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		return JSONUtils.getJsonSupport().parseObject(content, PhoneNumber.class);
 	}
 
-	public final void uniformSendMessage(String touser, WeappTemplateMsg weapp_template_msg,
+	public void uniformSendMessage(String accessToken, String touser, WeappTemplateMsg weapp_template_msg,
 			MpTemplateMsg mp_template_msg) throws WeiXinApiException {
 		Map<String, Object> map = new HashMap<String, Object>(4, 1);
 		map.put("touser", touser);
 		map.put("weapp_template_msg", weapp_template_msg);
 		map.put("mp_template_msg", mp_template_msg);
+		doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token=" + accessToken,
+				map, MediaType.APPLICATION_JSON);
+	}
+
+	public final void uniformSendMessage(String touser, WeappTemplateMsg weapp_template_msg,
+			MpTemplateMsg mp_template_msg) throws WeiXinApiException {
 		processWithClientCredential((token) -> {
-			return doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token="
-					+ token.getToken(), map);
+			uniformSendMessage(token.getToken(), touser, weapp_template_msg, mp_template_msg);
+			return null;
 		});
 	}
 
@@ -60,12 +62,15 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 	 * <br/>
 	 * 创建被分享动态消息的 activity_id
 	 */
+	public CreateActivityIdResponse createMessageActivityId(String accessToken) {
+		JsonObject json = doPost(
+				"https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create?access_token=" + accessToken, null,
+				null);
+		return new CreateActivityIdResponse(json);
+	}
+
 	public final CreateActivityIdResponse createMessageActivityId() {
-		return processWithClientCredential((token) -> {
-			JsonObject json = doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create?access_token="
-					+ token.getToken(), null);
-			return new CreateActivityIdResponse(json);
-		});
+		return processWithClientCredential((token) -> createMessageActivityId(token.getToken()));
 	}
 
 	/**
@@ -74,6 +79,14 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 	 * @param parameter_list 动态消息对应的模板信息
 	 */
 	public final void sendUpdatablemsg(String activity_id, TargetState target_state,
+			EnumMap<TemplateParameterName, String> parameter_list) throws WeiXinApiException {
+		processWithClientCredential((token) -> {
+			sendUpdatablemsg(token.getToken(), activity_id, target_state, parameter_list);
+			return null;
+		});
+	}
+
+	public void sendUpdatablemsg(String accessToken, String activity_id, TargetState target_state,
 			EnumMap<TemplateParameterName, String> parameter_list) throws WeiXinApiException {
 		Map<String, Object> map = new HashMap<String, Object>(4, 1);
 		map.put("activity_id", activity_id);
@@ -89,18 +102,8 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		}
 		template_info.put("parameter_list", list);
 		map.put("template_info", template_info);
-		processWithClientCredential((token) -> {
-			return doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/updatablemsg/send?access_token="
-					+ token.getToken(), map);
-		});
-	}
-
-	public JsonObject doPostJson(String url, Object json) {
-		String content = getHttpClient().post(String.class, url, json, MediaType.APPLICATION_JSON_UTF8).getBody();
-		if (logger.isDebugEnabled()) {
-			logger.debug("request:{}, formData={}, response:{}", url, json, content);
-		}
-		return parseJson(content);
+		doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/updatablemsg/send?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON);
 	}
 
 	public String generateUrllink(String accessToken, GenerateUrlRequest request) throws WeiXinException {
@@ -131,12 +134,12 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 			map.put("expire_interval", request.getExpireInterval());
 		}
 
-		JsonObject response = doPostJson("https://api.weixin.qq.com/wxa/generate_urllink?access_token=" + accessToken,
-				map);
+		JsonObject response = doPost("https://api.weixin.qq.com/wxa/generate_urllink?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
 		return response.getString("url_link");
 	}
 
-	public String generateUrllink(GenerateUrlRequest request) throws WeiXinException {
+	public final String generateUrllink(GenerateUrlRequest request) throws WeiXinException {
 		return processWithClientCredential((token) -> generateUrllink(token.getToken(), request));
 	}
 
@@ -172,12 +175,36 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 			map.put("expire_interval", request.getExpireInterval());
 		}
 
-		JsonObject response = doPostJson("https://api.weixin.qq.com/wxa/generatescheme?access_token=" + accessToken,
-				map);
+		JsonObject response = doPost("https://api.weixin.qq.com/wxa/generatescheme?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
 		return response.getString("openlink");
 	}
 
-	public String generatescheme(GenerateUrlRequest request) throws WeiXinException {
+	public final String generatescheme(GenerateUrlRequest request) throws WeiXinException {
 		return processWithClientCredential((token) -> generatescheme(token.getToken(), request));
+	}
+
+	public QueryschemeResponse queryscheme(String accessToken, String scheme) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("scheme", scheme);
+		JsonObject json = doPost("https://api.weixin.qq.com/wxa/queryscheme?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
+		return new QueryschemeResponse(json);
+	}
+
+	public final QueryschemeResponse queryscheme(String scheme) {
+		return processWithClientCredential((token) -> queryscheme(token.getToken(), scheme));
+	}
+
+	public QueryUrllinkResponse queryUrllink(String accessToken, String urlLink) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("url_link", urlLink);
+		JsonObject json = doPost("https://api.weixin.qq.com/wxa/query_urllink?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
+		return new QueryUrllinkResponse(json);
+	}
+
+	public final QueryUrllinkResponse queryUrllink(String urlLink) {
+		return processWithClientCredential((token) -> queryUrllink(token.getToken(), urlLink));
 	}
 }

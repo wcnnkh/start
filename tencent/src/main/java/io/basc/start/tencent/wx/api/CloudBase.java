@@ -8,16 +8,19 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class JumpWxa implements Serializable {
+public class CloudBase implements Serializable{
 	private static final long serialVersionUID = 1L;
-
+	private String env;
+	private String domain;
 	private String path;
 	private String query;
-	private String envVersion;
+	private String resourceAppid;
 
-	public JumpWxa(JsonObject json) {
+	public CloudBase(JsonObject json) {
+		this.env = json.getString("evn");
+		this.domain = json.getString("domain");
 		this.path = json.getString("path");
 		this.query = json.getString("query");
-		this.envVersion = json.getString("env_version");
+		this.resourceAppid = json.getString("resource_appid");
 	}
 }

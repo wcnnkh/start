@@ -10,16 +10,12 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class SchemeInfo extends JumpWxa {
+public class UrlLinkInfo extends SchemeInfo {
 	private static final long serialVersionUID = 1L;
-	private String appid;
-	private Long createTime;
-	private Long expireTime;
+	private CloudBase cloudBase;
 
-	public SchemeInfo(JsonObject json) {
+	public UrlLinkInfo(JsonObject json) {
 		super(json);
-		this.appid = json.getString("appid");
-		this.createTime = json.getLong("create_time");
-		this.expireTime = json.getLong("expire_time");
+		this.cloudBase = json.containsKey("cloud_base") ? new CloudBase(json.getJsonObject("cloud_base")) : null;
 	}
 }

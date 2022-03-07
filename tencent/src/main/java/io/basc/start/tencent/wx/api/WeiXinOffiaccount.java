@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
@@ -47,7 +48,7 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		map.put("secret", getAppsecret());
 		map.put("code", code);
 		map.put("grant_type", "authorization_code");
-		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/access_token", map);
+		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/access_token", map, MediaType.APPLICATION_FORM_URLENCODED);
 		return new UserAccessToken(parseAccessToken(json, "authorization_code"), json.getString("openid"));
 	}
 
@@ -56,7 +57,7 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		map.put("appid", getAppid());
 		map.put("grant_type", "refresh_token");
 		map.put("refresh_token", refresh_token);
-		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/refresh_token", map);
+		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/refresh_token", map, MediaType.APPLICATION_FORM_URLENCODED);
 		return new UserAccessToken(parseAccessToken(json, "refresh_token"), json.getString("openid"));
 	}
 
@@ -74,7 +75,7 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		paramMap.put("access_token", user_access_token);
 		paramMap.put("openid", openid);
 		paramMap.put("lang", lang);
-		JsonObject json = doPost("https://api.weixin.qq.com/sns/userinfo", paramMap);
+		JsonObject json = doPost("https://api.weixin.qq.com/sns/userinfo", paramMap, MediaType.APPLICATION_FORM_URLENCODED);
 		return new Userinfo(json.getString("openid"), json.getString("nickname"), json.getIntValue("sex"),
 				json.getString("province"), json.getString("city"), json.getString("country"),
 				json.getString("headimgurl"), json.getString("privilege"), json.getString("unionid"));

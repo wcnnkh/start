@@ -107,10 +107,10 @@ public class WeiXinApi {
 		return parseJson(content);
 	}
 
-	public JsonObject doPost(String url, Map<String, ?> data) {
-		String content = getHttpClient().post(String.class, url, data, MediaType.APPLICATION_FORM_URLENCODED).getBody();
+	public JsonObject doPost(String url, Object body, MediaType contentType) {
+		String content = getHttpClient().post(String.class, url, body, contentType).getBody();
 		if (logger.isDebugEnabled()) {
-			logger.debug("request:{}, formData={}, response:{}", url, data, content);
+			logger.debug("request:{}, formData={}, response:{}", url, body, content);
 		}
 		return parseJson(content);
 	}

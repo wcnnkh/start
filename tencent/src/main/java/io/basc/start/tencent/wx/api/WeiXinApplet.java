@@ -13,14 +13,10 @@ import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
-import io.basc.framework.logger.Logger;
-import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.tencent.wx.WeiXinException;
 
 public class WeiXinApplet extends ClusterWeiXinApi {
-	private static Logger logger = LoggerFactory.getLogger(WeiXinApplet.class);
-
 	public WeiXinApplet(String appid, String appsecret) {
 		super(appid, appsecret);
 	}
@@ -51,7 +47,7 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		map.put("mp_template_msg", mp_template_msg);
 		processWithClientCredential((token) -> {
 			return doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token="
-					+ token.getToken(), map);
+					+ token.getToken(), map, MediaType.APPLICATION_FORM_URLENCODED);
 		});
 	}
 
@@ -63,7 +59,7 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 	public final CreateActivityIdResponse createMessageActivityId() {
 		return processWithClientCredential((token) -> {
 			JsonObject json = doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create?access_token="
-					+ token.getToken(), null);
+					+ token.getToken(), null, null);
 			return new CreateActivityIdResponse(json);
 		});
 	}
@@ -91,16 +87,8 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		map.put("template_info", template_info);
 		processWithClientCredential((token) -> {
 			return doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/updatablemsg/send?access_token="
-					+ token.getToken(), map);
+					+ token.getToken(), map, MediaType.APPLICATION_FORM_URLENCODED);
 		});
-	}
-
-	public JsonObject doPostJson(String url, Object json) {
-		String content = getHttpClient().post(String.class, url, json, MediaType.APPLICATION_JSON_UTF8).getBody();
-		if (logger.isDebugEnabled()) {
-			logger.debug("request:{}, formData={}, response:{}", url, json, content);
-		}
-		return parseJson(content);
 	}
 
 	public String generateUrllink(String accessToken, GenerateUrlRequest request) throws WeiXinException {
@@ -131,8 +119,8 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 			map.put("expire_interval", request.getExpireInterval());
 		}
 
-		JsonObject response = doPostJson("https://api.weixin.qq.com/wxa/generate_urllink?access_token=" + accessToken,
-				map);
+		JsonObject response = doPost("https://api.weixin.qq.com/wxa/generate_urllink?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
 		return response.getString("url_link");
 	}
 
@@ -172,12 +160,36 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 			map.put("expire_interval", request.getExpireInterval());
 		}
 
-		JsonObject response = doPostJson("https://api.weixin.qq.com/wxa/generatescheme?access_token=" + accessToken,
-				map);
+		JsonObject response = doPost("https://api.weixin.qq.com/wxa/generatescheme?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
 		return response.getString("openlink");
 	}
 
 	public String generatescheme(GenerateUrlRequest request) throws WeiXinException {
 		return processWithClientCredential((token) -> generatescheme(token.getToken(), request));
+	}
+
+	public QueryschemeResponse queryscheme(String accessToken, String scheme) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("scheme", scheme);
+		JsonObject json = doPost("https://api.weixin.qq.com/wxa/queryscheme?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
+		return new QueryschemeResponse(json);
+	}
+
+	public QueryschemeResponse queryscheme(String scheme) {
+		return processWithClientCredential((token) -> queryscheme(token.getToken(), scheme));
+	}
+
+	public QueryUrllinkResponse queryUrllink(String accessToken, String urlLink) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("url_link", urlLink);
+		JsonObject json = doPost("https://api.weixin.qq.com/wxa/query_urllink?access_token=" + accessToken, map,
+				MediaType.APPLICATION_JSON_UTF8);
+		return new QueryUrllinkResponse(json);
+	}
+
+	public QueryUrllinkResponse queryUrllink(String urlLink) {
+		return processWithClientCredential((token) -> queryUrllink(token.getToken(), urlLink));
 	}
 }

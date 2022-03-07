@@ -100,7 +100,7 @@ public class WeiXinApi {
 	}
 
 	public JsonObject doGet(String url) throws WeiXinApiException {
-		String content = httpClient.get(String.class, url).getBody();
+		String content = getHttpClient().get(String.class, url).getBody();
 		if (logger.isDebugEnabled()) {
 			logger.debug("request:{}, response:{}", url, content);
 		}
@@ -108,8 +108,7 @@ public class WeiXinApi {
 	}
 
 	public JsonObject doPost(String url, Map<String, ?> data) {
-		String content = HttpUtils.getHttpClient().post(String.class, url, data, MediaType.APPLICATION_FORM_URLENCODED)
-				.getBody();
+		String content = getHttpClient().post(String.class, url, data, MediaType.APPLICATION_FORM_URLENCODED).getBody();
 		if (logger.isDebugEnabled()) {
 			logger.debug("request:{}, formData={}, response:{}", url, data, content);
 		}
@@ -232,4 +231,5 @@ public class WeiXinApi {
 			}
 		});
 	}
+
 }

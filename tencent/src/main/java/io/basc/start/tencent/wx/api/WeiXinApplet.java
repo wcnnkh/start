@@ -10,10 +10,16 @@ import java.util.Map.Entry;
 import io.basc.framework.codec.support.AES;
 import io.basc.framework.codec.support.Base64;
 import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.logger.Logger;
+import io.basc.framework.logger.LoggerFactory;
+import io.basc.framework.util.StringUtils;
+import io.basc.start.tencent.wx.WeiXinException;
 
 public class WeiXinApplet extends ClusterWeiXinApi {
+	private static Logger logger = LoggerFactory.getLogger(WeiXinApplet.class);
 
 	public WeiXinApplet(String appid, String appsecret) {
 		super(appid, appsecret);
@@ -87,5 +93,91 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 			return doPost("https://api.weixin.qq.com/cgi-bin/message/wxopen/updatablemsg/send?access_token="
 					+ token.getToken(), map);
 		});
+	}
+
+	public JsonObject doPostJson(String url, Object json) {
+		String content = getHttpClient().post(String.class, url, json, MediaType.APPLICATION_JSON_UTF8).getBody();
+		if (logger.isDebugEnabled()) {
+			logger.debug("request:{}, formData={}, response:{}", url, json, content);
+		}
+		return parseJson(content);
+	}
+
+	public String generateUrllink(String accessToken, GenerateUrlRequest request) throws WeiXinException {
+		Map<String, Object> map = new HashMap<String, Object>(8);
+		if (StringUtils.isNotEmpty(request.getPath())) {
+			map.put("path", request.getPath());
+		}
+
+		if (StringUtils.isNotEmpty(request.getQuery())) {
+			map.put("query", request.getQuery());
+		}
+
+		if (StringUtils.isNotEmpty(request.getEnvVersion())) {
+			map.put("env_version", request.getEnvVersion());
+		}
+
+		map.put("is_expire", request.isExpire());
+
+		if (request.getExpireType() != null) {
+			map.put("expire_type", request.getExpireType());
+		}
+
+		if (request.getExpireTime() != null) {
+			map.put("expire_time", request.getExpireTime());
+		}
+
+		if (request.getExpireInterval() != null) {
+			map.put("expire_interval", request.getExpireInterval());
+		}
+
+		JsonObject response = doPostJson("https://api.weixin.qq.com/wxa/generate_urllink?access_token=" + accessToken,
+				map);
+		return response.getString("url_link");
+	}
+
+	public String generateUrllink(GenerateUrlRequest request) throws WeiXinException {
+		return processWithClientCredential((token) -> generateUrllink(token.getToken(), request));
+	}
+
+	public String generatescheme(String accessToken, GenerateUrlRequest request) throws WeiXinException {
+		Map<String, Object> jumpWxaMap = new HashMap<String, Object>(4);
+		if (StringUtils.isNotEmpty(request.getPath())) {
+			jumpWxaMap.put("path", request.getPath());
+		}
+
+		if (StringUtils.isNotEmpty(request.getQuery())) {
+			jumpWxaMap.put("query", request.getQuery());
+		}
+
+		if (StringUtils.isNotEmpty(request.getEnvVersion())) {
+			jumpWxaMap.put("env_version", request.getEnvVersion());
+		}
+
+		Map<String, Object> map = new HashMap<String, Object>(8);
+		if (!jumpWxaMap.isEmpty()) {
+			map.put("jump_wxa", jumpWxaMap);
+		}
+
+		map.put("is_expire", request.isExpire());
+		if (request.getExpireType() != null) {
+			map.put("expire_type", request.getExpireType());
+		}
+
+		if (request.getExpireTime() != null) {
+			map.put("expire_time", request.getExpireTime());
+		}
+
+		if (request.getExpireInterval() != null) {
+			map.put("expire_interval", request.getExpireInterval());
+		}
+
+		JsonObject response = doPostJson("https://api.weixin.qq.com/wxa/generatescheme?access_token=" + accessToken,
+				map);
+		return response.getString("openlink");
+	}
+
+	public String generatescheme(GenerateUrlRequest request) throws WeiXinException {
+		return processWithClientCredential((token) -> generatescheme(token.getToken(), request));
 	}
 }

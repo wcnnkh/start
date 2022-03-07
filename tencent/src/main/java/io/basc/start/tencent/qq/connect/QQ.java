@@ -1,5 +1,9 @@
 package io.basc.start.tencent.qq.connect;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.http.HttpResponseEntity;
 import io.basc.framework.http.HttpUtils;
@@ -8,13 +12,9 @@ import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.net.uri.UriUtils;
-import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 根据qq互联文档实现
@@ -60,7 +60,8 @@ public class QQ {
 			sb.append("&oauth_consumer_key=").append(appId);
 			sb.append("&openid=").append(request.getOpenid());
 		}
-		return response(HttpUtils.getHttpClient().get(String.class, UriUtils.appendQueryParams(sb.toString(), params, URLCodec.UTF_8)));
+		return response(HttpUtils.getHttpClient().get(String.class,
+				UriUtils.appendQueryParams(sb.toString(), params, URLCodec.UTF_8)));
 	}
 
 	public JsonObject doPost(String url, QQRequest request, Map<String, ?> params, MediaType mediaType) {
@@ -87,7 +88,7 @@ public class QQ {
 		return JSONUtils.getJsonSupport().parseObject(content);
 	}
 
-	public AccessToken getAccessToken(String redirect_uri, String code) {
+	public Token getToken(String redirect_uri, String code) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("grant_type", "authorization_code");
 		map.put("client_id", appId);
@@ -98,11 +99,10 @@ public class QQ {
 				.getBody();
 		JsonObject json = JSONUtils.getJsonSupport().parseObject(content);
 		if (json.getIntValue("code") != 0) {
-			throw new RuntimeException(
-					"url=" + TOKEN + ", data=" + JSONUtils.getJsonSupport().toJSONString(map) + ", response=" + content);
+			throw new RuntimeException("url=" + TOKEN + ", data=" + JSONUtils.getJsonSupport().toJSONString(map)
+					+ ", response=" + content);
 		}
-		return new AccessToken(new Token(json.getString("access_token"), json.getIntValue("expires_in")), null,
-				new Token(json.getString("refresh_token"), 0), null, null);
+		return new Token(json.getString("access_token"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
 	}
 
 	public String getOpenid(String access_token) {
@@ -115,19 +115,15 @@ public class QQ {
 	/**
 	 * 获取登录授权地址
 	 * 
-	 * @param redirect_uri
-	 *            登录成功后的回调地址, 必须是注册appid时填写的主域名下的地址，建议设置为网站首页或网站的用户中心
-	 * @param state
-	 *            client端的状态值。用于第三方应用防止CSRF攻击，成功授权后回调时会原样带回。请务必严格按照流程检查用户与state参数状态的绑定。
-	 * @param scope
-	 *            请求用户授权时向用户显示的可进行授权的列表。
-	 *            可填写的值是API文档中列出的接口，以及一些动作型的授权（目前仅有：do_like），如果要填写多个接口名称，请用逗号隔开。
-	 *            例如：scope=get_user_info,list_album,upload_pic,do_like
-	 *            不传则默认请求对接口get_user_info进行授权。
-	 *            建议控制授权项的数量，只传入必要的接口名称，因为授权项越多，用户越可能拒绝进行任何授权。
-	 * @param display
-	 *            仅PC网站接入时使用。 用于展示的样式。不传则默认展示为PC下的样式。
-	 *            如果传入“mobile”，则展示为mobile端下的样式。
+	 * @param redirect_uri 登录成功后的回调地址, 必须是注册appid时填写的主域名下的地址，建议设置为网站首页或网站的用户中心
+	 * @param state        client端的状态值。用于第三方应用防止CSRF攻击，成功授权后回调时会原样带回。请务必严格按照流程检查用户与state参数状态的绑定。
+	 * @param scope        请求用户授权时向用户显示的可进行授权的列表。
+	 *                     可填写的值是API文档中列出的接口，以及一些动作型的授权（目前仅有：do_like），如果要填写多个接口名称，请用逗号隔开。
+	 *                     例如：scope=get_user_info,list_album,upload_pic,do_like
+	 *                     不传则默认请求对接口get_user_info进行授权。
+	 *                     建议控制授权项的数量，只传入必要的接口名称，因为授权项越多，用户越可能拒绝进行任何授权。
+	 * @param display      仅PC网站接入时使用。 用于展示的样式。不传则默认展示为PC下的样式。
+	 *                     如果传入“mobile”，则展示为mobile端下的样式。
 	 * @return
 	 */
 	public String getAuthorizeUrl(String redirect_uri, String state, @Nullable String scope,

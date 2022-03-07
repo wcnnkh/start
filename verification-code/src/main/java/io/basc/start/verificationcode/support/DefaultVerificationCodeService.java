@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
-import io.basc.framework.data.memory.MemoryDataOperations;
+import io.basc.framework.data.memory.MemoryOperations;
 import io.basc.framework.factory.ConfigurableServices;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
@@ -36,7 +37,7 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 	private final VerificationCodeStorage strategy;
 
 	public DefaultVerificationCodeService() {
-		this(new DefaultVerificationCodeStorage(new MemoryDataOperations()));
+		this(new DefaultVerificationCodeStorage(new MemoryOperations()));
 	}
 
 	public DefaultVerificationCodeService(VerificationCodeStorage strategy) {
@@ -73,7 +74,8 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 
 		if (getConfiguration().isTest()) {
 			logger.info("测试模式发送验证码请求：{}", requests);
-			return requests.stream().map((r) -> r == null? null:VerificationCodeResponse.builder().request(r).success(true).build())
+			return requests.stream()
+					.map((r) -> r == null ? null : VerificationCodeResponse.builder().request(r).success(true).build())
 					.collect(Collectors.toList());
 		}
 
@@ -81,13 +83,13 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 		VerificationCodeResponse[] responses = new VerificationCodeResponse[arrays.length];
 		Map<VerificationCodeRecipient, VerificationCode> verificationCodeMap = new HashMap<>();
 		for (VerificationCodeSenderAdapter adapter : this) {
-			List<Pair<Integer, VerificationCodeRequest>> list = new ArrayList<Pair<Integer,VerificationCodeRequest>>();
+			List<Pair<Integer, VerificationCodeRequest>> list = new ArrayList<Pair<Integer, VerificationCodeRequest>>();
 			for (int i = 0; i < arrays.length; i++) {
 				VerificationCodeRequest request = arrays[i];
-				if(request == null) {
+				if (request == null) {
 					continue;
 				}
-				
+
 				VerificationCode verificationCode = verificationCodeMap.get(request.getRecipient());
 				if (verificationCode == null) {
 					verificationCode = strategy.getVerificationCode(request.getRecipient());
@@ -104,19 +106,20 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 					arrays[i] = null;
 					continue;
 				}
-				
-				if(adapter.canSend(request.getRecipient())) {
+
+				if (adapter.canSend(request.getRecipient())) {
 					list.add(new Pair<Integer, VerificationCodeRequest>(i, request));
 					arrays[i] = null;
 					continue;
 				}
 			}
-			
-			if(!list.isEmpty()) {
-				List<VerificationCodeResponse> sendResponses = send(verificationCodeMap, list.stream().map((e) -> e.getValue()).collect(Collectors.toList()), adapter);
+
+			if (!list.isEmpty()) {
+				List<VerificationCodeResponse> sendResponses = send(verificationCodeMap,
+						list.stream().map((e) -> e.getValue()).collect(Collectors.toList()), adapter);
 				Iterator<Pair<Integer, VerificationCodeRequest>> entryIterator = list.iterator();
 				Iterator<VerificationCodeResponse> sendIterator = sendResponses.iterator();
-				while(entryIterator.hasNext() && sendIterator.hasNext()) {
+				while (entryIterator.hasNext() && sendIterator.hasNext()) {
 					Pair<Integer, VerificationCodeRequest> entry = entryIterator.next();
 					VerificationCodeResponse response = sendIterator.next();
 					responses[entry.getKey()] = response;
@@ -124,15 +127,15 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 			}
 		}
 
-		for(int i=0; i<arrays.length; i++) {
+		for (int i = 0; i < arrays.length; i++) {
 			VerificationCodeRequest request = arrays[i];
-			if(request == null) {
+			if (request == null) {
 				continue;
 			}
-			
+
 			logger.error("Not support send verification code request: ", request);
 			responses[i] = VerificationCodeResponse.builder().request(request).success(false).message("not support")
-						.build();
+					.build();
 		}
 		return Arrays.asList(responses);
 	}
@@ -158,7 +161,7 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 
 				verificationCode.setCode(response.getRequest().getCode());
 				verificationCode.setLastSendTime(System.currentTimeMillis());
-				strategy.set(response.getRequest().getRecipient(), verificationCode, TimeUtils.ONE_DAY / 1000);
+				strategy.set(response.getRequest().getRecipient(), verificationCode, TimeUtils.ONE_DAY, TimeUnit.DAYS);
 			}
 		}
 		return sendResponses;

@@ -163,7 +163,7 @@ public class WeiXinApi {
 		return processWithToken("client_credential", processor);
 	}
 
-	public <T, E extends Throwable> T processWithToken(String grantType, Processor<Token, T, E> processor)
+	public final <T, E extends Throwable> T processWithToken(String grantType, Processor<Token, T, E> processor)
 			throws WeiXinApiException, E {
 		return getRetryOperations().execute((context) -> {
 			try {
@@ -177,13 +177,14 @@ public class WeiXinApi {
 		});
 	}
 
-	public ApiDomainIp getApiDomainIp() {
-		return processWithClientCredential((token) -> {
-			JsonObject json = doGet(
-					"https://api.weixin.qq.com/cgi-bin/get_api_domain_ip?access_token=" + token.getToken());
-			return new ApiDomainIp(
-					json.getJsonArray("ip_list").stream().map((e) -> e.getAsString()).collect(Collectors.toList()));
-		});
+	public ApiDomainIp getApiDomainIp(String accessToken) {
+		JsonObject json = doGet("https://api.weixin.qq.com/cgi-bin/get_api_domain_ip?access_token=" + accessToken);
+		return new ApiDomainIp(
+				json.getJsonArray("ip_list").stream().map((e) -> e.getAsString()).collect(Collectors.toList()));
+	}
+
+	public final ApiDomainIp getApiDomainIp() {
+		return processWithClientCredential((token) -> getApiDomainIp(token.getToken()));
 	}
 
 	/**
@@ -218,7 +219,7 @@ public class WeiXinApi {
 		return ticket;
 	}
 
-	public <T, E extends Throwable> T processWithTicket(String type, Processor<Token, T, E> processor)
+	public final <T, E extends Throwable> T processWithTicket(String type, Processor<Token, T, E> processor)
 			throws WeiXinApiException, E {
 		return getRetryOperations().execute((context) -> {
 			try {

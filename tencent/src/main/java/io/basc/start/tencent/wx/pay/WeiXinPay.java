@@ -317,7 +317,7 @@ public class WeiXinPay {
 			throw new WeiXinException(response.getResultErrCodeDes());
 		}
 
-		long timestamp = Sys.currentTimeMillis() / 1000;
+		long timestamp = System.currentTimeMillis() / 1000;
 		String prepay_id = response.getPrepayId();
 		Unifiedorder unifiedorder = new Unifiedorder();
 		unifiedorder.setTimestamp(timestamp);

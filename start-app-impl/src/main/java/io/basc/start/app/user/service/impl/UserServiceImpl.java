@@ -111,7 +111,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		}
 
 		user.setPassword(formatPassword(password));
-		user.setLastUpdatePasswordTime(Sys.currentTimeMillis());
+		user.setLastUpdatePasswordTime(System.currentTimeMillis());
 		db.update(user);
 		return resultFactory.success();
 	}
@@ -222,7 +222,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		user = new User();
 		accountType.setAccount(user, account);
 		user.setPassword(formatPassword(password));
-		user.setCts(Sys.currentTimeMillis());
+		user.setCts(System.currentTimeMillis());
 
 		if (userAttributeModel != null) {
 			userAttributeModel.writeTo(user);
@@ -261,7 +261,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 
 		User user = new User();
 		user.setPassword(formatPassword(password));
-		user.setCts(Sys.currentTimeMillis());
+		user.setCts(System.currentTimeMillis());
 
 		if (userAttributeModel != null) {
 			userAttributeModel.writeTo(user);

@@ -2,13 +2,13 @@ package io.basc.start.verificationcode.support;
 
 import java.util.concurrent.TimeUnit;
 
-import io.basc.framework.data.TemporaryStorageOperations;
+import io.basc.framework.data.TemporaryDataOperations;
 import io.basc.start.verificationcode.VerificationCodeRecipient;
 
 public class DefaultVerificationCodeStorage implements VerificationCodeStorage {
-	private final TemporaryStorageOperations storageOperations;
+	private final TemporaryDataOperations storageOperations;
 
-	public DefaultVerificationCodeStorage(TemporaryStorageOperations storageOperations) {
+	public DefaultVerificationCodeStorage(TemporaryDataOperations storageOperations) {
 		this.storageOperations = storageOperations;
 	}
 

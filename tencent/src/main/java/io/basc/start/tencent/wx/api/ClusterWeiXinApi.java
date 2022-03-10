@@ -2,7 +2,7 @@ package io.basc.start.tencent.wx.api;
 
 import java.util.concurrent.TimeUnit;
 
-import io.basc.framework.data.TemporaryStorageOperations;
+import io.basc.framework.data.TemporaryDataOperations;
 import io.basc.framework.locks.LockFactory;
 import io.basc.framework.locks.NoOpLockFactory;
 import io.basc.framework.locks.UnableToAcquireLockException;
@@ -12,7 +12,7 @@ import io.basc.start.tencent.wx.WeiXinException;
 
 public class ClusterWeiXinApi extends WeiXinApi {
 	private LockFactory lockFactory = NoOpLockFactory.NO;
-	private TemporaryStorageOperations storageOperations;
+	private TemporaryDataOperations dataOperations;
 	private long tryLockTimeout = 1;
 	private TimeUnit tryLockTimeoutUnit = TimeUnit.SECONDS;
 
@@ -28,12 +28,12 @@ public class ClusterWeiXinApi extends WeiXinApi {
 		this.lockFactory = lockFactory;
 	}
 
-	public TemporaryStorageOperations getStorageOperations() {
-		return storageOperations;
+	public final TemporaryDataOperations getDataOperations() {
+		return dataOperations;
 	}
 
-	public void setStorageOperations(TemporaryStorageOperations storageOperations) {
-		this.storageOperations = storageOperations;
+	public void setDataOperations(TemporaryDataOperations dataOperations) {
+		this.dataOperations = dataOperations;
 	}
 
 	public long getTryLockTimeout() {
@@ -57,17 +57,16 @@ public class ClusterWeiXinApi extends WeiXinApi {
 	public Token getToken(String grantType, boolean forceUpdate)
 			throws UnableToAcquireLockException, WeiXinApiException {
 		String cacheKey = "weixin:cgi-bin:token:" + grantType + ":" + getAppid();
-		Token token = (storageOperations == null || forceUpdate) ? null : storageOperations.get(Token.class, cacheKey);
+		Token token = (dataOperations == null || forceUpdate) ? null : dataOperations.get(Token.class, cacheKey);
 		if (forceUpdate || isInvalidToken(token)) {
 			try {
 				token = lockFactory.process(cacheKey + ":lock", tryLockTimeout, tryLockTimeoutUnit, () -> {
-					Token target = (storageOperations == null || forceUpdate) ? null
-							: storageOperations.get(Token.class, cacheKey);
+					Token target = (dataOperations == null || forceUpdate) ? null
+							: dataOperations.get(Token.class, cacheKey);
 					if (forceUpdate || isInvalidToken(target)) {
 						target = super.getToken(grantType, forceUpdate);
-						if (storageOperations != null) {
-							storageOperations.set(cacheKey, target, target.getPeriodOfValidity(),
-									TimeUnit.MILLISECONDS);
+						if (dataOperations != null) {
+							dataOperations.set(cacheKey, target, target.getPeriodOfValidity(), TimeUnit.MILLISECONDS);
 						}
 					}
 					return target;
@@ -82,17 +81,16 @@ public class ClusterWeiXinApi extends WeiXinApi {
 	@Override
 	public Token getTicket(String type, boolean forceUpdate) throws WeiXinApiException {
 		String cacheKey = "weixin:cgi-bin:ticket:" + type + ":" + getAppid();
-		Token token = (storageOperations == null || forceUpdate) ? null : storageOperations.get(Token.class, cacheKey);
+		Token token = (dataOperations == null || forceUpdate) ? null : dataOperations.get(Token.class, cacheKey);
 		if (forceUpdate || isInvalidToken(token)) {
 			try {
 				token = lockFactory.process(cacheKey + ":lock", tryLockTimeout, tryLockTimeoutUnit, () -> {
-					Token target = (storageOperations == null || forceUpdate) ? null
-							: storageOperations.get(Token.class, cacheKey);
+					Token target = (dataOperations == null || forceUpdate) ? null
+							: dataOperations.get(Token.class, cacheKey);
 					if (forceUpdate || isInvalidToken(target)) {
 						target = super.getTicket(type, forceUpdate);
-						if (storageOperations != null) {
-							storageOperations.set(cacheKey, target, target.getPeriodOfValidity(),
-									TimeUnit.MILLISECONDS);
+						if (dataOperations != null) {
+							dataOperations.set(cacheKey, target, target.getPeriodOfValidity(), TimeUnit.MILLISECONDS);
 						}
 					}
 					return target;

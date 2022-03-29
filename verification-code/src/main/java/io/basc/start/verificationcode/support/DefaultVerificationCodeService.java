@@ -20,7 +20,6 @@ import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.Status;
-import io.basc.framework.util.TimeUtils;
 import io.basc.start.verificationcode.VerificationCodeRecipient;
 import io.basc.start.verificationcode.VerificationCodeRequest;
 import io.basc.start.verificationcode.VerificationCodeResponse;
@@ -153,7 +152,7 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 			if (response.isSuccess()) {
 				VerificationCode verificationCode = verificationCodeMap.get(response.getRequest().getRecipient());
 				// 不可能为空
-				if (System.currentTimeMillis() - verificationCode.getLastSendTime() > TimeUtils.ONE_DAY) {
+				if (System.currentTimeMillis() - verificationCode.getLastSendTime() > TimeUnit.DAYS.toMillis(1)) {
 					verificationCode.setCount(1);
 				} else {
 					verificationCode.setCount(verificationCode.getCount() + 1);
@@ -161,7 +160,7 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 
 				verificationCode.setCode(response.getRequest().getCode());
 				verificationCode.setLastSendTime(System.currentTimeMillis());
-				strategy.set(response.getRequest().getRecipient(), verificationCode, TimeUtils.ONE_DAY, TimeUnit.DAYS);
+				strategy.set(response.getRequest().getRecipient(), verificationCode, 1, TimeUnit.DAYS);
 			}
 		}
 		return sendResponses;

@@ -1,5 +1,7 @@
 package io.basc.start.app.enums;
 
+import java.util.concurrent.TimeUnit;
+
 import io.basc.framework.lang.NotSupportedException;
 import io.basc.framework.util.TimeUtils;
 
@@ -43,20 +45,19 @@ public enum ContinuityStatus {
 		}
 		return null;
 	}
-	
+
 	public static ContinuityStatus getContinuityStatus(long time1, long time2) {
 		return getContinuityStatus(time1, time2, ContinuityCycle.DAY);
 	}
 
 	public static ContinuityStatus getContinuityStatus(long time1, long time2, ContinuityCycle cycle) {
 		if (cycle == ContinuityCycle.DAY) {
-			long t = TimeUtils.getDayBeginCalendar(time2).getTimeInMillis()
-					- TimeUtils.getDayBeginCalendar(time1).getTimeInMillis();
+			long t = TimeUtils.DAY.getMinTime(time2) - TimeUtils.DAY.getMinTime(time1);
 			if (t == 0) {// 同一天
 				return SAME;
 			}
 
-			return t == TimeUtils.ONE_DAY ? CONTINUITY : DISCONTINUOUS;
+			return t == TimeUnit.DAYS.toMillis(1) ? CONTINUITY : DISCONTINUOUS;
 		}
 
 		throw new NotSupportedException(cycle.name());

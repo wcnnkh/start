@@ -42,7 +42,7 @@ public class UserAttributeModel implements Serializable {
 
 	public void setAge(int age) {
 		this.age = age;
-		if(age != this.age){
+		if (age != this.age) {
 			this.createAgeTime = System.currentTimeMillis();
 		}
 	}
@@ -76,8 +76,7 @@ public class UserAttributeModel implements Serializable {
 		if (birthday != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(birthday);
-			return TimeUtils.getDayBeginCalendar(System.currentTimeMillis()).get(Calendar.YEAR)
-					- calendar.get(Calendar.YEAR);
+			return TimeUtils.DAY.getMinCalendar().get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
 		} else {
 			if (createAgeTime <= 0) {
 				return age;
@@ -85,8 +84,7 @@ public class UserAttributeModel implements Serializable {
 
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(createAgeTime);
-			return TimeUtils.getDayBeginCalendar(System.currentTimeMillis()).get(Calendar.YEAR)
-					- calendar.get(Calendar.YEAR) + age;
+			return TimeUtils.DAY.getMinCalendar().get(Calendar.YEAR) - calendar.get(Calendar.YEAR) + age;
 		}
 	}
 

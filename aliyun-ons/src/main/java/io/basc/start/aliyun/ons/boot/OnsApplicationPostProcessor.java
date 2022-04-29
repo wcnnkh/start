@@ -158,14 +158,14 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		if (StringUtils.isEmpty(consumerName)) {
 			consumer = application.getBeanFactory().getInstance(Consumer.class);
 		} else {
-			consumerName = application.getEnvironment().resolvePlaceholders(consumerName);
+			consumerName = application.getEnvironment().formatPlaceholders(consumerName);
 			consumer = application.getBeanFactory().getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.getEnvironment().resolvePlaceholders(topic);
+		topic = application.getEnvironment().formatPlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.getEnvironment().resolvePlaceholders(subExpression);
+		subExpression = application.getEnvironment().formatPlaceholders(subExpression);
 		MessageSelector selector = mapping.expressionType() == ExpressionType.SQL92
 				? MessageSelector.bySql(subExpression)
 				: MessageSelector.byTag(subExpression);
@@ -181,14 +181,14 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		if (StringUtils.isEmpty(consumerName)) {
 			consumer = application.getBeanFactory().getInstance(BatchConsumer.class);
 		} else {
-			consumerName = application.getEnvironment().resolvePlaceholders(consumerName);
+			consumerName = application.getEnvironment().formatPlaceholders(consumerName);
 			consumer = application.getBeanFactory().getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.getEnvironment().resolvePlaceholders(topic);
+		topic = application.getEnvironment().formatPlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.getEnvironment().resolvePlaceholders(subExpression);
+		subExpression = application.getEnvironment().formatPlaceholders(subExpression);
 		logger.info("Batch subscribe consumer[{}] topic[{}] subExpression[{}] bind:{}", consumer, topic, subExpression,
 				messageListener);
 		consumer.subscribe(topic, subExpression, messageListener);

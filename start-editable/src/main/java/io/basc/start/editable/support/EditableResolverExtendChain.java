@@ -5,7 +5,7 @@ import io.basc.framework.lang.Nullable;
 import io.basc.framework.util.Assert;
 import io.basc.start.editable.EditableAttributes;
 import io.basc.start.editable.EditableResolver;
-import io.basc.start.editable.ImageAttribute;
+import io.basc.start.editable.ImageAttributes;
 
 import java.util.Iterator;
 
@@ -17,28 +17,23 @@ public class EditableResolverExtendChain implements EditableResolver {
 		this(iterator, null);
 	}
 
-	public EditableResolverExtendChain(
-			Iterator<EditableResolverExtend> iterator,
+	public EditableResolverExtendChain(Iterator<EditableResolverExtend> iterator,
 			@Nullable EditableResolver nextChain) {
 		Assert.requiredArgument(iterator != null, "iterator");
 		this.iterator = iterator;
 		this.nextChain = nextChain;
 	}
 
-	public static EditableResolver build(
-			Iterator<EditableResolverExtend> iterator) {
+	public static EditableResolver build(Iterator<EditableResolverExtend> iterator) {
 		return new EditableResolverExtendChain(iterator);
 	}
 
 	@Override
-	public ImageAttribute getImageAttribute(Class<?> entityClass,
-			ParameterDescriptor descriptor) {
+	public ImageAttributes getImageAttributes(Class<?> entityClass, ParameterDescriptor descriptor) {
 		if (iterator.hasNext()) {
-			return iterator.next().getImageAttribute(entityClass, descriptor,
-					this);
+			return iterator.next().getImageAttributes(entityClass, descriptor, this);
 		}
-		return nextChain == null ? null : nextChain.getImageAttribute(
-				entityClass, descriptor);
+		return nextChain == null ? null : nextChain.getImageAttributes(entityClass, descriptor);
 	}
 
 	@Override
@@ -50,13 +45,10 @@ public class EditableResolverExtendChain implements EditableResolver {
 	}
 
 	@Override
-	public EditableAttributes getEditableAttributes(Class<?> entityClass,
-			ParameterDescriptor descriptor) {
+	public EditableAttributes getEditableAttributes(Class<?> entityClass, ParameterDescriptor descriptor) {
 		if (iterator.hasNext()) {
-			return iterator.next().getEditableAttributes(entityClass,
-					descriptor, this);
+			return iterator.next().getEditableAttributes(entityClass, descriptor, this);
 		}
-		return nextChain == null ? null : nextChain.getEditableAttributes(
-				entityClass, descriptor);
+		return nextChain == null ? null : nextChain.getEditableAttributes(entityClass, descriptor);
 	}
 }

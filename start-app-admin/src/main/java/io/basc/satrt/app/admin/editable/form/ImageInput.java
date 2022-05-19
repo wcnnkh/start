@@ -1,6 +1,7 @@
 package io.basc.satrt.app.admin.editable.form;
 
-import io.basc.start.editable.ImageAttribute;
+import io.basc.framework.util.Assert;
+import io.basc.start.editable.ImageAttributes;
 
 public class ImageInput extends Input {
 	private static final long serialVersionUID = 1L;
@@ -12,8 +13,9 @@ public class ImageInput extends Input {
 		super(InputType.IMAGE);
 	}
 
-	public ImageInput(ImageAttribute image) {
+	public ImageInput(ImageAttributes image) {
 		this();
+		Assert.requiredArgument(image != null, "image");
 		this.multiple = image.isMultiple();
 		this.height = image.getHeight();
 		this.width = image.getWidth();

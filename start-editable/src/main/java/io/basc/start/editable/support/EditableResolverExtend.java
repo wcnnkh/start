@@ -3,7 +3,7 @@ package io.basc.start.editable.support;
 import io.basc.framework.core.parameter.ParameterDescriptor;
 import io.basc.start.editable.EditableAttributes;
 import io.basc.start.editable.EditableResolver;
-import io.basc.start.editable.ImageAttribute;
+import io.basc.start.editable.ImageAttributes;
 
 public interface EditableResolverExtend {
 	default boolean isEditable(Class<?> entityClass, EditableResolver chain) {
@@ -15,8 +15,8 @@ public interface EditableResolverExtend {
 		return chain.getEditableAttributes(entityClass, descriptor);
 	}
 
-	default ImageAttribute getImageAttribute(Class<?> entityClass,
+	default ImageAttributes getImageAttributes(Class<?> entityClass,
 			ParameterDescriptor descriptor, EditableResolver chain) {
-		return chain.getImageAttribute(entityClass, descriptor);
+		return chain.getImageAttributes(entityClass, descriptor);
 	}
 }

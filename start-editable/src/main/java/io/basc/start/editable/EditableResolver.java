@@ -8,6 +8,6 @@ public interface EditableResolver {
 	EditableAttributes getEditableAttributes(Class<?> entityClass,
 			ParameterDescriptor descriptor);
 
-	ImageAttribute getImageAttribute(Class<?> entityClass,
+	ImageAttributes getImageAttributes(Class<?> entityClass,
 			ParameterDescriptor descriptor);
 }

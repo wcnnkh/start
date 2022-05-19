@@ -3,15 +3,18 @@ package io.basc.satrt.app.admin.editable.support;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
+import io.basc.framework.orm.repository.CurdRepositoryRegistry;
 import io.basc.start.app.configure.AppConfigure;
-import io.basc.start.data.DataService;
+import io.basc.start.editable.EditableMapper;
 
 public class EditorAdd extends EditorCURD {
 
-	public EditorAdd(DataService dataService, Class<?> editableClass,
-			AppConfigure appConfigure, ResultFactory resultFactory) {
-		super(dataService, editableClass, HttpMethod.POST, appConfigure,
-				resultFactory, "add");
+	public EditorAdd(EditableMapper mapper,
+			CurdRepositoryRegistry curdRepositoryRegistry,
+			Class<?> editableClass, AppConfigure appConfigure,
+			ResultFactory resultFactory) {
+		super(mapper, curdRepositoryRegistry, editableClass, appConfigure,
+				HttpMethod.POST, resultFactory, "add");
 	}
 
 	@Override
@@ -19,10 +22,12 @@ public class EditorAdd extends EditorCURD {
 		return super.getName() + "(添加)";
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
-		boolean success = getDataService().saveIfAbsent(getEditableClass(), requestBean);
+		boolean success = getCurdRepositoryRegistry().getCurdRepository(
+				(Class) getEditableClass()).saveIfAbsent(requestBean);
 		return response(success);
 	}
 

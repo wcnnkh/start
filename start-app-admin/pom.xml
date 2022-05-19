@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.start</groupId>
-			<artifactId>start-data</artifactId>
+			<artifactId>start-editable</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.basc.start</groupId>

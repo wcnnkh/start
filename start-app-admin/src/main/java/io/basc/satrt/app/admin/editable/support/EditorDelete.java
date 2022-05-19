@@ -3,15 +3,18 @@ package io.basc.satrt.app.admin.editable.support;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
+import io.basc.framework.orm.repository.CurdRepositoryRegistry;
 import io.basc.start.app.configure.AppConfigure;
-import io.basc.start.data.DataService;
+import io.basc.start.editable.EditableMapper;
 
 public class EditorDelete extends EditorCURD {
 
-	public EditorDelete(DataService dataService, Class<?> editableClass,
-			AppConfigure appConfigure, ResultFactory resultFactory) {
-		super(dataService, editableClass, HttpMethod.POST, appConfigure,
-				resultFactory, "delete");
+	public EditorDelete(EditableMapper mapper,
+			CurdRepositoryRegistry curdRepositoryRegistry,
+			Class<?> editableClass, AppConfigure appConfigure,
+			ResultFactory resultFactory) {
+		super(mapper, curdRepositoryRegistry, editableClass, appConfigure,
+				HttpMethod.POST, resultFactory, "delete");
 	}
 
 	@Override
@@ -19,11 +22,12 @@ public class EditorDelete extends EditorCURD {
 		return super.getName() + "(删除)";
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(getEditableClass());
-		boolean success = getDataService().delete(getEditableClass(),
-				requestBean);
+		boolean success = getCurdRepositoryRegistry().getCurdRepository(
+				(Class) getEditableClass()).delete(requestBean);
 		return success ? getResultFactory().success() : getResultFactory()
 				.error("操作失败");
 	}

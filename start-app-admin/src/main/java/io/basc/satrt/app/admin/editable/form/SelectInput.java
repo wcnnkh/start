@@ -1,7 +1,6 @@
 package io.basc.satrt.app.admin.editable.form;
 
 import io.basc.framework.util.Pair;
-import io.basc.start.data.annotation.Select;
 
 import java.util.List;
 
@@ -9,14 +8,16 @@ public class SelectInput extends Input {
 	private static final long serialVersionUID = 1L;
 	private List<Pair<String, String>> options;
 	private Class<?> queryClass;
+	private String queryName;
 
 	public SelectInput() {
 		super(InputType.SELECT);
 	}
-	
-	public SelectInput(Select select) {
+
+	public SelectInput(Class<?> queryClass, String queryName) {
 		this();
-		this.queryClass = select.value();
+		this.queryClass = queryClass;
+		this.queryName = queryName;
 	}
 
 	public List<Pair<String, String>> getOptions() {
@@ -33,5 +34,13 @@ public class SelectInput extends Input {
 
 	public void setQueryClass(Class<?> queryClass) {
 		this.queryClass = queryClass;
+	}
+
+	public String getQueryName() {
+		return queryName;
+	}
+
+	public void setQueryName(String queryName) {
+		this.queryName = queryName;
 	}
 }

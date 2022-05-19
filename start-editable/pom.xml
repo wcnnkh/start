@@ -12,17 +12,5 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>orm</artifactId>
 		</dependency>
-
-		<!-- 受支持的 -->
-		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>db</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>boot</artifactId>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 </project>

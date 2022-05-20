@@ -4,7 +4,7 @@ import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.orm.repository.CurdRepositoryRegistry;
+import io.basc.framework.orm.repository.CurdRepository;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.editable.EditableMapper;
 
@@ -16,10 +16,10 @@ public abstract class EditorCURD extends EditorParent {
 	private final ResultFactory resultFactory;
 
 	public EditorCURD(EditableMapper mapper,
-			CurdRepositoryRegistry curdRepositoryRegistry,
+			CurdRepository repository,
 			Class<?> editableClass, AppConfigure appConfigure,
 			HttpMethod method, ResultFactory resultFactory, String name) {
-		super(mapper, curdRepositoryRegistry, editableClass, appConfigure);
+		super(mapper, repository, editableClass, appConfigure);
 		this.resultFactory = resultFactory;
 		this.method = method;
 		this.name = name;

@@ -9,7 +9,7 @@ import io.basc.framework.mapper.Field;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.orm.ForeignKey;
-import io.basc.framework.orm.repository.CurdRepositoryRegistry;
+import io.basc.framework.orm.repository.CurdRepository;
 import io.basc.framework.orm.support.OrmUtils;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.StringUtils;
@@ -36,12 +36,12 @@ public class EditorParent implements Editor {
 	private final EditableMapper mapper;
 	private final Class<?> editableClass;
 	private final AppConfigure appConfigure;
-	private final CurdRepositoryRegistry curdRepositoryRegistry;
+	private final CurdRepository repository;
 
-	public EditorParent(EditableMapper mapper, CurdRepositoryRegistry curdRepositoryRegistry, Class<?> editableClass,
-			AppConfigure appConfigure) {
+	public EditorParent(EditableMapper mapper, CurdRepository repository,
+			Class<?> editableClass, AppConfigure appConfigure) {
 		this.editableClass = editableClass;
-		this.curdRepositoryRegistry = curdRepositoryRegistry;
+		this.repository = repository;
 		this.mapper = mapper;
 		this.appConfigure = appConfigure;
 	}
@@ -58,13 +58,14 @@ public class EditorParent implements Editor {
 		return mapper;
 	}
 
-	public CurdRepositoryRegistry getCurdRepositoryRegistry() {
-		return curdRepositoryRegistry;
+	public CurdRepository getRepository() {
+		return repository;
 	}
 
 	@Override
 	public String getPath() {
-		return getAppConfigure().getAdminController() + "/editable/" + editableClass.getName() + "/root";
+		return getAppConfigure().getAdminController() + "/editable/"
+				+ editableClass.getName() + "/root";
 	}
 
 	@Override
@@ -112,14 +113,17 @@ public class EditorParent implements Editor {
 		}
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		Pagination<Object> pagination = curdRepositoryRegistry.getCurdRepository((Class) editableClass)
-				.pagingQuery(requestBean, new PageRequest(page, limit)).shared();
-		ModelAndView view = new ModelAndView("/io/basc/start/app/admin/web/editable/list.ftl");
+		Pagination<Object> pagination = getRepository().pagingQuery(
+				(Class) editableClass, requestBean,
+				new PageRequest(page, limit)).shared();
+		ModelAndView view = new ModelAndView(
+				"/io/basc/start/app/admin/web/editable/list.ftl");
 		long maxPage = pagination == null ? 1 : pagination.getPages();
 		long currentPage = Math.min(page, maxPage);
 		view.put("page", currentPage);
 		view.put("limit", limit);
-		view.put("list", pagination == null ? Collections.emptyList() : pagination.getList());
+		view.put("list", pagination == null ? Collections.emptyList()
+				: pagination.getList());
 		view.put("totalCount", pagination == null ? 0 : pagination.getTotal());
 		view.put("info", requestBean);
 		view.put("fields", getInputs(requestBean).stream().map((field) -> {
@@ -131,27 +135,38 @@ public class EditorParent implements Editor {
 		return view;
 	}
 
-	private Input createInput(EditableAttributes attributes, Object query, Field field) {
+	private Input createInput(EditableAttributes attributes, Object query,
+			Field field) {
 		if (attributes.getType() == EditableType.SELECT) {
-			ForeignKey foreignKey = mapper.getForeignKey(editableClass, field.getGetter());
+			ForeignKey foreignKey = mapper.getForeignKey(editableClass,
+					field.getGetter());
 			SelectInput select = new SelectInput();
 			if (foreignKey.getEntityClass().isEnum()) {
-				Object[] values = ReflectionUtils.values(foreignKey.getEntityClass());
-				List<Pair<String, String>> options = mapper.parseOptions(foreignKey.getEntityClass(),
-						Arrays.asList(values), foreignKey.getName(), TypeDescriptor.valueOf(String.class),
-						TypeDescriptor.valueOf(String.class), Sys.env.getConversionService());
+				Object[] values = ReflectionUtils.values(foreignKey
+						.getEntityClass());
+				List<Pair<String, String>> options = mapper.parseOptions(
+						foreignKey.getEntityClass(), Arrays.asList(values),
+						foreignKey.getName(),
+						TypeDescriptor.valueOf(String.class),
+						TypeDescriptor.valueOf(String.class),
+						Sys.env.getConversionService());
 				select.setOptions(options);
 			} else {
-				List<?> list = curdRepositoryRegistry.getCurdRepository(foreignKey.getEntityClass()).queryAll()
-						.collect(Collectors.toList());
-				List<Pair<String, String>> options = mapper.parseOptions(foreignKey.getEntityClass(), list,
-						foreignKey.getName(), TypeDescriptor.valueOf(String.class),
-						TypeDescriptor.valueOf(String.class), Sys.env.getConversionService());
+				List<?> list = getRepository().queryAll(
+						foreignKey.getEntityClass()).collect(
+						Collectors.toList());
+				List<Pair<String, String>> options = mapper.parseOptions(
+						foreignKey.getEntityClass(), list,
+						foreignKey.getName(),
+						TypeDescriptor.valueOf(String.class),
+						TypeDescriptor.valueOf(String.class),
+						Sys.env.getConversionService());
 				select.setOptions(options);
 			}
 			return select;
 		} else if (attributes.getType() == EditableType.IMAGE) {
-			return new ImageInput(mapper.getImageAttributes(editableClass, field.getGetter()));
+			return new ImageInput(mapper.getImageAttributes(editableClass,
+					field.getGetter()));
 		} else if (attributes.getType() == EditableType.TEXTAREA) {
 			return new TextareaInput();
 		}
@@ -162,16 +177,20 @@ public class EditorParent implements Editor {
 	public List<Input> getInputs(Object query) {
 		List<Input> list = new ArrayList<Input>();
 		for (Field field : MapperUtils.getFields(editableClass).entity().all()) {
-			EditableAttributes attributes = mapper.getEditableAttributes(editableClass, field.getGetter());
+			EditableAttributes attributes = mapper.getEditableAttributes(
+					editableClass, field.getGetter());
 			if (attributes == null) {
 				continue;
 			}
 
 			Input input = createInput(attributes, query, field);
-			input.setAutoFill(OrmUtils.getMapping().isAutoIncrement(editableClass, field.getGetter()));
+			input.setAutoFill(OrmUtils.getMapping().isAutoIncrement(
+					editableClass, field.getGetter()));
 			input.setName(field.getGetter().getName());
-			input.setDescribe(OrmUtils.getMapping().getComment(editableClass, field.getGetter()));
-			input.setPrimaryKey(OrmUtils.getMapping().isPrimaryKey(editableClass, field.getGetter()));
+			input.setDescribe(OrmUtils.getMapping().getComment(editableClass,
+					field.getGetter()));
+			input.setPrimaryKey(OrmUtils.getMapping().isPrimaryKey(
+					editableClass, field.getGetter()));
 			if (input.getDescribe() == null) {
 				input.setDescribe(input.getName());
 			}
@@ -180,8 +199,9 @@ public class EditorParent implements Editor {
 				input.setReadonly(true);
 			}
 
-			input.setRequired(
-					!OrmUtils.getMapping().isNullable(editableClass, field.getGetter()) || input.isPrimaryKey());
+			input.setRequired(!OrmUtils.getMapping().isNullable(editableClass,
+					field.getGetter())
+					|| input.isPrimaryKey());
 			list.add(input);
 		}
 		return list;
@@ -189,7 +209,8 @@ public class EditorParent implements Editor {
 
 	@Override
 	public String toString() {
-		return editableClass.getName() + "[id=" + getId() + ", parentId=" + getParentId() + ", path=" + getPath()
-				+ ", method=" + getMethod() + ", name=" + getName() + "]";
+		return editableClass.getName() + "[id=" + getId() + ", parentId="
+				+ getParentId() + ", path=" + getPath() + ", method="
+				+ getMethod() + ", name=" + getName() + "]";
 	}
 }

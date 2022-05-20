@@ -3,7 +3,7 @@ package io.basc.satrt.app.admin.editable.support;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
-import io.basc.framework.orm.repository.CurdRepositoryRegistry;
+import io.basc.framework.orm.repository.CurdRepository;
 import io.basc.framework.web.message.model.ModelAndView;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.editable.EditableMapper;
@@ -11,10 +11,10 @@ import io.basc.start.editable.EditableMapper;
 public class EditorAddPage extends EditorCURD {
 
 	public EditorAddPage(EditableMapper mapper,
-			CurdRepositoryRegistry curdRepositoryRegistry,
+			CurdRepository repository,
 			Class<?> editableClass, AppConfigure appConfigure,
 			ResultFactory resultFactory) {
-		super(mapper, curdRepositoryRegistry, editableClass, appConfigure,
+		super(mapper, repository, editableClass, appConfigure,
 				HttpMethod.GET, resultFactory, "add");
 	}
 

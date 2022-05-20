@@ -136,7 +136,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		}
 
 		if (StringUtils.isNotEmpty(search)) {
-			sql.and("(uid=concat(%,?,%) or phone like concat(%,?,%) or username like concat(%,?,%) or nickname like concat(%,?,%)", search, search, search, search);
+			sql.and("(uid=concat('%',?,'%') or phone like concat('%',?,'%') or username like concat('%',?,'%') or nickname like concat('%',?,'%')", search, search, search, search);
 		}
 		return db.getPage(User.class, sql.assembleSql("select * from user", null), page, limit);
 	}

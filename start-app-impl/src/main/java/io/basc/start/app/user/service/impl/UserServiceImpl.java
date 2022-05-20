@@ -1,9 +1,5 @@
 package io.basc.start.app.user.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.beans.annotation.Service;
 import io.basc.framework.codec.Encoder;
@@ -17,7 +13,6 @@ import io.basc.framework.env.Sys;
 import io.basc.framework.event.EventType;
 import io.basc.framework.sql.SimpleSql;
 import io.basc.framework.sql.Sql;
-import io.basc.framework.sql.SqlUtils;
 import io.basc.framework.sql.WhereSql;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
@@ -34,6 +29,10 @@ import io.basc.start.app.user.pojo.UnionIdToUid;
 import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.service.PermissionGroupService;
 import io.basc.start.app.user.service.UserService;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends BaseServiceConfiguration implements UserService {
@@ -137,8 +136,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		}
 
 		if (StringUtils.isNotEmpty(search)) {
-			String value = SqlUtils.toLikeValue(search);
-			sql.and("(uid=? or phone like ? or username like ? or nickname like ?)", search, value, value, value);
+			sql.and("(uid=concat(%,?,%) or phone like concat(%,?,%) or username like concat(%,?,%) or nickname like concat(%,?,%)", search, search, search, search);
 		}
 		return db.getPage(User.class, sql.assembleSql("select * from user", null), page, limit);
 	}

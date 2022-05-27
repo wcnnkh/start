@@ -1,6 +1,5 @@
 package io.basc.start.app.user.pojo;
 
-import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.orm.annotation.AutoIncrement;
 import io.basc.framework.orm.annotation.PrimaryKey;
 import io.basc.framework.orm.annotation.Unique;
@@ -9,8 +8,14 @@ import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
 import io.basc.start.app.user.model.UserAttributeModel;
 import io.basc.start.app.util.RegexUtils;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Table
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class User extends UserAttributeModel {
 	private static final long serialVersionUID = 1L;
 	@AutoIncrement
@@ -30,100 +35,12 @@ public class User extends UserAttributeModel {
 	private long lastLoginTime;
 	private long defaultAddressId;// 用户默认收货地址
 
-	public long getUid() {
-		return uid;
-	}
-
-	public void setUid(long uid) {
-		this.uid = uid;
-	}
-
-	public long getCts() {
-		return cts;
-	}
-
 	public String getCtsDescribe() {
 		return TimeUtils.format(cts, "yyyy-MM-dd HH:mm:ss");
 	}
 
-	public void setCts(long cts) {
-		this.cts = cts;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public int getPermissionGroupId() {
-		return permissionGroupId;
-	}
-
-	public void setPermissionGroupId(int permissionGroupId) {
-		this.permissionGroupId = permissionGroupId;
-	}
-
-	public long getLastUpdatePasswordTime() {
-		return lastUpdatePasswordTime;
-	}
-
-	public void setLastUpdatePasswordTime(long lastUpdatePasswordTime) {
-		this.lastUpdatePasswordTime = lastUpdatePasswordTime;
-	}
-
-	public boolean isDisable() {
-		return disable;
-	}
-
-	public void setDisable(boolean disable) {
-		this.disable = disable;
-	}
-
-	public long getLastLoginTime() {
-		return lastLoginTime;
-	}
-
-	public void setLastLoginTime(long lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
-	}
-
 	public String getLastLoginTimeDescribe() {
 		return TimeUtils.format(lastLoginTime, "yyyy-MM-dd HH:mm:ss");
-	}
-
-	public long getDefaultAddressId() {
-		return defaultAddressId;
-	}
-
-	public void setDefaultAddressId(long defaultAddressId) {
-		this.defaultAddressId = defaultAddressId;
 	}
 
 	public String getAvailableNickname() {
@@ -139,10 +56,5 @@ public class User extends UserAttributeModel {
 			return getUsername();
 		}
 		return null;
-	}
-
-	@Override
-	public String toString() {
-		return MapperUtils.toString(this);
 	}
 }

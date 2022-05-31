@@ -1,11 +1,14 @@
 package io.basc.satrt.app.admin;
 
+import java.util.List;
+import java.util.Map;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.Field;
-import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.mapper.Fields;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.security.HttpActionAuthorityManager;
 import io.basc.framework.mvc.view.Redirect;
@@ -28,9 +31,6 @@ import io.basc.start.app.user.security.LoginRequired;
 import io.basc.start.app.user.security.UserLoginService;
 import io.basc.start.app.user.service.PermissionGroupActionService;
 import io.basc.start.app.user.service.UserService;
-
-import java.util.List;
-import java.util.Map;
 
 @RequestMapping(value = AppConfigure.ADMIN_CONTROLLER)
 public class AdminIndexController {
@@ -63,14 +63,14 @@ public class AdminIndexController {
 			}
 			List<PermissionGroupAction> actions = permissionGroupActionService
 					.getActionList(user.getPermissionGroupId());
-			Field field = MapperUtils.getFields(PermissionGroupAction.class).all().find("actionId", null);
+			Field field = Fields.getFields(PermissionGroupAction.class).all().getByName("actionId");
 			List<String> actionIds = field.getValues(actions);
 			return httpActionAuthorityManager.getRelationAuthorityTreeList(actionIds,
 					new MenuAuthorityFilter<HttpAuthority>());
 		}
 	}
-	
-	@RequestMapping(value = "login", methods=HttpMethod.POST)
+
+	@RequestMapping(value = "login", methods = HttpMethod.POST)
 	public Result login(String username, String password, HttpChannel httpChannel) {
 		if (StringUtils.isEmpty(username, password)) {
 			return resultFactory.parameterError();
@@ -145,7 +145,7 @@ public class AdminIndexController {
 	@RequestMapping(value = "login")
 	public Object login(HttpChannel httpChannel) {
 		UserSession<Long> userSession = httpChannel.getUserSession(Long.class);
-		if(userSession != null){
+		if (userSession != null) {
 			return new Redirect(httpChannel.getRequest().getContextPath() + appConfigure.getAdminController());
 		}
 		return new ModelAndView("/io/basc/start/app/admin/web/ftl/login.ftl");

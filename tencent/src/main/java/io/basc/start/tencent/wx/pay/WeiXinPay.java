@@ -25,7 +25,7 @@ import io.basc.framework.lang.NotSupportedException;
 import io.basc.framework.lang.ParameterException;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
-import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.mapper.Fields;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.RandomUtils;
@@ -396,7 +396,7 @@ public class WeiXinPay {
 	 * @return
 	 */
 	public SendredpackResponse sendredpack(SendredpackRequest request) {
-		Map<String, Object> parameter = MapperUtils.getFields(SendredpackRequest.class).entity().all()
+		Map<String, Object> parameter = Fields.getFields(SendredpackRequest.class).entity().all()
 				.getValueMap(request);
 		WeiXinPayResponse response = invoke(SENDREDPACK, parameter, true);
 		return new SendredpackResponse(response);
@@ -410,14 +410,14 @@ public class WeiXinPay {
 	 * @return
 	 */
 	public SendredpackResponse sendgroupredpack(SendgroupredpackRequest request) {
-		Map<String, Object> parameter = MapperUtils.getFields(SendgroupredpackRequest.class).entity().all()
+		Map<String, Object> parameter = Fields.getFields(SendgroupredpackRequest.class).entity().all()
 				.getValueMap(request);
 		WeiXinPayResponse response = invoke(SENDGROUPREDPACK, parameter, true);
 		return new SendredpackResponse(response);
 	}
 
 	public GethbinfoResponse gethbinfo(GethbinfoRequest request) {
-		Map<String, Object> parameter = MapperUtils.getFields(GethbinfoRequest.class).entity().all()
+		Map<String, Object> parameter = Fields.getFields(GethbinfoRequest.class).entity().all()
 				.getValueMap(request);
 		WeiXinPayResponse response = invoke(GETHBINFO, parameter, true);
 		return new GethbinfoResponse(response);

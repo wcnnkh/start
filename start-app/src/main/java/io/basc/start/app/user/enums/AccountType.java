@@ -2,27 +2,25 @@ package io.basc.start.app.user.enums;
 
 import io.basc.framework.mapper.Field;
 import io.basc.framework.mapper.FieldFeature;
-import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.mapper.Fields;
 import io.basc.start.app.user.pojo.User;
 
 public enum AccountType {
-	USERNAME("username"), 
-	PHONE("phone"),
-	EMAIL("email"), 
-	;
-	
+	USERNAME("username"), PHONE("phone"), EMAIL("email"),;
+
 	private final String fieldName;
-	
-	AccountType(String fieldName){
+
+	AccountType(String fieldName) {
 		this.fieldName = fieldName;
 	}
-	
+
 	public String getFieldName() {
 		return fieldName;
 	}
 
-	public Field getField(){
-		return MapperUtils.getFields(User.class).all().accept(FieldFeature.EXISTING_GETTER_FIELD).find(fieldName, String.class);
+	public Field getField() {
+		return Fields.getFields(User.class).all().filter(FieldFeature.EXISTING_GETTER_FIELD).getByName(fieldName,
+				String.class);
 	}
 
 	public String getAccount(User user) {

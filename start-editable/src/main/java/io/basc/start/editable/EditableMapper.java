@@ -11,14 +11,14 @@ import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.mapper.Field;
 import io.basc.framework.mapper.Structure;
-import io.basc.framework.orm.ObjectRelationalMapper;
+import io.basc.framework.orm.ObjectRelationalFactory;
 import io.basc.framework.orm.Property;
 import io.basc.framework.util.Assert;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.Pair;
 import io.basc.framework.util.StringUtils;
 
-public interface EditableMapper extends EditableResolver, ObjectRelationalMapper {
+public interface EditableMapper extends EditableResolver, ObjectRelationalFactory {
 	/**
 	 * 格式选项
 	 * 

@@ -10,7 +10,6 @@ import io.basc.framework.core.parameter.DefaultValue;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mapper.Field;
 import io.basc.framework.mapper.Fields;
-import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.annotation.ActionAuthority;
 import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.CollectionUtils;
@@ -41,13 +40,13 @@ public class AdminUserController {
 
 	@ActionAuthority(value = "管理员列表", menu = true)
 	@RequestMapping(value = "admin_list")
-	public ModelAndView admin_list(UserToken<Long> requestUser, Integer groupId, @DefaultValue("1") int page, String search,
-			@DefaultValue("10") int limit) {
+	public ModelAndView admin_list(UserToken<Long> requestUser, Integer groupId, @DefaultValue("1") int page,
+			String search, @DefaultValue("10") int limit) {
 		User currentUser = userService.getUser(requestUser.getUid());
 		List<PermissionGroup> userSubGroups = permissionGroupService.getSubList(currentUser.getPermissionGroupId(),
 				true);
 		List<Integer> groupIds = null;// groupIds如果为空就表示没有数据，如果长度为0就表示全部
-		Field groupIdField = MapperUtils.getFields(PermissionGroup.class).all().find("id", null);
+		Field groupIdField = Fields.getFields(PermissionGroup.class).all().getByName("id");
 		if (groupId == null) {// 全部
 			if (userService.isSuperAdmin(requestUser.getUid())) {
 				groupIds = Collections.emptyList();
@@ -74,7 +73,7 @@ public class AdminUserController {
 		}
 
 		List<Object> list = new ArrayList<Object>();
-		Fields fields = MapperUtils.getFields(User.class).entity();
+		Fields fields = Fields.getFields(User.class).withSuperclass().entity();
 		for (User user : pagination.getList()) {
 			PermissionGroup group = permissionGroupService.getById(user.getPermissionGroupId());
 			String groupName = group == null ? "系统分组" : group.getName();

@@ -1,9 +1,10 @@
 package io.basc.start.app.model;
 
-import io.basc.framework.mapper.MapperUtils;
-
 import java.io.Serializable;
 
+import lombok.Data;
+
+@Data
 public class UserAndPassword implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String user;
@@ -23,10 +24,5 @@ public class UserAndPassword implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	
-	@Override
-	public String toString() {
-		return MapperUtils.toString(this);
 	}
 }

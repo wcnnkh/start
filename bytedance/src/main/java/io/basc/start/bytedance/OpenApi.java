@@ -14,7 +14,7 @@ import io.basc.framework.http.HttpResponseEntity;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.io.Resource;
-import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.mapper.Fields;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.validation.FastValidator;
 import io.basc.start.bytedance.comment.CommentApiType;
@@ -194,7 +194,7 @@ public class OpenApi {
 
 	private <R> Map<String, Object> validateAndGetParameterMap(R request) {
 		FastValidator.validate(request);
-		return MapperUtils.getFields(OauthAccessTokenRequest.class).entity().all().getValueMap(request);
+		return Fields.getFields(OauthAccessTokenRequest.class).entity().all().getValueMap(request);
 	}
 
 	private TypeDescriptor wrapperResponseType(ResolvableType resposeType) {

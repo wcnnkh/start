@@ -53,102 +53,103 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 				}
 			}
 
-			ReflectionUtils.getDeclaredMethods(clazz).stream().filter((e) -> e.isAnnotationPresent(MessageListenerMapping.class)).forEach((method) -> {
-				Class<?>[] parameterTypes = method.getParameterTypes();
-				if (ArrayUtils.isEmpty(parameterTypes)) {
-					throw new OnsException("The message parameter must exist: " + method.toString());
-				}
+			ReflectionUtils.getDeclaredMethods(clazz).stream()
+					.filter((e) -> e.isAnnotationPresent(MessageListenerMapping.class)).forEach((method) -> {
+						Class<?>[] parameterTypes = method.getParameterTypes();
+						if (ArrayUtils.isEmpty(parameterTypes)) {
+							throw new OnsException("The message parameter must exist: " + method.toString());
+						}
 
-				Type[] types = method.getGenericExceptionTypes();
-				boolean accept = false;
-				boolean batch = false;
-				for (int i = 0; i < parameterTypes.length; i++) {
-					TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(types[i]);
-					if (typeDescriptor.getType() == Message.class) {
-						accept = true;
-						break;
-					}
-
-					if ((typeDescriptor.isArray() || typeDescriptor.isCollection())
-							&& Message.class == typeDescriptor.getElementTypeDescriptor().getType()) {
-						accept = true;
-						batch = true;
-						break;
-					}
-				}
-
-				if (!accept) {
-					throw new OnsException("The message parameter must exist: " + method.toString());
-				}
-
-				MethodInvoker methodInvoker = application.getBeanFactory().getAop().getProxyMethod(clazz,
-						application.getBeanFactory().getInstance(clazz), method);
-				MessageListenerMapping mapping = method.getAnnotation(MessageListenerMapping.class);
-				if (batch) {
-					BatchMessageListener batchMessageListener = new BatchMessageListener() {
-
-						@Override
-						public Action consume(List<Message> messages, ConsumeContext context) {
-							Object[] args = new Object[types.length];
-							for (int i = 0; i < parameterTypes.length; i++) {
-								TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(types[i]);
-								if (typeDescriptor.isArray()
-										&& Message.class == typeDescriptor.getElementTypeDescriptor().getType()) {
-									args[i] = messages.toArray(new Message[0]);
-								} else if (typeDescriptor.isCollection()
-										&& Message.class == typeDescriptor.getElementTypeDescriptor().getType()) {
-									Collection<Message> collection = CollectionFactory
-											.createCollection(typeDescriptor.getType(), Message.class, messages.size());
-									collection.addAll(messages);
-									args[i] = collection;
-								} else if (typeDescriptor.getType() == ConsumeContext.class) {
-									args[i] = context;
-								}
+						Type[] types = method.getGenericExceptionTypes();
+						boolean accept = false;
+						boolean batch = false;
+						for (int i = 0; i < parameterTypes.length; i++) {
+							TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(types[i]);
+							if (typeDescriptor.getType() == Message.class) {
+								accept = true;
+								break;
 							}
 
-							try {
-								Object value = methodInvoker.invoke(args);
-								if (value != null && value instanceof Action) {
-									return (Action) value;
-								}
-								return Action.CommitMessage;
-							} catch (Throwable e) {
-								logger.error(e, method.toString());
-								return Action.ReconsumeLater;
+							if ((typeDescriptor.isArray() || typeDescriptor.isCollection())
+									&& Message.class == typeDescriptor.getElementTypeDescriptor().getType()) {
+								accept = true;
+								batch = true;
+								break;
 							}
 						}
-					};
-					subscribe(application, mapping, batchMessageListener);
-				} else {
-					MessageListener messageListener = new MessageListener() {
 
-						@Override
-						public Action consume(Message message, ConsumeContext context) {
-							Object[] args = new Object[types.length];
-							for (int i = 0; i < parameterTypes.length; i++) {
-								TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(types[i]);
-								if (Message.class == typeDescriptor.getElementTypeDescriptor().getType()) {
-									args[i] = message;
-								} else if (typeDescriptor.getType() == ConsumeContext.class) {
-									args[i] = context;
-								}
-							}
-
-							try {
-								Object value = methodInvoker.invoke(args);
-								if (value != null && value instanceof Action) {
-									return (Action) value;
-								}
-								return Action.CommitMessage;
-							} catch (Throwable e) {
-								logger.error(e, method.toString());
-								return Action.ReconsumeLater;
-							}
+						if (!accept) {
+							throw new OnsException("The message parameter must exist: " + method.toString());
 						}
-					};
-					subscribe(application, mapping, messageListener);
-				}
-			});
+
+						MethodInvoker methodInvoker = application.getBeanFactory().getAop().getProxyMethod(clazz,
+								application.getBeanFactory().getInstance(clazz), method);
+						MessageListenerMapping mapping = method.getAnnotation(MessageListenerMapping.class);
+						if (batch) {
+							BatchMessageListener batchMessageListener = new BatchMessageListener() {
+
+								@Override
+								public Action consume(List<Message> messages, ConsumeContext context) {
+									Object[] args = new Object[types.length];
+									for (int i = 0; i < parameterTypes.length; i++) {
+										TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(types[i]);
+										if (typeDescriptor.isArray() && Message.class == typeDescriptor
+												.getElementTypeDescriptor().getType()) {
+											args[i] = messages.toArray(new Message[0]);
+										} else if (typeDescriptor.isCollection() && Message.class == typeDescriptor
+												.getElementTypeDescriptor().getType()) {
+											Collection<Message> collection = CollectionFactory.createCollection(
+													typeDescriptor.getType(), Message.class, messages.size());
+											collection.addAll(messages);
+											args[i] = collection;
+										} else if (typeDescriptor.getType() == ConsumeContext.class) {
+											args[i] = context;
+										}
+									}
+
+									try {
+										Object value = methodInvoker.invoke(args);
+										if (value != null && value instanceof Action) {
+											return (Action) value;
+										}
+										return Action.CommitMessage;
+									} catch (Throwable e) {
+										logger.error(e, method.toString());
+										return Action.ReconsumeLater;
+									}
+								}
+							};
+							subscribe(application, mapping, batchMessageListener);
+						} else {
+							MessageListener messageListener = new MessageListener() {
+
+								@Override
+								public Action consume(Message message, ConsumeContext context) {
+									Object[] args = new Object[types.length];
+									for (int i = 0; i < parameterTypes.length; i++) {
+										TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(types[i]);
+										if (Message.class == typeDescriptor.getElementTypeDescriptor().getType()) {
+											args[i] = message;
+										} else if (typeDescriptor.getType() == ConsumeContext.class) {
+											args[i] = context;
+										}
+									}
+
+									try {
+										Object value = methodInvoker.invoke(args);
+										if (value != null && value instanceof Action) {
+											return (Action) value;
+										}
+										return Action.CommitMessage;
+									} catch (Throwable e) {
+										logger.error(e, method.toString());
+										return Action.ReconsumeLater;
+									}
+								}
+							};
+							subscribe(application, mapping, messageListener);
+						}
+					});
 		}
 	}
 
@@ -158,14 +159,14 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		if (StringUtils.isEmpty(consumerName)) {
 			consumer = application.getBeanFactory().getInstance(Consumer.class);
 		} else {
-			consumerName = application.getEnvironment().resolvePlaceholders(consumerName);
+			consumerName = application.getEnvironment().replacePlaceholders(consumerName);
 			consumer = application.getBeanFactory().getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.getEnvironment().resolvePlaceholders(topic);
+		topic = application.getEnvironment().replacePlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.getEnvironment().resolvePlaceholders(subExpression);
+		subExpression = application.getEnvironment().replacePlaceholders(subExpression);
 		MessageSelector selector = mapping.expressionType() == ExpressionType.SQL92
 				? MessageSelector.bySql(subExpression)
 				: MessageSelector.byTag(subExpression);
@@ -181,14 +182,14 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		if (StringUtils.isEmpty(consumerName)) {
 			consumer = application.getBeanFactory().getInstance(BatchConsumer.class);
 		} else {
-			consumerName = application.getEnvironment().resolvePlaceholders(consumerName);
+			consumerName = application.getEnvironment().replacePlaceholders(consumerName);
 			consumer = application.getBeanFactory().getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.getEnvironment().resolvePlaceholders(topic);
+		topic = application.getEnvironment().replacePlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.getEnvironment().resolvePlaceholders(subExpression);
+		subExpression = application.getEnvironment().replacePlaceholders(subExpression);
 		logger.info("Batch subscribe consumer[{}] topic[{}] subExpression[{}] bind:{}", consumer, topic, subExpression,
 				messageListener);
 		consumer.subscribe(topic, subExpression, messageListener);

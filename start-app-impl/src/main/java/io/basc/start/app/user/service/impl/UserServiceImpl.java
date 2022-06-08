@@ -11,14 +11,15 @@ import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
+import io.basc.framework.data.domain.PageRequest;
 import io.basc.framework.db.DB;
 import io.basc.framework.env.Environment;
 import io.basc.framework.env.Sys;
 import io.basc.framework.event.EventType;
+import io.basc.framework.orm.repository.Conditions;
+import io.basc.framework.orm.repository.ConditionsBuilder;
 import io.basc.framework.sql.SimpleSql;
 import io.basc.framework.sql.Sql;
-import io.basc.framework.sql.SqlUtils;
-import io.basc.framework.sql.WhereSql;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.page.Pagination;
@@ -54,7 +55,8 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 			AdminUserModel adminUserModel = new AdminUserModel();
 			adminUserModel.setUsername(ADMIN_NAME);
 			adminUserModel.setNickname(environment.getValue("io.basc.start.app.admin.nickname", String.class, "超级管理员"));
-			adminUserModel.setPassword(environment.getValue("io.basc.start.app.admin.password", String.class, "123456"));
+			adminUserModel
+					.setPassword(environment.getValue("io.basc.start.app.admin.password", String.class, "123456"));
 			createOrUpdateAdminUser(0, adminUserModel);
 		}
 	}
@@ -130,17 +132,20 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 	}
 
 	public Pagination<User> search(Collection<Integer> permissionGroupIds, String search, int page, int limit) {
-		WhereSql sql = new WhereSql();
-		sql.and("permissionGroupId>0");
+		ConditionsBuilder builder = db.getMapper()
+				.conditionsBuilder((e) -> e.name("permissionGroupId").greaterThan().value(0).build());
 		if (!CollectionUtils.isEmpty(permissionGroupIds)) {
-			sql.andIn("permissionGroupId", permissionGroupIds);
+			builder.and((e) -> e.name("permissionGroupId").in().value(permissionGroupIds).build());
 		}
 
 		if (StringUtils.isNotEmpty(search)) {
-			String value = SqlUtils.toLikeValue(search);
-			sql.and("(uid=? or phone like ? or username like ? or nickname like ?)", search, value, value, value);
+			Conditions conditions = builder.newBuilder().and((e) -> e.name("uid").like().value(search).build())
+					.and((e) -> e.name("phone").like().value(search).build())
+					.and((e) -> e.name("username").like().value(search).build())
+					.and((e) -> e.name("nickname").like().value(search).build()).build();
+			builder.and(conditions);
 		}
-		return db.getPage(User.class, sql.assembleSql("select * from user", null), page, limit);
+		return db.pagingQuery(User.class, builder.build(), null, new PageRequest(page, limit));
 	}
 
 	public DataResult<User> createOrUpdateAdminUser(long uid, AdminUserModel adminUserModel) {
@@ -178,9 +183,9 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		user.setNickname(adminUserModel.getNickname());
 		user.setDisable(adminUserModel.isDisable());
 		user.setPermissionGroupId(adminUserModel.getGroupId());
-		//TODO 没有原子性
+		// TODO 没有原子性
 		boolean b = db.saveOrUpdate(user);
-		if(!b) {
+		if (!b) {
 			return resultFactory.error();
 		}
 		return resultFactory.success(user);

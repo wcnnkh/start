@@ -4,8 +4,9 @@ import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.mvc.HttpChannel;
+import io.basc.framework.orm.repository.CurdRepository;
 import io.basc.start.app.configure.AppConfigure;
-import io.basc.start.data.DataService;
+import io.basc.start.editable.EditableMapper;
 
 import java.util.Map;
 
@@ -14,10 +15,11 @@ public abstract class EditorCURD extends EditorParent {
 	private final String name;
 	private final ResultFactory resultFactory;
 
-	public EditorCURD(DataService dataService, Class<?> editableClass,
-			HttpMethod method, AppConfigure appConfigure,
-			ResultFactory resultFactory, String name) {
-		super(dataService, editableClass, appConfigure);
+	public EditorCURD(EditableMapper mapper,
+			CurdRepository repository,
+			Class<?> editableClass, AppConfigure appConfigure,
+			HttpMethod method, ResultFactory resultFactory, String name) {
+		super(mapper, repository, editableClass, appConfigure);
 		this.resultFactory = resultFactory;
 		this.method = method;
 		this.name = name;

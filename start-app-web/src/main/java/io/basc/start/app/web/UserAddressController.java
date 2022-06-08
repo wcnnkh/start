@@ -1,10 +1,15 @@
 package io.basc.start.app.web;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
-import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.mapper.Fields;
 import io.basc.framework.security.session.UserSession;
 import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.address.model.UserAddressInfo;
@@ -16,11 +21,6 @@ import io.basc.start.app.address.service.UserAddressService;
 import io.basc.start.app.user.pojo.User;
 import io.basc.start.app.user.security.LoginRequired;
 import io.basc.start.app.user.service.UserService;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RequestMapping(value = "/user/address", methods = { HttpMethod.GET, HttpMethod.POST })
 @LoginRequired
@@ -50,7 +50,7 @@ public class UserAddressController {
 			sb.append(address.getName());
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.putAll(MapperUtils.getFields(UserAddress.class).entity().all().getValueMap(userAddress));
+		map.putAll(Fields.getFields(UserAddress.class).entity().all().getValueMap(userAddress));
 		map.put("address", sb.toString());
 		return resultFactory.success(map);
 	}

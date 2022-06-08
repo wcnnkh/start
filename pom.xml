@@ -52,13 +52,7 @@
 
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-data</artifactId>
-				<version>1.8.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.basc.start</groupId>
-				<artifactId>start-data-db</artifactId>
+				<artifactId>start-editable</artifactId>
 				<version>1.8.0</version>
 			</dependency>
 
@@ -170,11 +164,10 @@
 		<module>start-app-impl</module>
 		<module>start-app-web</module>
 		<module>start-app-admin</module>
-		<module>start-data</module>
-		<module>start-data-db</module>
 		<module>aliyun-sms</module>
 		<module>aliyun-oss</module>
 		<module>aliyun-ons</module>
 		<module>sms</module>
+		<module>start-editable</module>
 	</modules>
 </project>

@@ -1,10 +1,11 @@
 package io.basc.start.app.address.model;
 
-import io.basc.framework.mapper.MapperUtils;
-import io.basc.framework.orm.annotation.Comment;
-
 import java.io.Serializable;
 
+import io.basc.framework.orm.annotation.Comment;
+import lombok.Data;
+
+@Data
 public class AddressModel implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -12,33 +13,4 @@ public class AddressModel implements Serializable, Cloneable {
 	private float longitude;
 	@Comment("纬度")
 	private float latitude;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public float getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
-	}
-
-	public float getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
-	}
-	
-	@Override
-	public String toString() {
-		return MapperUtils.toString(this);
-	}
 }

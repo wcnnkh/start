@@ -1,15 +1,16 @@
 package io.basc.start.app.model;
 
-import io.basc.framework.mapper.MapperUtils;
-
 import java.io.Serializable;
 import java.util.Collection;
+
+import lombok.Data;
 
 /**
  * element ui需要的树结构
  * @author shuchaowen
  *
  */
+@Data
 public class ElementUiTree<V> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final V value;
@@ -33,10 +34,5 @@ public class ElementUiTree<V> implements Serializable {
 
 	public Collection<ElementUiTree<V>> getChildren() {
 		return children;
-	}
-	
-	@Override
-	public String toString() {
-		return MapperUtils.toString(this);
 	}
 }

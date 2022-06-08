@@ -12,16 +12,18 @@
 				<#if field.type == "SELECT">
 					<#include "form-select.ftl">
 				<#elseif field.type == "IMAGE">
-					<#if (info[field.name])?? && (info[field.name]) != ''>
-						<#list info[field.name]?split(",") as imageUrl>
-							<#include "form-image.ftl">
-						</#list>
-						<#if field.multiple>
-							<#include "form-image.ftl">
+					<div class="layui-input-block">
+						<#if (info[field.name])?? && (info[field.name]) != ''>
+							<#list info[field.name]?split(",") as imageUrl>
+								<#include "form-image.ftl">
+							</#list>
+							<#if field.multiple>
+								<#include "form-image.ftl">
+							</#if>
+						<#else>
+							 <#include "form-image.ftl">
 						</#if>
-					<#else>
-						 <#include "form-image.ftl">
-					</#if>
+					</div>
 				<#elseif field.type == "TEXTAREA">
 					<#include "form-textarea.ftl">
 				<#else>

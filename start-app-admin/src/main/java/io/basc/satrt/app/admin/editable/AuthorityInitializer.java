@@ -12,13 +12,14 @@ public class AuthorityInitializer implements ApplicationPostProcessor {
 	@Override
 	public void postProcessApplication(ConfigurableApplication application)
 			throws Throwable {
-		if(application.isInstance(EditorRegistry.class) && application.isInstance(EditorResolver.class)) {
+		if (application.isInstance(EditorRegistry.class)
+				&& application.isInstance(EditorMapper.class)) {
 			EditorRegistry editorRegistry = application.getBeanFactory()
 					.getInstance(EditorRegistry.class);
-			EditorResolver editorResolver = application.getBeanFactory()
-					.getInstance(EditorResolver.class);
+			EditorMapper editorResolver = application.getBeanFactory()
+					.getInstance(EditorMapper.class);
 			for (Class<?> clazz : application.getContextClasses()) {
-				if (!editorResolver.canResolve(clazz)) {
+				if (!editorResolver.isEditable(clazz)) {
 					continue;
 				}
 

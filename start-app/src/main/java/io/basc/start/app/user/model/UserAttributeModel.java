@@ -4,11 +4,12 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 
-import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
 import io.basc.start.app.enums.SexType;
+import lombok.Data;
 
+@Data
 public class UserAttributeModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Date birthday;
@@ -19,53 +20,6 @@ public class UserAttributeModel implements Serializable {
 
 	private String nickname;
 	private String headImg;
-
-	public Date getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
-
-	public SexType getSex() {
-		return sex;
-	}
-
-	public void setSex(SexType sex) {
-		this.sex = sex;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-		if (age != this.age) {
-			this.createAgeTime = System.currentTimeMillis();
-		}
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public String getHeadImg() {
-		return headImg;
-	}
-
-	public void setHeadImg(String headImg) {
-		this.headImg = headImg;
-	}
-
-	public long getCreateAgeTime() {
-		return createAgeTime;
-	}
 
 	/**
 	 * 获取实际年龄
@@ -86,11 +40,6 @@ public class UserAttributeModel implements Serializable {
 			calendar.setTimeInMillis(createAgeTime);
 			return TimeUtils.DAY.getMinCalendar().get(Calendar.YEAR) - calendar.get(Calendar.YEAR) + age;
 		}
-	}
-
-	@Override
-	public String toString() {
-		return MapperUtils.toString(this);
 	}
 
 	public void writeTo(UserAttributeModel userAttributeModel) {

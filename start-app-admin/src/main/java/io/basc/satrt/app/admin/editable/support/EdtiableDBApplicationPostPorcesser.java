@@ -1,21 +1,22 @@
-package io.basc.start.data.db;
+package io.basc.satrt.app.admin.editable.support;
 
 import io.basc.framework.boot.ApplicationPostProcessor;
 import io.basc.framework.boot.ConfigurableApplication;
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.db.DB;
-import io.basc.start.data.annotation.Editable;
+import io.basc.satrt.app.admin.editable.EditorMapper;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
-public class CreateTablePorcesser implements ApplicationPostProcessor {
+public class EdtiableDBApplicationPostPorcesser implements ApplicationPostProcessor {
 
 	@Override
 	public void postProcessApplication(ConfigurableApplication application) throws Throwable {
-		if (application.isInstance(DB.class)) {
+		if (application.isInstance(DB.class) && application.isInstance(EditorMapper.class)) {
 			DB db = application.getInstance(DB.class);
+			EditorMapper mapper = application.getInstance(EditorMapper.class);
 			for (Class<?> clazz : application.getContextClasses()) {
-				if (clazz.isAnnotationPresent(Editable.class)) {
+				if (mapper.isEditable(clazz)) {
 					db.createTable(clazz, false);
 				}
 			}

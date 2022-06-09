@@ -64,8 +64,8 @@ public interface EditableMapper extends EditableResolver, ObjectRelationalFactor
 				continue;
 			}
 
-			Object key = keyField == null ? entity : keyField.getGetter().get(entity);
-			Object value = valueField == null ? entity : valueField.getGetter().get(entity);
+			Object key = keyField == null ? entity : keyField.get(entity);
+			Object value = valueField == null ? entity : valueField.get(entity);
 			K k = (K) conversionService.convert(key, keyType, keyTypeDescriptor);
 			V v = (V) conversionService.convert(value, valueType, valueTypeDescriptor);
 			list.add(new Pair<>(k, v));

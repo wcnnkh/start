@@ -24,7 +24,7 @@ public enum AccountType {
 	}
 
 	public String getAccount(User user) {
-		return (String) getField().getGetter().get(user);
+		return (String) getField().get(user);
 	}
 
 	public void setAccount(User user, String account) {

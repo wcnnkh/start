@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
 
-import io.basc.framework.beans.annotation.ConfigurationProperties;
+import io.basc.framework.orm.annotation.ConfigurationProperties;
 import lombok.Data;
 
 @ConfigurationProperties(prefix="alipay")

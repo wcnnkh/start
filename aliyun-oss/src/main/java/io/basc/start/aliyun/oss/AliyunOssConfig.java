@@ -2,7 +2,7 @@ package io.basc.start.aliyun.oss;
 
 import javax.validation.constraints.NotEmpty;
 
-import io.basc.framework.beans.annotation.ConfigurationProperties;
+import io.basc.framework.orm.annotation.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "aliyun.oss")
 public class AliyunOssConfig {

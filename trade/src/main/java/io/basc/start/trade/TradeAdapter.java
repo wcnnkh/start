@@ -1,7 +1,7 @@
 package io.basc.start.trade;
 
-import io.basc.framework.util.Accept;
+import java.util.function.Predicate;
 
-public interface TradeAdapter extends Accept<String> {
-	boolean accept(String tradeMethod);
+public interface TradeAdapter extends Predicate<String> {
+	boolean test(String tradeMethod);
 }

@@ -8,31 +8,31 @@ import io.basc.framework.web.ServerHttpRequest;
 import io.basc.start.trade.TradeException;
 import io.basc.start.trade.status.TradeStatusDispatcher;
 
-public class TradeNotifyProcessor extends ArrayList<TradeNotifyAdapter> implements TradeNotifyAdapter{
+public class TradeNotifyProcessor extends ArrayList<TradeNotifyAdapter> implements TradeNotifyAdapter {
 	private static final long serialVersionUID = 1L;
 
-	public TradeNotifyProcessor(){
+	public TradeNotifyProcessor() {
 		super();
 	}
-	
-	public TradeNotifyProcessor(BeanFactory beanFactory){
+
+	public TradeNotifyProcessor(BeanFactory beanFactory) {
 		addAll(beanFactory.getServiceLoader(TradeNotifyAdapter.class).toList());
 	}
-	
+
 	@Nullable
-	public TradeNotifyAdapter getAdapter(String method, String status){
-		for(TradeNotifyAdapter adapter : this){
-			if(adapter.accept(method)){
+	public TradeNotifyAdapter getAdapter(String method, String status) {
+		for (TradeNotifyAdapter adapter : this) {
+			if (adapter.test(method)) {
 				return adapter;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
-	public boolean accept(String tradeMethod) {
-		for(TradeNotifyAdapter adapter : this){
-			if(adapter.accept(tradeMethod)){
+	public boolean test(String tradeMethod) {
+		for (TradeNotifyAdapter adapter : this) {
+			if (adapter.test(tradeMethod)) {
 				return true;
 			}
 		}
@@ -40,15 +40,15 @@ public class TradeNotifyProcessor extends ArrayList<TradeNotifyAdapter> implemen
 	}
 
 	@Override
-	public Object notify(String tradeMethod, String tradeStatus,
-			ServerHttpRequest request, TradeStatusDispatcher dispatcher)
-			throws TradeException {
-		for(TradeNotifyAdapter adapter : this){
-			if(adapter.accept(tradeMethod)){
+	public Object notify(String tradeMethod, String tradeStatus, ServerHttpRequest request,
+			TradeStatusDispatcher dispatcher) throws TradeException {
+		for (TradeNotifyAdapter adapter : this) {
+			if (adapter.test(tradeMethod)) {
 				return adapter.notify(tradeMethod, tradeStatus, request, dispatcher);
 			}
 		}
-		throw new TradeException("not supported notify tradeMethod [" + tradeMethod + "] tradeStatus [" + tradeStatus + "] request [" + request + "]");
+		throw new TradeException("not supported notify tradeMethod [" + tradeMethod + "] tradeStatus [" + tradeStatus
+				+ "] request [" + request + "]");
 	}
 
 }

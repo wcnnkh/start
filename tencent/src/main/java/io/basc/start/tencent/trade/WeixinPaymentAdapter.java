@@ -50,7 +50,7 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 	}
 
 	@Override
-	public boolean accept(String paymentMethod) {
+	public boolean test(String paymentMethod) {
 		return WEB_TRADE_METHOD.equals(paymentMethod) || APP_TRADE_METHOD.equals(paymentMethod);
 	}
 

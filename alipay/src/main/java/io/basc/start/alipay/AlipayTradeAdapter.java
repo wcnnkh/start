@@ -61,7 +61,7 @@ public class AlipayTradeAdapter implements TradeCreateAdapter,
 	}
 
 	@Override
-	public boolean accept(String method) {
+	public boolean test(String method) {
 		return APP_METHOD.equals(method) && alipayConfig != null;
 	}
 

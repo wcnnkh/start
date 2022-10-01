@@ -138,13 +138,13 @@ public class EditorParent implements Editor {
 				Object[] values = ReflectionUtils.values(foreignKey.getEntityClass());
 				List<Pair<String, String>> options = mapper.parseOptions(foreignKey.getEntityClass(),
 						Arrays.asList(values), foreignKey.getName(), TypeDescriptor.valueOf(String.class),
-						TypeDescriptor.valueOf(String.class), Sys.env.getConversionService());
+						TypeDescriptor.valueOf(String.class), Sys.getEnv().getConversionService());
 				select.setOptions(options);
 			} else {
 				List<?> list = getRepository().queryAll(foreignKey.getEntityClass()).collect(Collectors.toList());
 				List<Pair<String, String>> options = mapper.parseOptions(foreignKey.getEntityClass(), list,
 						foreignKey.getName(), TypeDescriptor.valueOf(String.class),
-						TypeDescriptor.valueOf(String.class), Sys.env.getConversionService());
+						TypeDescriptor.valueOf(String.class), Sys.getEnv().getConversionService());
 				select.setOptions(options);
 			}
 			return select;

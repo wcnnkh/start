@@ -18,18 +18,12 @@ import io.basc.framework.web.cors.CorsRegistry;
 public class CorsAutoConfigure implements ApplicationPostProcessor {
 
 	@Override
-	public void postProcessApplication(ConfigurableApplication application)
-			throws Throwable {
+	public void postProcessApplication(ConfigurableApplication application) throws Throwable {
 		// 判断是否禁用
-		if (!application.getEnvironment().getBooleanValue(
-				"io.basc.start.app.admin.cors.disable")) {
-			AppConfigure appConfigure = application
-					.getInstance(AppConfigure.class);
-			CorsRegistry corsRegistry = application
-					.getInstance(CorsRegistry.class);
-			corsRegistry.add(
-					StringUtils.cleanPath(appConfigure.getAdminController()
-							+ "/**"), Cors.DEFAULT);
+		if (!application.getProperties().getBooleanValue("io.basc.start.app.admin.cors.disable")) {
+			AppConfigure appConfigure = application.getInstance(AppConfigure.class);
+			CorsRegistry corsRegistry = application.getInstance(CorsRegistry.class);
+			corsRegistry.add(StringUtils.cleanPath(appConfigure.getAdminController() + "/**"), Cors.DEFAULT);
 		}
 	}
 }

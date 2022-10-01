@@ -10,14 +10,10 @@ import io.basc.framework.context.annotation.Provider;
 public class AuthorityInitializer implements ApplicationPostProcessor {
 
 	@Override
-	public void postProcessApplication(ConfigurableApplication application)
-			throws Throwable {
-		if (application.isInstance(EditorRegistry.class)
-				&& application.isInstance(EditorMapper.class)) {
-			EditorRegistry editorRegistry = application.getBeanFactory()
-					.getInstance(EditorRegistry.class);
-			EditorMapper editorResolver = application.getBeanFactory()
-					.getInstance(EditorMapper.class);
+	public void postProcessApplication(ConfigurableApplication application) throws Throwable {
+		if (application.isInstance(EditorRegistry.class) && application.isInstance(EditorMapper.class)) {
+			EditorRegistry editorRegistry = application.getInstance(EditorRegistry.class);
+			EditorMapper editorResolver = application.getInstance(EditorMapper.class);
 			for (Class<?> clazz : application.getContextClasses()) {
 				if (!editorResolver.isEditable(clazz)) {
 					continue;

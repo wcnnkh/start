@@ -11,12 +11,6 @@ import io.basc.framework.event.support.SimpleNamedEventDispatcher;
  *
  */
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
-public class DefaultTradeStatusDispatcher extends
-		SimpleNamedEventDispatcher<String, TradeResultsEvent> implements
-		TradeStatusDispatcher {
-
-	public DefaultTradeStatusDispatcher() {
-		super(true);
-	}
-
+public class DefaultTradeStatusDispatcher extends SimpleNamedEventDispatcher<String, TradeResultsEvent>
+		implements TradeStatusDispatcher {
 }

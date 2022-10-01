@@ -1,6 +1,9 @@
 package io.basc.start.app.web;
 
-import io.basc.framework.beans.annotation.Autowired;
+import java.util.Collections;
+import java.util.List;
+
+import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.HttpMethod;
@@ -11,9 +14,6 @@ import io.basc.framework.web.pattern.annotation.RequestMapping;
 import io.basc.start.app.address.model.AddressTree;
 import io.basc.start.app.address.pojo.Address;
 import io.basc.start.app.address.service.AddressService;
-
-import java.util.Collections;
-import java.util.List;
 
 @RequestMapping(value = "address", methods = { HttpMethod.GET, HttpMethod.POST })
 public class AddressController {

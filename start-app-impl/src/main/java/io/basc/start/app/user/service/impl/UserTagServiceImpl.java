@@ -1,6 +1,6 @@
 package io.basc.start.app.user.service.impl;
 
-import io.basc.framework.beans.annotation.Service;
+import io.basc.framework.context.annotation.Service;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.db.DB;

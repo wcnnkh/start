@@ -257,7 +257,7 @@ public class WeiXinPay {
 		Document responseDocument = XmlUtils.getTemplate().getParser().parse(res);
 
 		@SuppressWarnings("unchecked")
-		Map<String, String> map = (Map<String, String>) Sys.env.getConversionService().convert(responseDocument,
+		Map<String, String> map = (Map<String, String>) Sys.getEnv().getConversionService().convert(responseDocument,
 				TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
 		JsonObject jsonObject = JSONUtils.getJsonSupport().parseObject(JSONUtils.getJsonSupport().toJSONString(map));
 		return new WeiXinPayResponse(jsonObject);
@@ -396,8 +396,7 @@ public class WeiXinPay {
 	 * @return
 	 */
 	public SendredpackResponse sendredpack(SendredpackRequest request) {
-		Map<String, Object> parameter = Fields.getFields(SendredpackRequest.class).entity().all()
-				.getValueMap(request);
+		Map<String, Object> parameter = Fields.getFields(SendredpackRequest.class).entity().all().getValueMap(request);
 		WeiXinPayResponse response = invoke(SENDREDPACK, parameter, true);
 		return new SendredpackResponse(response);
 	}
@@ -417,8 +416,7 @@ public class WeiXinPay {
 	}
 
 	public GethbinfoResponse gethbinfo(GethbinfoRequest request) {
-		Map<String, Object> parameter = Fields.getFields(GethbinfoRequest.class).entity().all()
-				.getValueMap(request);
+		Map<String, Object> parameter = Fields.getFields(GethbinfoRequest.class).entity().all().getValueMap(request);
 		WeiXinPayResponse response = invoke(GETHBINFO, parameter, true);
 		return new GethbinfoResponse(response);
 	}

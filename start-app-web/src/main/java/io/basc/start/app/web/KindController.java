@@ -1,5 +1,8 @@
 package io.basc.start.app.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.basc.framework.http.HttpMethod;
 import io.basc.framework.io.IOUtils;
 import io.basc.framework.net.message.multipart.MultipartMessage;
@@ -9,9 +12,6 @@ import io.basc.framework.upload.kind.KindEditor;
 import io.basc.framework.upload.kind.KindOrderType;
 import io.basc.framework.web.MultiPartServerHttpRequest;
 import io.basc.framework.web.pattern.annotation.RequestMapping;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RequestMapping(value = "kind")
 public class KindController {

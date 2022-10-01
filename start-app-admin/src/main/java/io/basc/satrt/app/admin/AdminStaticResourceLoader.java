@@ -21,7 +21,7 @@ public class AdminStaticResourceLoader implements StaticResourceLoader {
 		for (String prefix : STATIC_PREFIXS) {
 			if (path.startsWith("/admin" + prefix)) {
 				String resourcePath = "classpath:/io/basc/start/app/admin/web/static/" + path.substring(6);
-				return environment.getResource(resourcePath);
+				return environment.getResourceLoader().getResource(resourcePath);
 			}
 		}
 		return null;

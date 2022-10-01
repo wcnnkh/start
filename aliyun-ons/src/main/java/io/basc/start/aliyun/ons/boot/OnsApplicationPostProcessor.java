@@ -39,7 +39,7 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 			if (MessageListener.class.isAssignableFrom(clazz)) {
 				MessageListenerMapping mapping = clazz.getAnnotation(MessageListenerMapping.class);
 				if (mapping != null) {
-					MessageListener messageListener = (MessageListener) application.getBeanFactory().getInstance(clazz);
+					MessageListener messageListener = (MessageListener) application.getInstance(clazz);
 					subscribe(application, mapping, messageListener);
 				}
 			}
@@ -47,8 +47,7 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 			if (BatchMessageListener.class.isAssignableFrom(clazz)) {
 				MessageListenerMapping mapping = clazz.getAnnotation(MessageListenerMapping.class);
 				if (mapping != null) {
-					BatchMessageListener messageListener = (BatchMessageListener) application.getBeanFactory()
-							.getInstance(clazz);
+					BatchMessageListener messageListener = (BatchMessageListener) application.getInstance(clazz);
 					subscribe(application, mapping, messageListener);
 				}
 			}
@@ -82,8 +81,8 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 							throw new OnsException("The message parameter must exist: " + method.toString());
 						}
 
-						MethodInvoker methodInvoker = application.getBeanFactory().getAop().getProxyMethod(clazz,
-								application.getBeanFactory().getInstance(clazz), method);
+						MethodInvoker methodInvoker = application.getAop().getProxyMethod(clazz,
+								application.getInstance(clazz), method);
 						MessageListenerMapping mapping = method.getAnnotation(MessageListenerMapping.class);
 						if (batch) {
 							BatchMessageListener batchMessageListener = new BatchMessageListener() {
@@ -157,16 +156,16 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		Consumer consumer;
 		String consumerName = mapping.consumer();
 		if (StringUtils.isEmpty(consumerName)) {
-			consumer = application.getBeanFactory().getInstance(Consumer.class);
+			consumer = application.getInstance(Consumer.class);
 		} else {
-			consumerName = application.getEnvironment().replacePlaceholders(consumerName);
-			consumer = application.getBeanFactory().getInstance(consumerName);
+			consumerName = application.replacePlaceholders(consumerName);
+			consumer = (Consumer) application.getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.getEnvironment().replacePlaceholders(topic);
+		topic = application.replacePlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.getEnvironment().replacePlaceholders(subExpression);
+		subExpression = application.replacePlaceholders(subExpression);
 		MessageSelector selector = mapping.expressionType() == ExpressionType.SQL92
 				? MessageSelector.bySql(subExpression)
 				: MessageSelector.byTag(subExpression);
@@ -180,16 +179,16 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		BatchConsumer consumer;
 		String consumerName = mapping.consumer();
 		if (StringUtils.isEmpty(consumerName)) {
-			consumer = application.getBeanFactory().getInstance(BatchConsumer.class);
+			consumer = application.getInstance(BatchConsumer.class);
 		} else {
-			consumerName = application.getEnvironment().replacePlaceholders(consumerName);
-			consumer = application.getBeanFactory().getInstance(consumerName);
+			consumerName = application.replacePlaceholders(consumerName);
+			consumer = (BatchConsumer) application.getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.getEnvironment().replacePlaceholders(topic);
+		topic = application.replacePlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.getEnvironment().replacePlaceholders(subExpression);
+		subExpression = application.replacePlaceholders(subExpression);
 		logger.info("Batch subscribe consumer[{}] topic[{}] subExpression[{}] bind:{}", consumer, topic, subExpression,
 				messageListener);
 		consumer.subscribe(topic, subExpression, messageListener);

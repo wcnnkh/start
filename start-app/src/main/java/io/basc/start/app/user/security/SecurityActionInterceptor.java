@@ -3,8 +3,8 @@ package io.basc.start.app.user.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.core.annotation.AnnotationUtils;
 import io.basc.framework.logger.Logger;

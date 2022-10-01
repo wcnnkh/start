@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.basc.framework.beans.annotation.Autowired;
-import io.basc.framework.beans.annotation.Service;
+import io.basc.framework.context.annotation.Service;
+import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;

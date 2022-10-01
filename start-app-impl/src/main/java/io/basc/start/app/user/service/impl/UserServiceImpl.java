@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.basc.framework.beans.annotation.Autowired;
-import io.basc.framework.beans.annotation.Service;
 import io.basc.framework.codec.Encoder;
 import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.context.annotation.Service;
+import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
@@ -38,7 +38,8 @@ import io.basc.start.app.user.service.UserService;
 
 @Service
 public class UserServiceImpl extends BaseServiceConfiguration implements UserService {
-	public static String ADMIN_NAME = Sys.env.getValue("io.basc.app.admin.username", String.class, "admin");
+	public static String ADMIN_NAME = Sys.getEnv().getProperties().getValue("io.basc.app.admin.username", String.class,
+			"admin");
 
 	private static final Encoder<String, String> PASSWORD_ENCODER = CharsetCodec.UTF_8.toMD5();
 
@@ -54,9 +55,10 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		if (user == null) {
 			AdminUserModel adminUserModel = new AdminUserModel();
 			adminUserModel.setUsername(ADMIN_NAME);
-			adminUserModel.setNickname(environment.getValue("io.basc.start.app.admin.nickname", String.class, "超级管理员"));
-			adminUserModel
-					.setPassword(environment.getValue("io.basc.start.app.admin.password", String.class, "123456"));
+			adminUserModel.setNickname(
+					environment.getProperties().getValue("io.basc.start.app.admin.nickname", String.class, "超级管理员"));
+			adminUserModel.setPassword(
+					environment.getProperties().getValue("io.basc.start.app.admin.password", String.class, "123456"));
 			createOrUpdateAdminUser(0, adminUserModel);
 		}
 	}

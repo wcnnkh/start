@@ -1,7 +1,7 @@
 package io.basc.start.app.configure;
 
-import io.basc.framework.beans.annotation.ConfigurationProperties;
-import io.basc.framework.beans.annotation.Value;
+import io.basc.framework.context.ioc.annotation.Value;
+import io.basc.framework.orm.annotation.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = AppConfigure.CONFIGURE_PREFIX)
 public class AppConfigure {

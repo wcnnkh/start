@@ -9,8 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.basc.framework.beans.annotation.Service;
-import io.basc.framework.beans.annotation.Value;
+import io.basc.framework.context.annotation.Service;
+import io.basc.framework.context.ioc.annotation.Value;
 import io.basc.framework.convert.annotation.JSON;
 import io.basc.framework.env.Environment;
 import io.basc.framework.io.Resource;
@@ -208,7 +208,7 @@ public class LocalAddressServiceImpl implements AddressService {
 	}
 
 	public long lastModified() {
-		Resource resource = environment.getResource(RESOURCE);
+		Resource resource = environment.getResourceLoader().getResource(RESOURCE);
 		if (resource == null || !resource.exists()) {
 			return -1;
 		}

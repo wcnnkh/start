@@ -13,7 +13,7 @@ import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.lang.NestedExceptionUtils;
 import io.basc.framework.logger.Logger;
@@ -113,7 +113,7 @@ public class AliDaYuSms implements Sms {
 		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
 		map.put("sms_free_sign_name", request.getTemplate().getSignName());
 		if (!CollectionUtils.isEmpty(request.getTemplateParams())) {
-			map.put("sms_param", JSONUtils.getJsonSupport().toJSONString(request.getTemplateParams()));
+			map.put("sms_param", JsonUtils.toJsonString(request.getTemplateParams()));
 		}
 		map.put("sms_template_code", request.getTemplate().getCode());
 		map.put("method", "alibaba.aliqin.fc.sms.num.send");
@@ -127,15 +127,15 @@ public class AliDaYuSms implements Sms {
 		}
 
 		response = response.getJsonObject("result");
-		if (response.containsKey("err_code") && response.getIntValue("err_code") == 0) {
-			return SendSmsResponse.builder().request(request).success(true).message(response.toJSONString()).build();
+		if (response.containsKey("err_code") && response.getAsInt("err_code") == 0) {
+			return SendSmsResponse.builder().request(request).success(true).message(response.toJsonString()).build();
 		}
 
 		logger.error(response.toString());
 		JsonObject errorResponse = response.getJsonObject("error_response");
-		String msg = errorResponse.getString("sub_msg");
+		String msg = errorResponse.getAsString("sub_msg");
 		if (StringUtils.isEmpty(msg)) {
-			msg = errorResponse.getString("msg");
+			msg = errorResponse.getAsString("msg");
 		}
 		return SendSmsResponse.builder().request(request).success(false).message(msg).build();
 	}

@@ -14,7 +14,7 @@ public class LatestReceiptInfo extends InApp {
 	 * @return
 	 */
 	public boolean isUpgraded() {
-		return getBooleanValue("is_upgraded");
+		return getAsBoolean("is_upgraded");
 	}
 
 	/**
@@ -23,6 +23,6 @@ public class LatestReceiptInfo extends InApp {
 	 * @return
 	 */
 	public String getSubscriptionGroupIdentifier() {
-		return getString("subscription_group_identifier");
+		return getAsString("subscription_group_identifier");
 	}
 }

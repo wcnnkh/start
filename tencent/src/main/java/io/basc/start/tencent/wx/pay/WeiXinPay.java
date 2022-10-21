@@ -18,8 +18,8 @@ import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.http.client.HttpConnection;
 import io.basc.framework.http.client.SimpleClientHttpRequestFactory;
-import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.lang.Constants;
 import io.basc.framework.lang.NotSupportedException;
 import io.basc.framework.lang.ParameterException;
@@ -116,7 +116,7 @@ public class WeiXinPay {
 		String mySign = toSign(getSignType(cloneParams), checkStr.toString());
 		boolean b = sign.equals(mySign);
 		if (!b) {
-			logger.error("签名检验失败：{}------>{}", JSONUtils.getJsonSupport().toJSONString(params), mySign);
+			logger.error("签名检验失败：{}------>{}", JsonUtils.toJsonString(params), mySign);
 		}
 		return b;
 	}
@@ -259,7 +259,7 @@ public class WeiXinPay {
 		@SuppressWarnings("unchecked")
 		Map<String, String> map = (Map<String, String>) Sys.getEnv().getConversionService().convert(responseDocument,
 				TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
-		JsonObject jsonObject = JSONUtils.getJsonSupport().parseObject(JSONUtils.getJsonSupport().toJSONString(map));
+		JsonObject jsonObject = JsonUtils.parseObject(JsonUtils.toJsonString(map));
 		return new WeiXinPayResponse(jsonObject);
 	}
 

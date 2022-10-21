@@ -16,8 +16,8 @@ public class JumpWxa implements Serializable {
 	private String envVersion;
 
 	public JumpWxa(JsonObject json) {
-		this.path = json.getString("path");
-		this.query = json.getString("query");
-		this.envVersion = json.getString("env_version");
+		this.path = json.getAsString("path");
+		this.query = json.getAsString("query");
+		this.envVersion = json.getAsString("env_version");
 	}
 }

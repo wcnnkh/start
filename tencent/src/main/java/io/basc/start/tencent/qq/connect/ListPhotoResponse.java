@@ -13,7 +13,7 @@ public class ListPhotoResponse extends QQResponse {
 	}
 
 	public int getTotal() {
-		return getIntValue("total");
+		return getAsInt("total");
 	}
 
 	public List<Photo> getPhotos() {

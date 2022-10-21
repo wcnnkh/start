@@ -9,7 +9,7 @@ public class VipRichInfoResponse extends QQResponse {
 	}
 
 	public boolean isVip() {
-		return getBooleanValue("is_qq_vip");
+		return getAsBoolean("is_qq_vip");
 	}
 
 	public VipRichInfoItem getVip() {
@@ -48,7 +48,7 @@ public class VipRichInfoResponse extends QQResponse {
 	 * @return
 	 */
 	public long getHistoryPayTime() {
-		return getLongValue("history_pay_time");
+		return getAsLong("history_pay_time");
 	}
 
 	/**
@@ -57,6 +57,6 @@ public class VipRichInfoResponse extends QQResponse {
 	 * @return
 	 */
 	public long getHistoryEndTime() {
-		return getLongValue("history_end_time");
+		return getAsLong("history_end_time");
 	}
 }

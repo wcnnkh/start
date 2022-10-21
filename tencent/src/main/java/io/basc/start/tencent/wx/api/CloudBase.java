@@ -17,10 +17,10 @@ public class CloudBase implements Serializable{
 	private String resourceAppid;
 
 	public CloudBase(JsonObject json) {
-		this.env = json.getString("evn");
-		this.domain = json.getString("domain");
-		this.path = json.getString("path");
-		this.query = json.getString("query");
-		this.resourceAppid = json.getString("resource_appid");
+		this.env = json.getAsString("evn");
+		this.domain = json.getAsString("domain");
+		this.path = json.getAsString("path");
+		this.query = json.getAsString("query");
+		this.resourceAppid = json.getAsString("resource_appid");
 	}
 }

@@ -14,22 +14,22 @@ public class SendredpackResponse extends WeiXinPayResponse{
 	}
 
 	public String getMchBillno(){
-		return getString("mch_billno");
+		return getAsString("mch_billno");
 	}
 	
 	public String getWxappid(){
-		return getString("wxappid");
+		return getAsString("wxappid");
 	}
 	
 	public String getReOpenid(){
-		return getString("re_openid");
+		return getAsString("re_openid");
 	}
 	
 	public int getTotalAmount(){
-		return getIntValue("total_amount");
+		return getAsInt("total_amount");
 	}
 	
 	public String getSendListid(){
-		return getString("send_listid");
+		return getAsString("send_listid");
 	}
 }

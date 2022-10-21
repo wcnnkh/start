@@ -15,7 +15,7 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getSloc() {
-		return getString("sloc");
+		return getAsString("sloc");
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getLloc() {
-		return getString("lloc");
+		return getAsString("lloc");
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getName() {
-		return getString("name");
+		return getAsString("name");
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getDesc() {
-		return getString("desc");
+		return getAsString("desc");
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public long getUpdatedTime() {
-		return getLongValue("updated_time");
+		return getAsLong("updated_time");
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getUploadedTime() {
-		return getString("uploaded_time");
+		return getAsString("uploaded_time");
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getSmallUrl() {
-		return getString("small_url");
+		return getAsString("small_url");
 	}
 
 	/**
@@ -78,6 +78,6 @@ public class Photo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public LargeImage getLargeImage() {
-		return getObject("large_image", LargeImage.class);
+		return getAsObject("large_image", LargeImage.class);
 	}
 }

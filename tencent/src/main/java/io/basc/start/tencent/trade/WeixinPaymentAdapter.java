@@ -5,7 +5,7 @@ import java.util.Map;
 
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.Copy;
@@ -101,7 +101,7 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 			throw new TradeException(e);
 		}
 
-		logger.info("收到微信支付回调:\n" + JSONUtils.getJsonSupport().toJSONString(map));
+		logger.info("收到微信支付回调:\n" + JsonUtils.toJsonString(map));
 		Status<String> status = check(map);
 		if (!status.isActive()) {
 			logger.error("微信支付回调失败：{}", status.get());

@@ -9,11 +9,11 @@ public class UnifiedorderResponse extends WeiXinPayResponse {
 	}
 
 	public TradeType getTradeType() {
-		return (TradeType) getEnum("trade_type", TradeType.class);
+		return (TradeType) getAsEnum("trade_type", TradeType.class);
 	}
-	
-	public String getRawTradeType(){
-		return getString("trade_type");
+
+	public String getRawTradeType() {
+		return getAsString("trade_type");
 	}
 
 	/**
@@ -22,6 +22,6 @@ public class UnifiedorderResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getPrepayId() {
-		return getString("prepay_id");
+		return getAsString("prepay_id");
 	}
 }

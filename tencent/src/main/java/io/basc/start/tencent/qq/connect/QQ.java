@@ -8,8 +8,8 @@ import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.http.HttpResponseEntity;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
-import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.security.Token;
@@ -85,7 +85,7 @@ public class QQ {
 			content = content.substring(callbackPrefix.length(), content.length() - 2);
 		}
 
-		return JSONUtils.getJsonSupport().parseObject(content);
+		return JsonUtils.getJsonSupport().parseObject(content);
 	}
 
 	public Token getToken(String redirect_uri, String code) {
@@ -97,19 +97,19 @@ public class QQ {
 		map.put("code", code);
 		String content = HttpUtils.getHttpClient().post(String.class, TOKEN, map, MediaType.APPLICATION_FORM_URLENCODED)
 				.getBody();
-		JsonObject json = JSONUtils.getJsonSupport().parseObject(content);
-		if (json.getIntValue("code") != 0) {
-			throw new RuntimeException("url=" + TOKEN + ", data=" + JSONUtils.getJsonSupport().toJSONString(map)
-					+ ", response=" + content);
+		JsonObject json = JsonUtils.getJsonSupport().parseObject(content);
+		if (json.getAsInt("code") != 0) {
+			throw new RuntimeException(
+					"url=" + TOKEN + ", data=" + JsonUtils.toJsonString(map) + ", response=" + content);
 		}
-		return new Token(json.getString("access_token"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
+		return new Token(json.getAsString("access_token"), json.getAsInt("expires_in"), TimeUnit.SECONDS);
 	}
 
 	public String getOpenid(String access_token) {
 		Map<String, Object> params = new HashMap<String, Object>(4);
 		params.put("access_token", access_token);
 		JsonObject response = doGet(OAUTH2_ME, null, params);
-		return response.getString("openid");
+		return response.getAsString("openid");
 	}
 
 	/**

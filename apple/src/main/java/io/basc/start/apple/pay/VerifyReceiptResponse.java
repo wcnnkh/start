@@ -1,11 +1,11 @@
 package io.basc.start.apple.pay;
 
+import java.util.Collections;
+import java.util.List;
+
 import io.basc.framework.json.JsonArray;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.json.JsonObjectWrapper;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * {@link https://developer.apple.com/documentation/appstorereceipts/responsebody}
@@ -20,8 +20,8 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	}
 
 	/**
-	 * {@link https://developer.apple.com/documentation/appstorereceipts/status}
-	 * 0 SUCCESS<br/>
+	 * {@link https://developer.apple.com/documentation/appstorereceipts/status} 0
+	 * SUCCESS<br/>
 	 * 21000 App Store不能读取你提供的JSON对象 <br/>
 	 * 21002 receipt-data域的数据有问题<br/>
 	 * 21003 receipt无法通过验证 <br/>
@@ -34,7 +34,7 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getStatus() {
-		return getIntValue("status");
+		return getAsInt("status");
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getEnvironment() {
-		return getString("environment");
+		return getAsString("environment");
 	}
 
 	public boolean isSandbox() {
@@ -67,7 +67,7 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public boolean isRetryable() {
-		return getBooleanValue("is_retryable");
+		return getAsBoolean("is_retryable");
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getLatestReceipt() {
-		return getString("latest_receipt");
+		return getAsString("latest_receipt");
 	}
 
 	/**
@@ -101,19 +101,19 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	/**
 	 * 在JSON文件中，一个数组，其中每个元素包含由产品标识标识的每个自动续订订阅的挂起续订信息。仅对包含自动续订订阅的应用程序回执返回<br/>
 	 * <br/>
-	 * In the JSON file, an array where each element contains the pending
-	 * renewal information for each auto-renewable subscription identified by
-	 * the product_id. Only returned for app receipts that contain
-	 * auto-renewable subscriptions.
+	 * In the JSON file, an array where each element contains the pending renewal
+	 * information for each auto-renewable subscription identified by the
+	 * product_id. Only returned for app receipts that contain auto-renewable
+	 * subscriptions.
 	 * 
 	 * @return
 	 */
 	public List<PendingRenewalInfo> getPendingRenewalInfos() {
 		JsonArray jsonArray = getJsonArray("pending_renewal_info");
-		if(jsonArray == null) {
+		if (jsonArray == null) {
 			return Collections.emptyList();
 		}
-		
+
 		return jsonArray.convert(PendingRenewalInfo.class);
 	}
 

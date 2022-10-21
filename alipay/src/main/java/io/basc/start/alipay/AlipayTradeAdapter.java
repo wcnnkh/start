@@ -15,7 +15,7 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.Copy;
@@ -74,7 +74,7 @@ public class AlipayTradeAdapter implements TradeCreateAdapter,
 		// 切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
 		// boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String
 		// publicKey, String charset, String sign_type)
-		logger.info(JSONUtils.getJsonSupport().toJSONString(params));
+		logger.info(JsonUtils.toJsonString(params));
 
 		boolean flag;
 		try {

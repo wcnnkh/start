@@ -17,7 +17,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public long getAutoRenewAdamId() {
-		return getLongValue("auto_renew_adam_id");
+		return getAsLong("auto_renew_adam_id");
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getAutoRenewProductId() {
-		return getString("auto_renew_product_id");
+		return getAsString("auto_renew_product_id");
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public boolean getAutoRenewStatus() {
-		return getBooleanValue("auto_renew_status");
+		return getAsBoolean("auto_renew_status");
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getEnvironment() {
-		return getString("environment");
+		return getAsString("environment");
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getExpirationIntent() {
-		return getIntValue("expiration_intent");
+		return getAsInt("expiration_intent");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getLatestExpiredReceipt() {
-		return getString("latest_expired_receipt");
+		return getAsString("latest_expired_receipt");
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getLatestReceipt() {
-		return getString("latest_receipt");
+		return getAsString("latest_receipt");
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public NotificationType getNotificationType() {
-		return (NotificationType) getEnum("notification_type", NotificationType.class);
+		return (NotificationType) getAsEnum("notification_type", NotificationType.class);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getRawNotificationType() {
-		return getString("notification_type");
+		return getAsString("notification_type");
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getPassword() {
-		return getString("password");
+		return getAsString("password");
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getBid() {
-		return getString("bid");
+		return getAsString("bid");
 	}
 
 	/**
@@ -157,6 +157,6 @@ public class Notification extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getBvrs() {
-		return getString("bvrs");
+		return getAsString("bvrs");
 	}
 }

@@ -17,7 +17,7 @@ public class ApplePayDate {
 	 * @return
 	 */
 	public String getDate() {
-		return jsonObject.getString(name);
+		return jsonObject.getAsString(name);
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class ApplePayDate {
 	 * @return
 	 */
 	public long getMs() {
-		return jsonObject.getLongValue(name + "_ms");
+		return jsonObject.getAsLong(name + "_ms");
 	}
 
 	/**
@@ -35,6 +35,6 @@ public class ApplePayDate {
 	 * @return
 	 */
 	public String getPst() {
-		return jsonObject.getString(name + "_pst");
+		return jsonObject.getAsString(name + "_pst");
 	}
 }

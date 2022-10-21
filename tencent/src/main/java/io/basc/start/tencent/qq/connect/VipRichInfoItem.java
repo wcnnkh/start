@@ -17,7 +17,7 @@ public class VipRichInfoItem extends JsonObjectWrapper {
 	 * @return
 	 */
 	public long getStart() {
-		return getLongValue(prefix + "_start");
+		return getAsLong(prefix + "_start");
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class VipRichInfoItem extends JsonObjectWrapper {
 	 * @return
 	 */
 	public long getEnd() {
-		return getLongValue(prefix + "_end");
+		return getAsLong(prefix + "_end");
 	}
 
 	/**
@@ -35,6 +35,6 @@ public class VipRichInfoItem extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getPayway() {
-		return getIntValue(prefix + "_payway");
+		return getAsInt(prefix + "_payway");
 	}
 }

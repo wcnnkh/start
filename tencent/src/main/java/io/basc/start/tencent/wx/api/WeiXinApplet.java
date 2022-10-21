@@ -11,7 +11,7 @@ import io.basc.framework.codec.support.AES;
 import io.basc.framework.codec.support.Base64;
 import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.http.MediaType;
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.tencent.wx.WeiXinException;
@@ -36,7 +36,7 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		byte[] ivKeys = Base64.DEFAULT.decode(iv);
 		String content = Base64.DEFAULT.toDecoder(new AES(AES.NO_PADDING, keyBytes, ivKeys))
 				.toDecoder(CharsetCodec.UTF_8).decode(encryptedData);
-		return JSONUtils.getJsonSupport().parseObject(content, PhoneNumber.class);
+		return JsonUtils.getJsonSupport().parseObject(content, PhoneNumber.class);
 	}
 
 	public void uniformSendMessage(String accessToken, String touser, WeappTemplateMsg weapp_template_msg,
@@ -136,7 +136,7 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 
 		JsonObject response = doPost("https://api.weixin.qq.com/wxa/generate_urllink?access_token=" + accessToken, map,
 				MediaType.APPLICATION_JSON_UTF8);
-		return response.getString("url_link");
+		return response.getAsString("url_link");
 	}
 
 	public final String generateUrllink(GenerateUrlRequest request) throws WeiXinException {
@@ -177,7 +177,7 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 
 		JsonObject response = doPost("https://api.weixin.qq.com/wxa/generatescheme?access_token=" + accessToken, map,
 				MediaType.APPLICATION_JSON_UTF8);
-		return response.getString("openlink");
+		return response.getAsString("openlink");
 	}
 
 	public final String generatescheme(GenerateUrlRequest request) throws WeiXinException {

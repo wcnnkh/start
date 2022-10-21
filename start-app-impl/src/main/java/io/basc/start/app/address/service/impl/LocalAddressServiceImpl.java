@@ -124,8 +124,8 @@ public class LocalAddressServiceImpl implements AddressService {
 	}
 
 	private Address parseAddress(JsonObject jsonObject, int parentId) {
-		int id = jsonObject.getIntValue("ssqid");
-		String name = jsonObject.getString("ssqname");
+		int id = jsonObject.getAsInt("ssqid");
+		String name = jsonObject.getAsString("ssqname");
 		Address address = new Address();
 		address.setId(id);
 		address.setName(name);

@@ -15,7 +15,7 @@ public class QQResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getRet() {
-		return getIntValue("ret");
+		return getAsInt("ret");
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class QQResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getMsg() {
-		return getString("msg");
+		return getAsString("msg");
 	}
 
 	public boolean isSuccess() {

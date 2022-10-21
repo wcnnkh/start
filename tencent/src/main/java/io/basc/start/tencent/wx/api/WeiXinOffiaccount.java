@@ -38,8 +38,8 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 
 	private static AccessToken parseAccessToken(JsonObject json, String type) {
 		return new AccessToken(
-				new Token(json.getString("access_token"), json.getIntValue("expires_in"), TimeUnit.SECONDS), type,
-				new Token(json.getString("refresh_token"), 30, TimeUnit.DAYS), json.getString("scope"), null);
+				new Token(json.getAsString("access_token"), json.getAsInt("expires_in"), TimeUnit.SECONDS), type,
+				new Token(json.getAsString("refresh_token"), 30, TimeUnit.DAYS), json.getAsString("scope"), null);
 	}
 
 	public UserAccessToken getUserAccessToken(String code) throws WeiXinApiException {
@@ -48,8 +48,9 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		map.put("secret", getAppsecret());
 		map.put("code", code);
 		map.put("grant_type", "authorization_code");
-		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/access_token", map, MediaType.APPLICATION_FORM_URLENCODED);
-		return new UserAccessToken(parseAccessToken(json, "authorization_code"), json.getString("openid"));
+		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/access_token", map,
+				MediaType.APPLICATION_FORM_URLENCODED);
+		return new UserAccessToken(parseAccessToken(json, "authorization_code"), json.getAsString("openid"));
 	}
 
 	public UserAccessToken refreshUserAccessToken(String refresh_token) throws WeiXinApiException {
@@ -57,8 +58,9 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		map.put("appid", getAppid());
 		map.put("grant_type", "refresh_token");
 		map.put("refresh_token", refresh_token);
-		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/refresh_token", map, MediaType.APPLICATION_FORM_URLENCODED);
-		return new UserAccessToken(parseAccessToken(json, "refresh_token"), json.getString("openid"));
+		JsonObject json = doPost("https://api.weixin.qq.com/sns/oauth2/refresh_token", map,
+				MediaType.APPLICATION_FORM_URLENCODED);
+		return new UserAccessToken(parseAccessToken(json, "refresh_token"), json.getAsString("openid"));
 	}
 
 	/**
@@ -75,10 +77,11 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		paramMap.put("access_token", user_access_token);
 		paramMap.put("openid", openid);
 		paramMap.put("lang", lang);
-		JsonObject json = doPost("https://api.weixin.qq.com/sns/userinfo", paramMap, MediaType.APPLICATION_FORM_URLENCODED);
-		return new Userinfo(json.getString("openid"), json.getString("nickname"), json.getIntValue("sex"),
-				json.getString("province"), json.getString("city"), json.getString("country"),
-				json.getString("headimgurl"), json.getString("privilege"), json.getString("unionid"));
+		JsonObject json = doPost("https://api.weixin.qq.com/sns/userinfo", paramMap,
+				MediaType.APPLICATION_FORM_URLENCODED);
+		return new Userinfo(json.getAsString("openid"), json.getAsString("nickname"), json.getAsInt("sex"),
+				json.getAsString("province"), json.getAsString("city"), json.getAsString("country"),
+				json.getAsString("headimgurl"), json.getAsString("privilege"), json.getAsString("unionid"));
 	}
 
 	/**

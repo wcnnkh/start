@@ -1,6 +1,6 @@
 package io.basc.start.kdniao;
 
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.json.JsonArray;
 import io.basc.framework.json.JsonObject;
 
@@ -24,14 +24,14 @@ public class Push101Data implements Serializable {
 			return;
 		}
 
-		JsonObject jsonObject = JSONUtils.getJsonSupport().parseObject(jsonData);
+		JsonObject jsonObject = JsonUtils.getJsonSupport().parseObject(jsonData);
 		if (jsonObject == null) {
 			return;
 		}
 
-		this.businessId = jsonObject.getString("EBusinessID");
-		this.pushTime = jsonObject.getString("PushTime");
-		this.count = jsonObject.getIntValue("Count");
+		this.businessId = jsonObject.getAsString("EBusinessID");
+		this.pushTime = jsonObject.getAsString("PushTime");
+		this.count = jsonObject.getAsInt("Count");
 		JsonArray array = jsonObject.getJsonArray("data");
 		if (array != null) {
 			List<Data> list = new ArrayList<Push101Data.Data>(array.size());
@@ -99,12 +99,12 @@ public class Push101Data implements Serializable {
 
 		public Data(JsonObject json) {
 			super(json);
-			this.shipperCode = json.getString("ShipperCode");
-			this.logisticCode = json.getString("LogisticCode");
-			this.state = json.getString("State");
-			this.callBack = json.getString("CallBack");
+			this.shipperCode = json.getAsString("ShipperCode");
+			this.logisticCode = json.getAsString("LogisticCode");
+			this.state = json.getAsString("State");
+			this.callBack = json.getAsString("CallBack");
 			this.traces = Traces.parseTraces(json.getJsonArray("Traces"));
-			this.stimatedDeliveryTime = json.getString("EstimatedDeliveryTime");
+			this.stimatedDeliveryTime = json.getAsString("EstimatedDeliveryTime");
 		}
 
 		public String getShipperCode() {

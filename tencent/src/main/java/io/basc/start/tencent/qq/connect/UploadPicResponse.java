@@ -9,30 +9,30 @@ public class UploadPicResponse extends QQResponse {
 	}
 
 	public String getAlbumid() {
-		return getString("albumid");
+		return getAsString("albumid");
 	}
 
 	public String getLloc() {
-		return getString("lloc");
+		return getAsString("lloc");
 	}
 
 	public String getSloc() {
-		return getString("sloc");
+		return getAsString("sloc");
 	}
 
 	public String getLargeUrl() {
-		return getString("large_url");
+		return getAsString("large_url");
 	}
 
 	public String getSmallUrl() {
-		return getString("small_url");
+		return getAsString("small_url");
 	}
 
 	public int getHeight() {
-		return getIntValue("height");
+		return getAsInt("height");
 	}
 
 	public int getWidth() {
-		return getIntValue("width");
+		return getAsInt("width");
 	}
 }

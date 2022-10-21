@@ -51,7 +51,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getCancellationReason() {
-		return getString("cancellation_reason");
+		return getAsString("cancellation_reason");
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public boolean isInIntroOfferPeriod() {
-		return getBooleanValue("is_in_intro_offer_period");
+		return getAsBoolean("is_in_intro_offer_period");
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public boolean isTrialPeriod() {
-		return getBooleanValue("is_trial_period");
+		return getAsBoolean("is_trial_period");
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getOriginalTransactionId() {
-		return getString("original_transaction_id");
+		return getAsString("original_transaction_id");
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getProductId() {
-		return getString("product_id");
+		return getAsString("product_id");
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getPromotionalOfferId() {
-		return getString("promotional_offer_id");
+		return getAsString("promotional_offer_id");
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getQuantity() {
-		return getIntValue("quantity");
+		return getAsInt("quantity");
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getTransactionId() {
-		return getString("transaction_id");
+		return getAsString("transaction_id");
 	}
 
 	/**
@@ -150,14 +150,14 @@ public class InApp extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getWebOrderLineItemId() {
-		return getString("web_order_line_item_id");
+		return getAsString("web_order_line_item_id");
 	}
 
 	public static <T extends InApp> List<T> parse(JsonArray jsonArray, Class<T> type) {
-		if(jsonArray == null) {
+		if (jsonArray == null) {
 			return Collections.emptyList();
 		}
-		
+
 		List<T> list = jsonArray.convert(type);
 		if (CollectionUtils.isEmpty(list)) {
 			return list;

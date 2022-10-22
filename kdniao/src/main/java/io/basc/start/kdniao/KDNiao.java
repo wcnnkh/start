@@ -1,17 +1,17 @@
 package io.basc.start.kdniao;
 
-import io.basc.framework.codec.support.CharsetCodec;
-import io.basc.framework.http.HttpUtils;
-import io.basc.framework.http.MediaType;
-import io.basc.framework.json.JSONUtils;
-import io.basc.framework.json.JsonObject;
-import io.basc.framework.mapper.MapperUtils;
-import io.basc.framework.mapper.ToMap;
-import io.basc.framework.net.uri.UriUtils;
-
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.http.HttpUtils;
+import io.basc.framework.http.MediaType;
+import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonUtils;
+import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.mapper.ToMap;
+import io.basc.framework.net.uri.UriUtils;
 
 /**
  * 快递鸟接口
@@ -83,7 +83,7 @@ public class KDNiao {
 	 * @return
 	 */
 	public String doRequest(String requestUrl, String requestType, Map<?, ?> businessParameterMap) {
-		String requestData = JSONUtils.getJsonSupport().toJSONString(businessParameterMap);
+		String requestData = JsonUtils.toJsonString(businessParameterMap);
 		Map<String, String> parameterMap = new LinkedHashMap<String, String>(8, 1);
 		parameterMap.put("RequestData", UriUtils.encode(requestData, CHARSET_CODEC.getCharsetName()));
 		parameterMap.put("EBusinessID", businessId);
@@ -125,7 +125,7 @@ public class KDNiao {
 			return null;
 		}
 
-		JsonObject json = JSONUtils.getJsonSupport().parseObject(data);
+		JsonObject json = JsonUtils.getJsonSupport().parseObject(data);
 		if (json == null) {
 			return null;
 		}
@@ -144,7 +144,7 @@ public class KDNiao {
 			return null;
 		}
 
-		JsonObject json = JSONUtils.getJsonSupport().parseObject(content);
+		JsonObject json = JsonUtils.getJsonSupport().parseObject(content);
 		if (json == null) {
 			return null;
 		}

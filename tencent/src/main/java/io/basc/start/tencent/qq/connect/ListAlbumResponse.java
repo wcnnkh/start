@@ -16,7 +16,7 @@ public class ListAlbumResponse extends QQResponse {
 	 * @return
 	 */
 	public int getAlbumnum() {
-		return getIntValue("albumnum");
+		return getAsInt("albumnum");
 	}
 
 	public List<AlbumInfo> getAlbums() {

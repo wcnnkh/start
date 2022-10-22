@@ -1,6 +1,6 @@
 package io.basc.start.kdniao;
 
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.json.JsonArray;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.util.StringUtils;
@@ -36,9 +36,9 @@ public class Traces implements Serializable {
 	}
 
 	public Traces(JsonObject json, boolean serverJson) {
-		this(json.getString(serverJson ? "AcceptTime" : "acceptTime"),
-				json.getString(serverJson ? "AcceptStation" : "acceptStation"),
-				json.getString(serverJson ? "Remark" : "remark"));
+		this(json.getAsString(serverJson ? "AcceptTime" : "acceptTime"),
+				json.getAsString(serverJson ? "AcceptStation" : "acceptStation"),
+				json.getAsString(serverJson ? "Remark" : "remark"));
 	}
 
 	public final String getAcceptTime() {
@@ -79,7 +79,7 @@ public class Traces implements Serializable {
 			return null;
 		}
 
-		return parseTraces(JSONUtils.getJsonSupport().parseArray(text), serverJson);
+		return parseTraces(JsonUtils.getJsonSupport().parseArray(text), serverJson);
 	}
 
 	protected void setAcceptTime(String acceptTime) {

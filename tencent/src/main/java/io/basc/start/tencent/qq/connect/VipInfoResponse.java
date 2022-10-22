@@ -14,7 +14,7 @@ public class VipInfoResponse extends QQResponse {
 	 * @return
 	 */
 	public boolean isVip() {
-		return getBooleanValue("is_qq_vip");
+		return getAsBoolean("is_qq_vip");
 	}
 
 	/**
@@ -23,7 +23,7 @@ public class VipInfoResponse extends QQResponse {
 	 * @return
 	 */
 	public boolean isYearVip() {
-		return getBooleanValue("is_qq_year_vip");
+		return getAsBoolean("is_qq_year_vip");
 	}
 
 	/**
@@ -32,6 +32,6 @@ public class VipInfoResponse extends QQResponse {
 	 * @return
 	 */
 	public int getVipLevel() {
-		return getIntValue("qq_vip_level");
+		return getAsInt("qq_vip_level");
 	}
 }

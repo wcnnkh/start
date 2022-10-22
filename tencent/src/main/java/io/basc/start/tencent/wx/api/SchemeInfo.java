@@ -18,8 +18,8 @@ public class SchemeInfo extends JumpWxa {
 
 	public SchemeInfo(JsonObject json) {
 		super(json);
-		this.appid = json.getString("appid");
-		this.createTime = json.getLong("create_time");
-		this.expireTime = json.getLong("expire_time");
+		this.appid = json.getAsString("appid");
+		this.createTime = json.getAsLong("create_time");
+		this.expireTime = json.getAsLong("expire_time");
 	}
 }

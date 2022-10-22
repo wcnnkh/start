@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.http.client.HttpClient;
-import io.basc.framework.json.JSONUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.retry.RetryOperations;
@@ -92,9 +92,9 @@ public class WeiXinApi {
 	}
 
 	protected JsonObject parseJson(String response) {
-		JsonObject json = JSONUtils.getJsonSupport().parseObject(response);
-		if (json.getLongValue(CODE_NAME) != 0) {
-			throw new WeiXinApiException(json.getLongValue(CODE_NAME), json.getString(MSG_NAME));
+		JsonObject json = JsonUtils.getJsonSupport().parseObject(response);
+		if (json.getAsLong(CODE_NAME) != 0) {
+			throw new WeiXinApiException(json.getAsLong(CODE_NAME), json.getAsString(MSG_NAME));
 		}
 		return json;
 	}
@@ -130,7 +130,7 @@ public class WeiXinApi {
 		sb.append("&appid=").append(appid);
 		sb.append("&secret=").append(appsecret);
 		JsonObject json = doGet(sb.toString());
-		return new Token(json.getString("access_token"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
+		return new Token(json.getAsString("access_token"), json.getAsInt("expires_in"), TimeUnit.SECONDS);
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class WeiXinApi {
 		sb.append("?access_token=").append(access_token);
 		sb.append("&type=").append(type);
 		JsonObject json = doGet(sb.toString());
-		return new Token(json.getString("ticket"), json.getIntValue("expires_in"), TimeUnit.SECONDS);
+		return new Token(json.getAsString("ticket"), json.getAsInt("expires_in"), TimeUnit.SECONDS);
 	}
 
 	public Token getTicket(String type, boolean forceUpdate) throws WeiXinApiException {

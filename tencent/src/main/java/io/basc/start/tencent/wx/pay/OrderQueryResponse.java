@@ -14,7 +14,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getOpenid() {
-		return getString("openid");
+		return getAsString("openid");
 	}
 
 	/**
@@ -23,7 +23,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public boolean isSubscribe() {
-		return getBooleanValue("is_subscribe");
+		return getAsBoolean("is_subscribe");
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getTradeType() {
-		return getString("trade_type");
+		return getAsString("trade_type");
 	}
 
 	/**
@@ -41,11 +41,11 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public TradeState getTradeState() {
-		return (TradeState) getEnum("trade_state", TradeState.class);
+		return (TradeState) getAsEnum("trade_state", TradeState.class);
 	}
 
 	public String getRawTradeState() {
-		return getString("trade_state");
+		return getAsString("trade_state");
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getBankType() {
-		return getString("bank_type");
+		return getAsString("bank_type");
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public int getTotalFee() {
-		return getIntValue("total_fee");
+		return getAsInt("total_fee");
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public int getCashFee() {
-		return getIntValue("cash_fee");
+		return getAsInt("cash_fee");
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getTransactionId() {
-		return getString("transaction_id");
+		return getAsString("transaction_id");
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getOutTradeNo() {
-		return getString("out_trade_no");
+		return getAsString("out_trade_no");
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getTimeEnd() {
-		return getString("time_end");
+		return getAsString("time_end");
 	}
 
 	/**
@@ -108,6 +108,6 @@ public class OrderQueryResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getTradeStateDesc() {
-		return getString("trade_state_desc");
+		return getAsString("trade_state_desc");
 	}
 }

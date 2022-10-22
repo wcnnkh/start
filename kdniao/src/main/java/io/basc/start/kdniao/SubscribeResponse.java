@@ -20,8 +20,8 @@ public final class SubscribeResponse extends KDNiaoResponse {
 		if (json == null) {
 			return;
 		}
-		this.updateTime = json.getString("UpdateTime");
-		this.estimatedDeliveryTime = json.getString("EstimatedDeliveryTime");
+		this.updateTime = json.getAsString("UpdateTime");
+		this.estimatedDeliveryTime = json.getAsString("EstimatedDeliveryTime");
 	}
 
 	public String getUpdateTime() {

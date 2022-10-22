@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.basc.framework.http.MediaType;
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.net.MimeType;
 import io.basc.framework.web.message.model.Text;
 
@@ -60,7 +60,7 @@ public final class PostPolicySignature implements Text, Serializable {
 		map.put("OSSAccessKeyId", accessId);
 		map.put("policy", policy);
 		map.put("Signature", signature);
-		return JSONUtils.getJsonSupport().toJSONString(map);
+		return JsonUtils.toJsonString(map);
 	}
 
 	public MimeType getMimeType() {

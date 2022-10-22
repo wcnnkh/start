@@ -9,11 +9,11 @@ public class ApiResponse extends JsonObjectWrapper {
 	}
 
 	public int getErrcode() {
-		return getIntValue("errcode");
+		return getAsInt("errcode");
 	}
 
 	public String getErrmsg() {
-		return getString("errmsg");
+		return getAsString("errmsg");
 	}
 
 	public boolean isSuccess() {

@@ -21,7 +21,7 @@ public class PendingRenewalInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getAutoRenewProductId() {
-		return getString("auto_renew_product_id");
+		return getAsString("auto_renew_product_id");
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class PendingRenewalInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getAutoRenewStatus() {
-		return getIntValue("auto_renew_status");
+		return getAsInt("auto_renew_status");
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class PendingRenewalInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getExpirationIntent() {
-		return getIntValue("expiration_intent");
+		return getAsInt("expiration_intent");
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class PendingRenewalInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public boolean isInBillingRetryPeriod() {
-		return getBooleanValue("is_in_billing_retry_period");
+		return getAsBoolean("is_in_billing_retry_period");
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class PendingRenewalInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getOriginalTransactionId() {
-		return getString("original_transaction_id");
+		return getAsString("original_transaction_id");
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class PendingRenewalInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getPriceConsentStatus() {
-		return getIntValue("price_consent_status");
+		return getAsInt("price_consent_status");
 	}
 
 	/**
@@ -97,6 +97,6 @@ public class PendingRenewalInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getProductId() {
-		return getString("product_id");
+		return getAsString("product_id");
 	}
 }

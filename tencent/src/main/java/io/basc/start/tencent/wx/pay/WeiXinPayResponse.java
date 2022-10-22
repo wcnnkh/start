@@ -11,23 +11,23 @@ public class WeiXinPayResponse extends JsonObjectWrapper {
 	}
 
 	public boolean isReturnSuccess() {
-		return containsKey("return_code") && SUCCESS_TEXT.equals(getString("return_code"));
+		return containsKey("return_code") && SUCCESS_TEXT.equals(getAsString("return_code"));
 	}
 
 	public String getReturnMsg() {
-		return getString("return_msg");
+		return getAsString("return_msg");
 	}
 
 	public boolean isResultSuccess() {
-		return containsKey("result_code") && SUCCESS_TEXT.equals(getString("result_code"));
+		return containsKey("result_code") && SUCCESS_TEXT.equals(getAsString("result_code"));
 	}
 
 	public String getResultErrCodeDes() {
-		return getString("err_code_des");
+		return getAsString("err_code_des");
 	}
 
 	public String getResultErrCode() {
-		return getString("err_code");
+		return getAsString("err_code");
 	}
 
 	public boolean isSuccess() {
@@ -39,7 +39,7 @@ public class WeiXinPayResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getAppId() {
-		return getString("appid");
+		return getAsString("appid");
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class WeiXinPayResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getMchId() {
-		return getString("mch_id");
+		return getAsString("mch_id");
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class WeiXinPayResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getDeviceInfo() {
-		return getString("device_info");
+		return getAsString("device_info");
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class WeiXinPayResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getNonceStr() {
-		return getString("nonce_str");
+		return getAsString("nonce_str");
 	}
 
 	/**
@@ -71,6 +71,6 @@ public class WeiXinPayResponse extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getSign() {
-		return getString("sign");
+		return getAsString("sign");
 	}
 }

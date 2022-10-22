@@ -24,7 +24,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public long getAdamId() {
-		return getLongValue("adam_id");
+		return getAsLong("adam_id");
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public long getAppItemId() {
-		return getLongValue("app_item_id");
+		return getAsLong("app_item_id");
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getApplicationVersion() {
-		return getString("application_version");
+		return getAsString("application_version");
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getBundleId() {
-		return getString("bundle_id");
+		return getAsString("bundle_id");
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getDownloadId() {
-		return getIntValue("download_id");
+		return getAsInt("download_id");
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getOriginalApplicationVersion() {
-		return getString("original_application_version");
+		return getAsString("original_application_version");
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getReceiptType() {
-		return getString("receipt_type");
+		return getAsString("receipt_type");
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class Receipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getVersionExternalIdentifier() {
-		return getIntValue("version_external_identifier");
+		return getAsInt("version_external_identifier");
 	}
 
 	/**
@@ -159,6 +159,6 @@ public class Receipt extends JsonObjectWrapper {
 		}
 
 		// ios7之前的
-		return getString("product_id");
+		return getAsString("product_id");
 	}
 }

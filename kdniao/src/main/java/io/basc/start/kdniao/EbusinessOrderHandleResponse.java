@@ -32,10 +32,10 @@ public final class EbusinessOrderHandleResponse extends KDNiaoResponse {
 			return;
 		}
 
-		this.orderCode = json.getString("OrderCode");
-		this.shipperCode = json.getString("ShipperCode");
-		this.logisticCode = json.getString("LogisticCode");
-		this.state = json.getIntValue("State");
+		this.orderCode = json.getAsString("OrderCode");
+		this.shipperCode = json.getAsString("ShipperCode");
+		this.logisticCode = json.getAsString("LogisticCode");
+		this.state = json.getAsInt("State");
 		this.traces = Traces.parseTraces(json.getJsonArray("Traces"));
 	}
 

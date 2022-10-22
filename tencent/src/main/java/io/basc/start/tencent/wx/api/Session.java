@@ -9,14 +9,14 @@ public final class Session extends ApiResponse {
 	}
 
 	public String getOpenid() {
-		return getString("openid");
+		return getAsString("openid");
 	}
 
 	public String getSession_key() {
-		return getString("session_key");
+		return getAsString("session_key");
 	}
 
 	public String getUnionid() {
-		return getString("unionid");
+		return getAsString("unionid");
 	}
 }

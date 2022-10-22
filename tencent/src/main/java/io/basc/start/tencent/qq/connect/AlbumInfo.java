@@ -20,7 +20,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getAlbumId() {
-		return getString("albumid");
+		return getAsString("albumid");
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getClassId() {
-		return getIntValue("classid");
+		return getAsInt("classid");
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public long getCreatetime() {
-		return getLongValue("createtime");
+		return getAsLong("createtime");
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getDesc() {
-		return getString("desc");
+		return getAsString("desc");
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getName() {
-		return getString("name");
+		return getAsString("name");
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getCoverUrl() {
-		return getString("coverurl");
+		return getAsString("coverurl");
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getPicnum() {
-		return getIntValue("picnum");
+		return getAsInt("picnum");
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getPriv() {
-		return getIntValue("priv");
+		return getAsInt("priv");
 	}
 
 	public static List<AlbumInfo> parse(JsonArray jsonArray) {

@@ -21,9 +21,9 @@ public class KDNiaoResponse implements Serializable {
 
 	public KDNiaoResponse(JsonObject json) {
 		if (json != null) {
-			this.success = json.getBooleanValue("Success");
-			this.reason = json.getString("Reason");
-			this.businessId = json.getString("EBusinessID");
+			this.success = json.getAsBoolean("Success");
+			this.reason = json.getAsString("Reason");
+			this.businessId = json.getAsString("EBusinessID");
 		}
 	}
 

@@ -9,10 +9,10 @@ public final class CreateActivityIdResponse extends ApiResponse {
 	}
 
 	public String getActivityId() {
-		return getString("activity_id");
+		return getAsString("activity_id");
 	}
 
 	public long getExpirationTime() {
-		return getLongValue("expiration_time");
+		return getAsLong("expiration_time");
 	}
 }

@@ -19,7 +19,7 @@ public class UserInfoResponse extends QQResponse{
 	 * @return
 	 */
 	public String getNickname(){
-		return getString("nickname");
+		return getAsString("nickname");
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class UserInfoResponse extends QQResponse{
 	 * @return
 	 */
 	public String getFigureUrl(){
-		return getString("figureurl");
+		return getAsString("figureurl");
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class UserInfoResponse extends QQResponse{
 	 * @return
 	 */
 	public String getFigureUrl1(){
-		return getString("figureurl_1");
+		return getAsString("figureurl_1");
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class UserInfoResponse extends QQResponse{
 	 * @return
 	 */
 	public String getFigureUrl2(){
-		return getString("figureurl_2");
+		return getAsString("figureurl_2");
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class UserInfoResponse extends QQResponse{
 	 * @return
 	 */
 	public String getfigureUrlQQ1(){
-		return getString("figureurl_qq_1");
+		return getAsString("figureurl_qq_1");
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class UserInfoResponse extends QQResponse{
 	 * @return
 	 */
 	public String getFigureurlQQ2(){
-		return getString("figureurl_qq_2");
+		return getAsString("figureurl_qq_2");
 	}
 	
 	/**
@@ -67,6 +67,6 @@ public class UserInfoResponse extends QQResponse{
 	 * @return
 	 */
 	public String getGender(){
-		return getString("gender");
+		return getAsString("gender");
 	}
 }

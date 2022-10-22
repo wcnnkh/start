@@ -1,11 +1,11 @@
 package io.basc.start.tencent.wx.pay;
 
+import java.util.Collections;
+import java.util.List;
+
 import io.basc.framework.json.JsonArray;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.json.JsonObjectWrapper;
-
-import java.util.Collections;
-import java.util.List;
 
 public class GethbinfoResponse extends WeiXinPayResponse {
 
@@ -19,7 +19,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getMchBillno() {
-		return getString("mch_billno");
+		return getAsString("mch_billno");
 	}
 
 	/**
@@ -28,23 +28,23 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getDetailId() {
-		return getString("detail_id");
+		return getAsString("detail_id");
 	}
 
 	public HbStatus getStatus() {
-		return (HbStatus) getEnum("status", HbStatus.class);
+		return (HbStatus) getAsEnum("status", HbStatus.class);
 	}
 
 	public SendType getSendType() {
-		return (SendType) getEnum("send_type", SendType.class);
+		return (SendType) getAsEnum("send_type", SendType.class);
 	}
 
 	public HbType getHbType() {
-		return (HbType) getEnum("hb_type", HbType.class);
+		return (HbType) getAsEnum("hb_type", HbType.class);
 	}
 
 	public int getTotalNum() {
-		return getIntValue("total_num");
+		return getAsInt("total_num");
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public int getTotalAmount() {
-		return getIntValue("total_amount");
+		return getAsInt("total_amount");
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getReason() {
-		return getString("reason");
+		return getAsString("reason");
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getSendTime() {
-		return getString("send_time");
+		return getAsString("send_time");
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getRefundTime() {
-		return getString("refund_time");
+		return getAsString("refund_time");
 	}
 
 	/**
@@ -89,15 +89,15 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public int getRefundAmount() {
-		return getIntValue("refund_amount");
+		return getAsInt("refund_amount");
 	}
 
 	public String getWishing() {
-		return getString("wishing");
+		return getAsString("wishing");
 	}
 
 	public String getremark() {
-		return getString("remark");
+		return getAsString("remark");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 * @return
 	 */
 	public String getActName() {
-		return getString("act_name");
+		return getAsString("act_name");
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	 */
 	public List<HbInfo> getHbList() {
 		JsonArray jsonArray = getJsonArray("hblist");
-		if(jsonArray == null) {
+		if (jsonArray == null) {
 			return Collections.emptyList();
 		}
 		return jsonArray.convert(HbInfo.class);
@@ -129,11 +129,11 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 		}
 
 		public String getOpenid() {
-			return getString("openid");
+			return getAsString("openid");
 		}
 
 		public int getAmount() {
-			return getIntValue("amount");
+			return getAsInt("amount");
 		}
 
 		/**
@@ -142,7 +142,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 		 * @return
 		 */
 		public String getRcvTime() {
-			return getString("rcv_time");
+			return getAsString("rcv_time");
 		}
 	}
 }

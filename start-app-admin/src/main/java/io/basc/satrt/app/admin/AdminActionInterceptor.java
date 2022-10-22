@@ -15,7 +15,7 @@ import io.basc.framework.web.message.model.ModelAndView;
 @Provider
 public class AdminActionInterceptor implements ActionInterceptor {
 	public static final Observable<String> ADMIN_WEBSITE_NAME = Sys.getEnv().getProperties()
-			.getObservableValue("admin.website.name", String.class, "后台管理系统");
+			.getObservable("admin.website.name").map((e) -> e.or("后台管理系统").getAsString());
 
 	@Autowired
 	private ResultFactory resultFactory;

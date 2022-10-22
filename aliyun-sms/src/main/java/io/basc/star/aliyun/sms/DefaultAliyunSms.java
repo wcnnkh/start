@@ -1,6 +1,6 @@
 package io.basc.star.aliyun.sms;
 
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.lang.NestedExceptionUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
@@ -24,12 +24,10 @@ import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teaopenapi.models.Config;
 
 public class DefaultAliyunSms implements AliyunSms {
-	private static Logger logger = LoggerFactory
-			.getLogger(DefaultAliyunSms.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultAliyunSms.class);
 	private final Client client;
 
-	public DefaultAliyunSms(String accessKeyId, String accessKeySecret)
-			throws Exception {
+	public DefaultAliyunSms(String accessKeyId, String accessKeySecret) throws Exception {
 		Config config = new Config();
 		config.setAccessKeyId(accessKeyId);
 		config.setAccessKeySecret(accessKeySecret);
@@ -48,38 +46,26 @@ public class DefaultAliyunSms implements AliyunSms {
 		sendSmsRequest.setSmsUpExtendCode(request.getUpExtendCode());
 		sendSmsRequest.setSignName(request.getSend().getTemplate().getSignName());
 		sendSmsRequest.setPhoneNumbers(request.getSend().getPhone());
-		sendSmsRequest.setTemplateCode(request.getSend().getTemplate()
-				.getCode());
+		sendSmsRequest.setTemplateCode(request.getSend().getTemplate().getCode());
 		if (request.getSend().getTemplateParams() != null) {
-			sendSmsRequest.setTemplateParam(JSONUtils.getJsonSupport()
-					.toJSONString(request.getSend().getTemplateParams()));
+			sendSmsRequest.setTemplateParam(JsonUtils.toJsonString(request.getSend().getTemplateParams()));
 		}
 
 		try {
 			SendSmsResponse response = client.sendSms(sendSmsRequest);
-			return AliyunSendSmsResponse
-					.builder()
-					.request(request)
-					.code(response.getBody().getCode())
-					.bizId(response.getBody().getBizId())
-					.message(response.getBody().getMessage())
+			return AliyunSendSmsResponse.builder().request(request).code(response.getBody().getCode())
+					.bizId(response.getBody().getBizId()).message(response.getBody().getMessage())
 					.requestId(response.getBody().getRequestId())
-					.success(
-							response.getBody().getCode() != null
-									&& response.getBody().getCode()
-											.equals("OK")).build();
+					.success(response.getBody().getCode() != null && response.getBody().getCode().equals("OK")).build();
 		} catch (Exception e) {
 			logger.error(e, "Send sms request: {}", request);
-			return AliyunSendSmsResponse.builder().request(request)
-					.success(false)
-					.message(NestedExceptionUtils.getNonEmptyMessage(e, false))
-					.build();
+			return AliyunSendSmsResponse.builder().request(request).success(false)
+					.message(NestedExceptionUtils.getNonEmptyMessage(e, false)).build();
 		}
 	}
 
 	@Override
-	public List<AliyunSendSmsResponse> batchSend(
-			List<AliyunSendSmsRequest> requests) {
+	public List<AliyunSendSmsResponse> batchSend(List<AliyunSendSmsRequest> requests) {
 		if (CollectionUtils.isEmpty(requests)) {
 			return Collections.emptyList();
 		}
@@ -92,15 +78,12 @@ public class DefaultAliyunSms implements AliyunSms {
 			FastValidator.validate(request);
 		}
 
-		AliyunSendSmsResponse[] responses = new AliyunSendSmsResponse[requests
-				.size()];
-		AliyunSendSmsRequest[] arrays = requests
-				.toArray(new AliyunSendSmsRequest[0]);
+		AliyunSendSmsResponse[] responses = new AliyunSendSmsResponse[requests.size()];
+		AliyunSendSmsRequest[] arrays = requests.toArray(new AliyunSendSmsRequest[0]);
 		Map<String, List<Pair<Integer, AliyunSendSmsRequest>>> map = new HashMap<String, List<Pair<Integer, AliyunSendSmsRequest>>>();
 		for (int i = 0; i < arrays.length; i++) {
 			AliyunSendSmsRequest request = arrays[i];
-			List<Pair<Integer, AliyunSendSmsRequest>> list = map.get(request
-					.getSend().getTemplate().getCode());
+			List<Pair<Integer, AliyunSendSmsRequest>> list = map.get(request.getSend().getTemplate().getCode());
 			if (list == null) {
 				list = new ArrayList<Pair<Integer, AliyunSendSmsRequest>>();
 			}
@@ -108,8 +91,7 @@ public class DefaultAliyunSms implements AliyunSms {
 			map.put(request.getSend().getTemplate().getCode(), list);
 		}
 
-		for (Entry<String, List<Pair<Integer, AliyunSendSmsRequest>>> entry : map
-				.entrySet()) {
+		for (Entry<String, List<Pair<Integer, AliyunSendSmsRequest>>> entry : map.entrySet()) {
 			List<Pair<Integer, AliyunSendSmsRequest>> list = entry.getValue();
 			List<String> phoneNumberJson = new ArrayList<String>();
 			List<String> signNameJson = new ArrayList<String>();
@@ -124,40 +106,26 @@ public class DefaultAliyunSms implements AliyunSms {
 			}
 
 			SendBatchSmsRequest sendBatchSmsRequest = new SendBatchSmsRequest();
-			sendBatchSmsRequest.setPhoneNumberJson(JSONUtils.getJsonSupport()
-					.toJSONString(phoneNumberJson));
-			sendBatchSmsRequest.setSignNameJson(JSONUtils.getJsonSupport()
-					.toJSONString(signNameJson));
-			sendBatchSmsRequest.setSmsUpExtendCodeJson(JSONUtils
-					.getJsonSupport().toJSONString(smsUpExtendCodeJson));
+			sendBatchSmsRequest.setPhoneNumberJson(JsonUtils.toJsonString(phoneNumberJson));
+			sendBatchSmsRequest.setSignNameJson(JsonUtils.toJsonString(signNameJson));
+			sendBatchSmsRequest.setSmsUpExtendCodeJson(JsonUtils.toJsonString(smsUpExtendCodeJson));
 			sendBatchSmsRequest.setTemplateCode(entry.getKey());
-			sendBatchSmsRequest.setTemplateParamJson(JSONUtils.getJsonSupport()
-					.toJSONString(templateParamJson));
+			sendBatchSmsRequest.setTemplateParamJson(JsonUtils.toJsonString(templateParamJson));
 
 			try {
-				SendBatchSmsResponse response = client
-						.sendBatchSms(sendBatchSmsRequest);
-				boolean success = response.getBody().getCode() != null
-						&& response.getBody().getCode().equals("OK");
+				SendBatchSmsResponse response = client.sendBatchSms(sendBatchSmsRequest);
+				boolean success = response.getBody().getCode() != null && response.getBody().getCode().equals("OK");
 				for (Pair<Integer, AliyunSendSmsRequest> pair : list) {
-					responses[pair.getKey()] = AliyunSendSmsResponse.builder()
-							.request(pair.getValue())
-							.bizId(response.getBody().getBizId())
-							.code(response.getBody().getCode())
-							.message(response.getBody().getMessage())
-							.requestId(response.getBody().getRequestId())
+					responses[pair.getKey()] = AliyunSendSmsResponse.builder().request(pair.getValue())
+							.bizId(response.getBody().getBizId()).code(response.getBody().getCode())
+							.message(response.getBody().getMessage()).requestId(response.getBody().getRequestId())
 							.success(success).build();
 				}
 			} catch (Exception e) {
 				logger.error(e, "Send requests: {}", list);
 				for (Pair<Integer, AliyunSendSmsRequest> pair : list) {
-					responses[pair.getKey()] = AliyunSendSmsResponse
-							.builder()
-							.request(pair.getValue())
-							.success(false)
-							.message(
-									NestedExceptionUtils.getNonEmptyMessage(e,
-											false)).build();
+					responses[pair.getKey()] = AliyunSendSmsResponse.builder().request(pair.getValue()).success(false)
+							.message(NestedExceptionUtils.getNonEmptyMessage(e, false)).build();
 				}
 			}
 		}

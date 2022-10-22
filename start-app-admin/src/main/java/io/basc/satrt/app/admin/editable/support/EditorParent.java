@@ -100,12 +100,12 @@ public class EditorParent implements Editor {
 	@Override
 	public Object doAction(HttpChannel httpChannel) {
 		Object requestBean = httpChannel.getInstance(editableClass);
-		Integer page = httpChannel.getInteger("page");
-		if (page == null || page < 1) {
+		Integer page = httpChannel.getAsInt("page");
+		if (page < 1) {
 			page = 1;
 		}
 
-		Integer limit = httpChannel.getInteger("limit");
+		Integer limit = httpChannel.getAsInt("limit");
 		if (limit == null || limit < 1) {
 			limit = 10;
 		}

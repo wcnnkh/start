@@ -15,7 +15,7 @@ import io.basc.framework.data.domain.PageRequest;
 import io.basc.framework.db.DB;
 import io.basc.framework.env.Environment;
 import io.basc.framework.env.Sys;
-import io.basc.framework.event.EventType;
+import io.basc.framework.event.EventTypes;
 import io.basc.framework.orm.repository.Conditions;
 import io.basc.framework.orm.repository.ConditionsBuilder;
 import io.basc.framework.sql.SimpleSql;
@@ -38,8 +38,8 @@ import io.basc.start.app.user.service.UserService;
 
 @Service
 public class UserServiceImpl extends BaseServiceConfiguration implements UserService {
-	public static String ADMIN_NAME = Sys.getEnv().getProperties().getValue("io.basc.app.admin.username", String.class,
-			"admin");
+	public static String ADMIN_NAME = Sys.getEnv().getProperties().get("io.basc.app.admin.username").or("admin")
+			.getAsString();
 
 	private static final Encoder<String, String> PASSWORD_ENCODER = CharsetCodec.UTF_8.toMD5();
 
@@ -56,9 +56,9 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 			AdminUserModel adminUserModel = new AdminUserModel();
 			adminUserModel.setUsername(ADMIN_NAME);
 			adminUserModel.setNickname(
-					environment.getProperties().getValue("io.basc.start.app.admin.nickname", String.class, "超级管理员"));
+					environment.getProperties().get("io.basc.start.app.admin.nickname").or("超级管理员").getAsString());
 			adminUserModel.setPassword(
-					environment.getProperties().getValue("io.basc.start.app.admin.password", String.class, "123456"));
+					environment.getProperties().get("io.basc.start.app.admin.password").or("123456").getAsString());
 			createOrUpdateAdminUser(0, adminUserModel);
 		}
 	}
@@ -235,7 +235,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 			userAttributeModel.writeTo(user);
 		}
 		db.save(user);
-		appEventDispatcher.publishEvent(User.class, new AppEvent<User>(user, EventType.CREATE));
+		appEventDispatcher.publishEvent(User.class, new AppEvent<User>(user, EventTypes.CREATE));
 		return resultFactory.success(user);
 	}
 
@@ -287,7 +287,7 @@ public class UserServiceImpl extends BaseServiceConfiguration implements UserSer
 		uidToUnionId.setUid(user.getUid());
 		db.save(unionIdToUid);
 
-		appEventDispatcher.publishEvent(User.class, new AppEvent<User>(user, EventType.CREATE));
+		appEventDispatcher.publishEvent(User.class, new AppEvent<User>(user, EventTypes.CREATE));
 		return resultFactory.success(user);
 	}
 

@@ -26,7 +26,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getEnvironment() {
-		return getString("environment");
+		return getAsString("environment");
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public String getLatestReceipt() {
-		return getString("latest_receipt");
+		return getAsString("latest_receipt");
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	 */
 	public List<PendingRenewalInfo> getPendingRenewalInfos() {
 		JsonArray jsonArray = getJsonArray("pending_renewal_info");
-		if(jsonArray == null) {
+		if (jsonArray == null) {
 			return Collections.emptyList();
 		}
 		return jsonArray.convert(PendingRenewalInfo.class);
@@ -66,6 +66,6 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	 * @return
 	 */
 	public int getStatus() {
-		return getIntValue("status");
+		return getAsInt("status");
 	}
 }

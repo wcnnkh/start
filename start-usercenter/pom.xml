@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.basc.start</groupId>
+		<artifactId>start</artifactId>
+		<version>1.8.0</version>
+	</parent>
+	<artifactId>start-usercenter</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>start-template</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>sql</artifactId>
+		</dependency>
+
+		<!-- 以下间受支持的行为-->
+		<dependency>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>mvc</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- 默认使用db实现 -->
+		<dependency>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>db</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>verification-code</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>tencent</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

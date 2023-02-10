@@ -1,0 +1,19 @@
+package io.basc.start.cms.pojo;
+
+import io.basc.framework.orm.annotation.PrimaryKey;
+import io.basc.framework.sql.orm.annotation.Index;
+import io.basc.start.template.pojo.AttributeTemplateDescribe;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class Category extends AttributeTemplateDescribe {
+	private static final long serialVersionUID = 1L;
+	@PrimaryKey
+	@Schema(description = "分类id")
+	private long id;
+	@Index
+	private long parentId;
+}

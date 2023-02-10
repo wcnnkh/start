@@ -8,7 +8,7 @@ import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
-import io.basc.framework.util.stream.Processor;
+import io.basc.framework.util.Processor;
 
 public class WeiXinOffiaccount extends ClusterWeiXinApi {
 
@@ -31,7 +31,7 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		return getTicket(access_token, "jsapi");
 	}
 
-	public final <T, E extends Throwable> T processWithJsapiTicket(Processor<Token, T, E> processor)
+	public final <T, E extends Throwable> T processWithJsapiTicket(Processor<? super Token, ? extends T, ? extends E> processor)
 			throws WeiXinApiException, E {
 		return processWithTicket("jsapi", processor);
 	}

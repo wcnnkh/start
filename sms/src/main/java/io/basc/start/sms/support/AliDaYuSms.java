@@ -160,7 +160,7 @@ public class AliDaYuSms implements Sms {
 
 		for (String key : keys) {
 			String value = map.get(key);
-			if (StringUtils.isEmpty(key, value)) {
+			if (StringUtils.isEmptyAny(key, value)) {
 				continue;
 			}
 			// sb.append(key).append(Http.encode(value, "utf-8"));

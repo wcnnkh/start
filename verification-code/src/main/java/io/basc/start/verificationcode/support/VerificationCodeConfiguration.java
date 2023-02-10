@@ -6,7 +6,6 @@ import javax.validation.constraints.Null;
 
 import io.basc.framework.util.Status;
 import io.basc.framework.util.StringUtils;
-import io.basc.framework.util.XUtils;
 
 public class VerificationCodeConfiguration implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -84,37 +83,37 @@ public class VerificationCodeConfiguration implements Serializable {
 		this.deleteAfterCheck = deleteAfterCheck;
 	}
 
-	public Status<String> check(VerificationCode info) {
+	public Status check(VerificationCode info) {
 		if (getMaxTimeInterval() > 0
 				&& (System.currentTimeMillis() - info.getLastSendTime()) < getMaxTimeInterval() * 1000L) {
-			return XUtils.status(false, "发送过于频繁");
+			return Status.error("发送过于频繁");
 		}
 
 		int count = info.getCount();
 		if (getEveryDayMaxSize() > 0 && (count > getEveryDayMaxSize())) {
-			return XUtils.status(false, "今日发送次数过多");
+			return Status.error( "今日发送次数过多");
 		}
 
-		return XUtils.status(true, null);
+		return Status.success();
 	}
 
-	public Status<String> check(String code, @Null VerificationCode info) {
+	public Status check(String code, @Null VerificationCode info) {
 		if (info == null) {
-			return XUtils.status(false, "验证码错误");
+			return Status.error("验证码错误");
 		}
 
 		if (StringUtils.isEmpty(code)) {
-			return XUtils.status(false, "参数错误");
+			return Status.error("参数错误");
 		}
 
 		if (getMaxActiveTime() > 0
 				&& (System.currentTimeMillis() - info.getLastSendTime()) > getMaxActiveTime() * 1000L) {
-			return XUtils.status(false, "验证码已过期");
+			return Status.error("验证码已过期");
 		}
 
 		if (!code.equals(info.getCode())) {
-			return XUtils.status(false, "验证码错误");
+			return Status.error("验证码错误");
 		}
-		return XUtils.status(true, null);
+		return Status.success();
 	}
 }

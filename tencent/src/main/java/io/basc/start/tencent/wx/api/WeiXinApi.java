@@ -16,7 +16,7 @@ import io.basc.framework.retry.RetryOperations;
 import io.basc.framework.retry.support.RetryTemplate;
 import io.basc.framework.security.Token;
 import io.basc.framework.util.Assert;
-import io.basc.framework.util.stream.Processor;
+import io.basc.framework.util.Processor;
 
 public class WeiXinApi {
 	private static final String CODE_NAME = "errcode";
@@ -219,8 +219,8 @@ public class WeiXinApi {
 		return ticket;
 	}
 
-	public final <T, E extends Throwable> T processWithTicket(String type, Processor<Token, T, E> processor)
-			throws WeiXinApiException, E {
+	public final <T, E extends Throwable> T processWithTicket(String type,
+			Processor<? super Token, ? extends T, ? extends E> processor) throws WeiXinApiException, E {
 		return getRetryOperations().execute((context) -> {
 			try {
 				return processor.process(getTicket(type, context.getRetryCount() != 0));

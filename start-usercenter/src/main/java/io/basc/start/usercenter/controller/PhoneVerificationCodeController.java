@@ -63,7 +63,7 @@ public class PhoneVerificationCodeController {
 
 	@RequestMapping(value = "login")
 	public Result login(String phone, String code, HttpChannel httpChannel) {
-		if (StringUtils.isEmptyAny(phone, code)) {
+		if (StringUtils.isAnyEmpty(phone, code)) {
 			return resultFactory.parameterError();
 		}
 
@@ -89,7 +89,7 @@ public class PhoneVerificationCodeController {
 
 	@RequestMapping(value = "update_pwd")
 	public Result updatePassword(String phone, String code, String password) {
-		if (StringUtils.isEmptyAny(phone, code, password)) {
+		if (StringUtils.isAnyEmpty(phone, code, password)) {
 			return resultFactory.parameterError();
 		}
 
@@ -111,7 +111,7 @@ public class PhoneVerificationCodeController {
 	@RequestMapping(value = "bind")
 	@LoginRequired
 	public Result bind(UserSession<Long> requestUser, String phone, String code) {
-		if (StringUtils.isEmptyAny(phone, code)) {
+		if (StringUtils.isAnyEmpty(phone, code)) {
 			return resultFactory.parameterError();
 		}
 
@@ -126,7 +126,7 @@ public class PhoneVerificationCodeController {
 
 	@RequestMapping(value = "register")
 	public Result register(String phone, String code, String password) {
-		if (StringUtils.isEmptyAny(phone, code, password)) {
+		if (StringUtils.isAnyEmpty(phone, code, password)) {
 			return resultFactory.parameterError();
 		}
 

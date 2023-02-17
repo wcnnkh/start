@@ -149,7 +149,7 @@ public class UserServiceImpl extends TemplateServiceSupport implements UserServi
 	}
 
 	public DataResult<User> createOrUpdateAdminUser(long uid, AdminUserModel adminUserModel) {
-		if (StringUtils.isEmptyAny(adminUserModel.getUsername(), adminUserModel.getNickname())) {
+		if (StringUtils.isAnyEmpty(adminUserModel.getUsername(), adminUserModel.getNickname())) {
 			return resultFactory.error("参数错误");
 		}
 

@@ -73,7 +73,7 @@ public class AdminIndexController {
 
 	@RequestMapping(value = "login", methods = HttpMethod.POST)
 	public Result login(String username, String password, HttpChannel httpChannel) {
-		if (StringUtils.isEmptyAny(username, password)) {
+		if (StringUtils.isAnyEmpty(username, password)) {
 			return resultFactory.parameterError();
 		}
 
@@ -167,7 +167,7 @@ public class AdminIndexController {
 	@LoginRequired
 	@RequestMapping(value = "update_pwd", methods = HttpMethod.POST)
 	public Result update_pwd(UserToken<Long> requestUser, String oldPwd, String newPwd) {
-		if (StringUtils.isEmptyAny(oldPwd, newPwd)) {
+		if (StringUtils.isAnyEmpty(oldPwd, newPwd)) {
 			return resultFactory.parameterError();
 		}
 

@@ -62,7 +62,7 @@ public class UserAddressServiceImpl extends TemplateServiceSupport implements Us
 	}
 
 	public DataResult<UserAddressInfo> create(long uid, UserAddressModel userAddressModel) {
-		if (StringUtils.isEmptyAny(userAddressModel.getDetailedAddress(), userAddressModel.getContactName(),
+		if (StringUtils.isAnyEmpty(userAddressModel.getDetailedAddress(), userAddressModel.getContactName(),
 				userAddressModel.getContactPhone())) {
 			return resultFactory.parameterError();
 		}
@@ -82,7 +82,7 @@ public class UserAddressServiceImpl extends TemplateServiceSupport implements Us
 	}
 
 	public DataResult<UserAddressInfo> update(long id, UserAddressModel userAddressModel) {
-		if (StringUtils.isEmptyAny(userAddressModel.getContactName(), userAddressModel.getContactPhone(),
+		if (StringUtils.isAnyEmpty(userAddressModel.getContactName(), userAddressModel.getContactPhone(),
 				userAddressModel.getContactName())) {
 			return resultFactory.parameterError();
 		}

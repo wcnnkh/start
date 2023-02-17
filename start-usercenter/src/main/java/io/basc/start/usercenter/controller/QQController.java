@@ -40,7 +40,7 @@ public class QQController {
 
 	@RequestMapping(value = "login")
 	public Result login(String openid, String accessToken, HttpChannel httpChannel) {
-		if (StringUtils.isEmptyAny(openid, accessToken)) {
+		if (StringUtils.isAnyEmpty(openid, accessToken)) {
 			return resultFactory.parameterError();
 		}
 
@@ -65,7 +65,7 @@ public class QQController {
 
 	@RequestMapping(value = "web_login")
 	public Result webLogin(String code, String redirect_uri, HttpChannel httpChannel) {
-		if (StringUtils.isEmptyAny(code, redirect_uri)) {
+		if (StringUtils.isAnyEmpty(code, redirect_uri)) {
 			return resultFactory.parameterError();
 		}
 
@@ -77,7 +77,7 @@ public class QQController {
 	@LoginRequired
 	@RequestMapping(value = "bind")
 	public Result bind(long uid, String openid, String accessToken) {
-		if (StringUtils.isEmptyAny(openid, accessToken)) {
+		if (StringUtils.isAnyEmpty(openid, accessToken)) {
 			return resultFactory.parameterError();
 		}
 
@@ -102,7 +102,7 @@ public class QQController {
 	@RequestMapping(value = "web_bind")
 	@LoginRequired
 	public Result webBind(long uid, String code, String redirect_uri) {
-		if (StringUtils.isEmptyAny(code, redirect_uri)) {
+		if (StringUtils.isAnyEmpty(code, redirect_uri)) {
 			return resultFactory.parameterError();
 		}
 

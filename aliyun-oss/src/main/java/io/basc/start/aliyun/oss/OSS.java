@@ -89,7 +89,7 @@ public final class OSS {
 	}
 
 	public String getUrl(ProtocolType protocol, String bucketName, String objectKey) {
-		if (protocol == null || StringUtils.isEmptyAny(bucketName, objectKey)) {
+		if (protocol == null || StringUtils.isAnyEmpty(bucketName, objectKey)) {
 			throw new NullPointerException();
 		}
 
@@ -187,7 +187,7 @@ public final class OSS {
 	}
 
 	public String getUrlAndCheck(ProtocolType protocol, String bucketName, String root, long uid, String objectKey) {
-		if (protocol == null || StringUtils.isEmptyAny(bucketName, objectKey)) {
+		if (protocol == null || StringUtils.isAnyEmpty(bucketName, objectKey)) {
 			throw new NullPointerException();
 		}
 

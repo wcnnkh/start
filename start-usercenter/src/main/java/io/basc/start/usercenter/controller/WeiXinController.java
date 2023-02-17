@@ -148,7 +148,7 @@ public class WeiXinController {
 	@LoginRequired
 	@RequestMapping(value = "/xcx/getPhoneNumber")
 	public Result xcx_bind(String encryptedData, String iv, UserSession<Long> userSession) {
-		if (StringUtils.isEmptyAny(encryptedData, iv)) {
+		if (StringUtils.isAnyEmpty(encryptedData, iv)) {
 			return resultFactory.parameterError();
 		}
 

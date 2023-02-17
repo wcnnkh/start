@@ -32,7 +32,7 @@ public class UserController {
 
 	@RequestMapping(value = "login")
 	public Result login(String username, String password, HttpChannel httpChannel) {
-		if (StringUtils.isEmptyAny(username, password)) {
+		if (StringUtils.isAnyEmpty(username, password)) {
 			return resultFactory.parameterError();
 		}
 
@@ -62,7 +62,7 @@ public class UserController {
 
 	@RequestMapping(value = "register")
 	public Result register(String username, String password, @RequestBody UserAttributeModel userAttributeModel) {
-		if (StringUtils.isEmptyAny(username, password)) {
+		if (StringUtils.isAnyEmpty(username, password)) {
 			return resultFactory.parameterError();
 		}
 

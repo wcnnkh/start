@@ -62,7 +62,7 @@ public class ZookeeperConfigController {
 	@ActionAuthority(value = "添加/修改配置操作")
 	@RequestMapping(value = "save_or_update")
 	public Result saveOrUpdate(String key, String value) {
-		if (StringUtils.isEmptyAny(key, value)) {
+		if (StringUtils.isAnyEmpty(key, value)) {
 			return resultFactory.parameterError();
 		}
 

@@ -21,7 +21,7 @@ import io.basc.framework.http.client.SimpleClientHttpRequestFactory;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.json.JsonUtils;
 import io.basc.framework.lang.Constants;
-import io.basc.framework.lang.NotSupportedException;
+import io.basc.framework.lang.UnsupportedException;
 import io.basc.framework.lang.ParameterException;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
@@ -267,7 +267,7 @@ public class WeiXinPay {
 		if (signType == null || signType == SignType.MD5) {
 			return new CharsetCodec(charsetName).toMD5().encode(str).toUpperCase();
 		}
-		throw new NotSupportedException("不支持的签名方式:" + signType);
+		throw new UnsupportedException("不支持的签名方式:" + signType);
 	}
 
 	/**

@@ -28,7 +28,7 @@ public class WeiXinApi {
 	private RetryOperations retryOperations = RetryTemplate.DEFAULT;
 	private long expireAheadTime = 300;// token提前过期时间
 	private TimeUnit expireAheadTimeUnit = TimeUnit.SECONDS;
-	private HttpClient httpClient = HttpUtils.getHttpClient();
+	private HttpClient httpClient = HttpUtils.getClient();
 	private volatile Map<String, Token> tokenMap = new HashMap<String, Token>(4);
 	private volatile Map<String, Token> ticketMap = new HashMap<String, Token>(4);
 

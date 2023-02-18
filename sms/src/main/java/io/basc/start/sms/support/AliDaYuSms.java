@@ -120,7 +120,7 @@ public class AliDaYuSms implements Sms {
 		map.put("sms_type", "normal");
 		map.put("rec_num", request.getPhone());
 		map.put("sign", getSign(map));
-		JsonObject response = HttpUtils.getHttpClient()
+		JsonObject response = HttpUtils.getClient()
 				.post(JsonObject.class, host, map, MediaType.APPLICATION_FORM_URLENCODED).getBody();
 		if (response.containsKey("alibaba_aliqin_fc_sms_num_send_response")) {
 			response = response.getJsonObject("alibaba_aliqin_fc_sms_num_send_response");

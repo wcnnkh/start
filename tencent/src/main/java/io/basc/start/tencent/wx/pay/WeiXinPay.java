@@ -245,7 +245,7 @@ public class WeiXinPay {
 
 		logger.debug("微信支付请求xml内容:{}", content);
 
-		HttpConnection httpConnection = HttpUtils.getHttpClient().createConnection(HttpMethod.POST, url)
+		HttpConnection httpConnection = HttpUtils.getClient().createConnection(HttpMethod.POST, url)
 				.setRequestFactory(requestFactory).body(content).contentType(MediaType.APPLICATION_XML, charsetName);
 		String res = httpConnection.execute(String.class).getBody();
 		if (res == null) {

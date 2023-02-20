@@ -102,7 +102,8 @@ public class AdminIndexController {
 		StringBuilder sb = new StringBuilder(4096);
 		appendMenuHtml(sb, getMenus(requestUser), request.getContextPath());
 		page.put("leftHtml", sb.toString());
-		page.put("admin", userService.getUser(requestUser.getUid()));
+		User user = userService.getUser(requestUser.getUid());
+		page.put("admin", user);
 		return page;
 	}
 

@@ -73,7 +73,7 @@ public class AdminUserController {
 		}
 
 		List<Object> list = new ArrayList<Object>();
-		Fields fields = Fields.getFields(User.class).withSuperclass().entity();
+		Fields fields = Fields.getFields(User.class).withSuperclass().entity().all();
 		for (User user : pagination.getList()) {
 			PermissionGroup group = permissionGroupService.getById(user.getPermissionGroupId());
 			String groupName = group == null ? "系统分组" : group.getName();

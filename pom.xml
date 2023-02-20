@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.basc.framework</groupId>
@@ -17,17 +16,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.framework</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>validation</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>testing</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>validation</artifactId>
 		</dependency>
 
 		<dependency>
@@ -52,31 +46,37 @@
 
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-editable</artifactId>
+				<artifactId>editable</artifactId>
 				<version>1.8.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-app</artifactId>
+				<artifactId>start-template</artifactId>
 				<version>1.8.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-app-impl</artifactId>
+				<artifactId>start-usercenter</artifactId>
 				<version>1.8.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-app-web</artifactId>
+				<artifactId>start-admin</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>io.basc.start</groupId>
-				<artifactId>start-app-admin</artifactId>
+				<artifactId>start-address</artifactId>
+				<version>1.8.0</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.basc.start</groupId>
+				<artifactId>start-cms</artifactId>
 				<version>1.8.0</version>
 			</dependency>
 
@@ -160,14 +160,15 @@
 		<module>bytedance</module>
 		<module>alipay</module>
 		<module>verification-code</module>
-		<module>start-app</module>
-		<module>start-app-impl</module>
-		<module>start-app-web</module>
-		<module>start-app-admin</module>
 		<module>aliyun-sms</module>
 		<module>aliyun-oss</module>
 		<module>aliyun-ons</module>
 		<module>sms</module>
-		<module>start-editable</module>
+		<module>start-template</module>
+		<module>start-usercenter</module>
+		<module>start-admin</module>
+		<module>editable</module>
+		<module>start-cms</module>
+		<module>start-address</module>
 	</modules>
 </project>

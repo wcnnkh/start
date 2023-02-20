@@ -89,7 +89,7 @@ public final class OSS {
 	}
 
 	public String getUrl(ProtocolType protocol, String bucketName, String objectKey) {
-		if (protocol == null || StringUtils.isEmpty(bucketName, objectKey)) {
+		if (protocol == null || StringUtils.isAnyEmpty(bucketName, objectKey)) {
 			throw new NullPointerException();
 		}
 
@@ -187,7 +187,7 @@ public final class OSS {
 	}
 
 	public String getUrlAndCheck(ProtocolType protocol, String bucketName, String root, long uid, String objectKey) {
-		if (protocol == null || StringUtils.isEmpty(bucketName, objectKey)) {
+		if (protocol == null || StringUtils.isAnyEmpty(bucketName, objectKey)) {
 			throw new NullPointerException();
 		}
 
@@ -195,7 +195,7 @@ public final class OSS {
 		if (url == null) {
 			throw new NotFoundException("bucketName=" + bucketName);
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append(protocol.getValue());
 		sb.append(url);
@@ -296,8 +296,7 @@ public final class OSS {
 
 	/**
 	 * @param objectKey
-	 * @param expire
-	 *            过期时间 单位是秒
+	 * @param expire    过期时间 单位是秒
 	 * @return
 	 */
 	public PostPolicySignature getPostPolicySignature(String objectKey, int expire) {

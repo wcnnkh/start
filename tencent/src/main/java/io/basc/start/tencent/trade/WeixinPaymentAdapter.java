@@ -9,7 +9,6 @@ import io.basc.framework.json.JsonUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.Copy;
-import io.basc.framework.util.DefaultStatus;
 import io.basc.framework.util.Status;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.ServerHttpRequest;
@@ -102,10 +101,10 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 		}
 
 		logger.info("收到微信支付回调:\n" + JsonUtils.toJsonString(map));
-		Status<String> status = check(map);
-		if (!status.isActive()) {
-			logger.error("微信支付回调失败：{}", status.get());
-			return status.get();
+		Status status = check(map);
+		if (status.isError()) {
+			logger.error("微信支付回调失败：{}", status.getMsg());
+			return status.getMsg();
 		}
 
 		TradeResultsEvent event = new TradeResultsEvent();
@@ -127,24 +126,24 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 		return SUCCESS_TEXT;
 	}
 
-	public Status<String> check(Map<String, String> map) {
+	public Status check(Map<String, String> map) {
 		if (!SUCCESS_TEXT.equals(map.get("return_code"))) {
-			return new DefaultStatus<String>(false, map.get("return_msg"));
+			return Status.error(map.get("return_msg"));
 		}
 
 		if (!SUCCESS_TEXT.equals(map.get("result_code"))) {
-			return new DefaultStatus<String>(false, map.get("err_code") + "(" + map.get("err_code_des") + ")");
+			return Status.error(map.get("err_code") + "(" + map.get("err_code_des") + ")");
 		}
 
 		String out_trade_no = map.get("out_trade_no");
 		if (StringUtils.isEmpty(out_trade_no)) {
-			return new DefaultStatus<String>(false, "订单号错误");
+			return Status.error("订单号错误");
 		}
 
 		boolean success = weiXinPay.checkSign(map);
 		if (!success) {
-			return new DefaultStatus<String>(false, "签名错误");
+			return Status.error("签名错误");
 		}
-		return new DefaultStatus<String>(true, "SUCCESS");
+		return Status.success("SUCCESS");
 	}
 }

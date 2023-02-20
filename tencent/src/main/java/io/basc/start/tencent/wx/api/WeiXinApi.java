@@ -16,7 +16,7 @@ import io.basc.framework.retry.RetryOperations;
 import io.basc.framework.retry.support.RetryTemplate;
 import io.basc.framework.security.Token;
 import io.basc.framework.util.Assert;
-import io.basc.framework.util.stream.Processor;
+import io.basc.framework.util.Processor;
 
 public class WeiXinApi {
 	private static final String CODE_NAME = "errcode";
@@ -28,7 +28,7 @@ public class WeiXinApi {
 	private RetryOperations retryOperations = RetryTemplate.DEFAULT;
 	private long expireAheadTime = 300;// token提前过期时间
 	private TimeUnit expireAheadTimeUnit = TimeUnit.SECONDS;
-	private HttpClient httpClient = HttpUtils.getHttpClient();
+	private HttpClient httpClient = HttpUtils.getClient();
 	private volatile Map<String, Token> tokenMap = new HashMap<String, Token>(4);
 	private volatile Map<String, Token> ticketMap = new HashMap<String, Token>(4);
 
@@ -219,8 +219,8 @@ public class WeiXinApi {
 		return ticket;
 	}
 
-	public final <T, E extends Throwable> T processWithTicket(String type, Processor<Token, T, E> processor)
-			throws WeiXinApiException, E {
+	public final <T, E extends Throwable> T processWithTicket(String type,
+			Processor<? super Token, ? extends T, ? extends E> processor) throws WeiXinApiException, E {
 		return getRetryOperations().execute((context) -> {
 			try {
 				return processor.process(getTicket(type, context.getRetryCount() != 0));

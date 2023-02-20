@@ -214,7 +214,7 @@ public class OpenApi {
 			FastValidator.validate(bodyRequest);
 		}
 
-		HttpResponseEntity<P> responseEntity = HttpUtils.getHttpClient().post(TypeDescriptor.valueOf(responseType),
+		HttpResponseEntity<P> responseEntity = HttpUtils.getClient().post(TypeDescriptor.valueOf(responseType),
 				gateWay.getUrl() + pathToUse, bodyRequest, mediaType);
 		return responseEntity.getBody();
 	}
@@ -238,8 +238,8 @@ public class OpenApi {
 	private <P> Response<P> doGet(GateWay gateWay, String path, Object request, ResolvableType responseType) {
 		Map<String, Object> parameterMap = validateAndGetParameterMap(request);
 		String url = UriUtils.appendQueryParams(gateWay.getUrl() + path, parameterMap, URLCodec.UTF_8);
-		HttpResponseEntity<Response<P>> responseEntity = HttpUtils.getHttpClient()
-				.get(wrapperResponseType(responseType), url);
+		HttpResponseEntity<Response<P>> responseEntity = HttpUtils.getClient().get(wrapperResponseType(responseType),
+				url);
 		return responseEntity.getBody();
 	}
 

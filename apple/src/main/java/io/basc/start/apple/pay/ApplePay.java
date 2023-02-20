@@ -52,8 +52,7 @@ public class ApplePay {
 			map.put("exclude-old-transactions", excludeOldTransactions);
 		}
 
-		JsonObject json = HttpUtils.getHttpClient().post(JsonObject.class, host, map, MediaType.APPLICATION_JSON)
-				.getBody();
+		JsonObject json = HttpUtils.getClient().post(JsonObject.class, host, map, MediaType.APPLICATION_JSON).getBody();
 		logger.debug(json.toString());
 		VerifyReceiptResponse response = new VerifyReceiptResponse(json);
 		if (response.isUseRetryable() && response.isRetryable()) {
@@ -65,12 +64,9 @@ public class ApplePay {
 	/**
 	 * 检查凭据(自动检查是否是沙盒模式)
 	 * 
-	 * @param receiptData
-	 *            前端给的支付凭据 base64
-	 * @param password
-	 *            可选
-	 * @param excludeOldTransactions
-	 *            可选
+	 * @param receiptData            前端给的支付凭据 base64
+	 * @param password               可选
+	 * @param excludeOldTransactions 可选
 	 * @return
 	 */
 	public VerifyReceiptResponse verifyReceipt(VerifyReceiptRequest request) {

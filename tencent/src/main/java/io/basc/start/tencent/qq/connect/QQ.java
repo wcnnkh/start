@@ -60,7 +60,7 @@ public class QQ {
 			sb.append("&oauth_consumer_key=").append(appId);
 			sb.append("&openid=").append(request.getOpenid());
 		}
-		return response(HttpUtils.getHttpClient().get(String.class,
+		return response(HttpUtils.getClient().get(String.class,
 				UriUtils.appendQueryParams(sb.toString(), params, URLCodec.UTF_8)));
 	}
 
@@ -75,7 +75,7 @@ public class QQ {
 		if (!CollectionUtils.isEmpty(params)) {
 			map.putAll(params);
 		}
-		HttpResponseEntity<String> response = HttpUtils.getHttpClient().post(String.class, url, map, mediaType);
+		HttpResponseEntity<String> response = HttpUtils.getClient().post(String.class, url, map, mediaType);
 		return response(response);
 	}
 
@@ -95,7 +95,7 @@ public class QQ {
 		map.put("client_secret", appKey);
 		map.put("redirect_uri", redirect_uri);
 		map.put("code", code);
-		String content = HttpUtils.getHttpClient().post(String.class, TOKEN, map, MediaType.APPLICATION_FORM_URLENCODED)
+		String content = HttpUtils.getClient().post(String.class, TOKEN, map, MediaType.APPLICATION_FORM_URLENCODED)
 				.getBody();
 		JsonObject json = JsonUtils.getJsonSupport().parseObject(content);
 		if (json.getAsInt("code") != 0) {

@@ -98,10 +98,10 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 					verificationCodeMap.put(request.getRecipient(), verificationCode);
 				}
 
-				Status<String> status = getConfiguration().check(verificationCode);
-				if (!status.isActive()) {
+				Status status = getConfiguration().check(verificationCode);
+				if (status.isError()) {
 					responses[i] = VerificationCodeResponse.builder().request(request).success(false)
-							.message(status.get()).build();
+							.message(status.getMsg()).build();
 					arrays[i] = null;
 					continue;
 				}
@@ -174,12 +174,12 @@ public class DefaultVerificationCodeService extends ConfigurableServices<Verific
 
 		return requests.stream().map((request) -> {
 			VerificationCode info = getStrategy().getVerificationCode(request.getRecipient());
-			Status<String> status = getConfiguration().check(request.getCode(), info);
-			if (status.isActive() && getConfiguration().isDeleteAfterCheck()) {
+			Status status = getConfiguration().check(request.getCode(), info);
+			if (status.isSuccess() && getConfiguration().isDeleteAfterCheck()) {
 				getStrategy().delete(request.getRecipient());
 			}
-			return VerificationCodeResponse.builder().request(request).success(status.isActive())
-					.message(status.isActive() ? null : status.get()).build();
+			return VerificationCodeResponse.builder().request(request).success(status.isSuccess())
+					.message(status.getMsg()).build();
 		}).collect(Collectors.toList());
 	}
 }

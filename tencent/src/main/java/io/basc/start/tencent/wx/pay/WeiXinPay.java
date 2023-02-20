@@ -21,7 +21,7 @@ import io.basc.framework.http.client.SimpleClientHttpRequestFactory;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.json.JsonUtils;
 import io.basc.framework.lang.Constants;
-import io.basc.framework.lang.NotSupportedException;
+import io.basc.framework.lang.UnsupportedException;
 import io.basc.framework.lang.ParameterException;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
@@ -245,7 +245,7 @@ public class WeiXinPay {
 
 		logger.debug("微信支付请求xml内容:{}", content);
 
-		HttpConnection httpConnection = HttpUtils.getHttpClient().createConnection(HttpMethod.POST, url)
+		HttpConnection httpConnection = HttpUtils.getClient().createConnection(HttpMethod.POST, url)
 				.setRequestFactory(requestFactory).body(content).contentType(MediaType.APPLICATION_XML, charsetName);
 		String res = httpConnection.execute(String.class).getBody();
 		if (res == null) {
@@ -267,7 +267,7 @@ public class WeiXinPay {
 		if (signType == null || signType == SignType.MD5) {
 			return new CharsetCodec(charsetName).toMD5().encode(str).toUpperCase();
 		}
-		throw new NotSupportedException("不支持的签名方式:" + signType);
+		throw new UnsupportedException("不支持的签名方式:" + signType);
 	}
 
 	/**

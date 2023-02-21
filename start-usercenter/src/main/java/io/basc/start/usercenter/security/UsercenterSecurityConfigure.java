@@ -8,8 +8,6 @@ public class UsercenterSecurityConfigure {
 	public static final String CONFIGURE_PREFIX = "usercenter.security";
 	public static final String CONTROLLER = "${" + CONFIGURE_PREFIX + ".controller:/admin}";
 
-	private String host;
-
 	/**
 	 * 固定值，不监听变更，只能通过重启来更新
 	 */
@@ -24,9 +22,5 @@ public class UsercenterSecurityConfigure {
 
 	public String getToAdminLoginPath() {
 		return toToAdminLoginPath == null ? (controller + "/to_login") : toToAdminLoginPath;
-	}
-
-	public String getHost() {
-		return host;
 	}
 }

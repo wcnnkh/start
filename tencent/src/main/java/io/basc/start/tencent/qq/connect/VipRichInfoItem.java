@@ -14,7 +14,7 @@ public class VipRichInfoItem extends JsonObjectWrapper {
 	/**
 	 * 最后一次充值时间
 	 * 
-	 * @return
+	 * @return 最后一次充值时间
 	 */
 	public long getStart() {
 		return getAsLong(prefix + "_start");
@@ -23,7 +23,7 @@ public class VipRichInfoItem extends JsonObjectWrapper {
 	/**
 	 * 会员期限
 	 * 
-	 * @return
+	 * @return 会员期限
 	 */
 	public long getEnd() {
 		return getAsLong(prefix + "_end");
@@ -32,7 +32,7 @@ public class VipRichInfoItem extends JsonObjectWrapper {
 	/**
 	 * 充值方式
 	 * 
-	 * @return
+	 * @return 充值方式
 	 */
 	public int getPayway() {
 		return getAsInt(prefix + "_payway");

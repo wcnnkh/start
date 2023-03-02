@@ -17,7 +17,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 相册ID
 	 * 
-	 * @return
+	 * @return 相册ID
 	 */
 	public String getAlbumId() {
 		return getAsString("albumid");
@@ -26,7 +26,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 相册分类ID
 	 * 
-	 * @return
+	 * @return 相册分类ID
 	 */
 	public int getClassId() {
 		return getAsInt("classid");
@@ -35,7 +35,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 相册创建时间
 	 * 
-	 * @return
+	 * @return 相册创建时间
 	 */
 	public long getCreatetime() {
 		return getAsLong("createtime");
@@ -44,7 +44,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 相册描述
 	 * 
-	 * @return
+	 * @return 相册描述
 	 */
 	public String getDesc() {
 		return getAsString("desc");
@@ -53,7 +53,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 相册名称
 	 * 
-	 * @return
+	 * @return 相册名称
 	 */
 	public String getName() {
 		return getAsString("name");
@@ -62,7 +62,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 相册封面照片地址
 	 * 
-	 * @return
+	 * @return 照片地址
 	 */
 	public String getCoverUrl() {
 		return getAsString("coverurl");
@@ -71,7 +71,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 照片数
 	 * 
-	 * @return
+	 * @return 照片数
 	 */
 	public int getPicnum() {
 		return getAsInt("picnum");
@@ -80,7 +80,7 @@ public class AlbumInfo extends JsonObjectWrapper {
 	/**
 	 * 相册权限
 	 * 
-	 * @return
+	 * @return 相册权限
 	 */
 	public int getPriv() {
 		return getAsInt("priv");

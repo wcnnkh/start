@@ -43,7 +43,7 @@ public class ZookeeperConfigController {
 				continue;
 			}
 
-			text = text.replaceAll("\\n", "<br/>");
+			text = text.replaceAll("\\n", "");
 			configMap.put(key, text);
 		}
 		page.put("configMap", configMap);

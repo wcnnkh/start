@@ -9,77 +9,76 @@
 	<artifactId>start</artifactId>
 	<packaging>pom</packaging>
 	<description>一些常见的实现</description>
-
-	<properties>
-		<lombok.version>1.18.22</lombok.version>
-	</properties>
+	<url>https://github.com/wcnnkh/start</url>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<email>247044007@qq.com</email>
+			<name>chaowen.shu</name>
+			<url>https://github.com/wcnnkh/framework</url>
+			<id>wcnnkh</id>
+		</developer>
+	</developers>
+	<issueManagement>
+		<system>Github Issue</system>
+		<url>https://github.com/wcnnkh/start/issues</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:git@https://github.com/wcnnkh/start.git</connection>
+		<developerConnection>scm:git@https://github.com/wcnnkh/start.git</developerConnection>
+		<url>https://github.com/wcnnkh/start.git</url>
+	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>validation</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>testing</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
 	</dependencies>
-
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${lombok.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>editable</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-template</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-usercenter</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-admin</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-			
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-address</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-			
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-cms</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>trade</artifactId>
@@ -110,13 +109,11 @@
 				<artifactId>verification-code</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>sms</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>tencent</artifactId>
@@ -137,13 +134,11 @@
 				<artifactId>bytedance</artifactId>
 				<version>1.8.0</version>
 			</dependency>
-
 			<dependency>
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-core</artifactId>
 				<version>4.5.1</version>
 			</dependency>
-
 			<dependency>
 				<groupId>com.alipay.sdk</groupId>
 				<artifactId>alipay-sdk-java</artifactId>
@@ -151,7 +146,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+	
 	<modules>
 		<module>trade</module>
 		<module>tencent</module>

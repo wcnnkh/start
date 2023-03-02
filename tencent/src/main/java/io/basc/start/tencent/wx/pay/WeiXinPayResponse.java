@@ -34,42 +34,27 @@ public class WeiXinPayResponse extends JsonObjectWrapper {
 		return isReturnSuccess() && isResultSuccess();
 	}
 
-	/**
-	 * 应用APPID
-	 * @return
-	 */
 	public String getAppId() {
 		return getAsString("appid");
 	}
 
-	/**
-	 * 商户号
-	 * @return
-	 */
 	public String getMchId() {
 		return getAsString("mch_id");
 	}
 
 	/**
 	 * 微信支付分配的终端设备号，
-	 * @return
+	 * 
+	 * @return 终端设备号
 	 */
 	public String getDeviceInfo() {
 		return getAsString("device_info");
 	}
 
-	/**
-	 * 随机字符串
-	 * @return
-	 */
 	public String getNonceStr() {
 		return getAsString("nonce_str");
 	}
 
-	/**
-	 * 签名
-	 * @return
-	 */
 	public String getSign() {
 		return getAsString("sign");
 	}

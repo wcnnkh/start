@@ -18,7 +18,7 @@ public class WeiXinApiException extends WeiXinException {
 	/**
 	 * 获取 access_token 时 AppSecret 错误，或者 access_token 无效
 	 * 
-	 * @return
+	 * @return 是否是无效的凭据
 	 */
 	public boolean isInvalidCredential() {
 		return errcode == 40001;

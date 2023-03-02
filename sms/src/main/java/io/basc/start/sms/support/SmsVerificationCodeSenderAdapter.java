@@ -87,33 +87,35 @@ public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderA
 		if (CollectionUtils.isEmpty(requests)) {
 			return Collections.emptyList();
 		}
-		
+
 		VerificationCodeRequest[] arrays = requests.toArray(new VerificationCodeRequest[0]);
-		List<Pair<Integer, SendSmsRequest>> list = new ArrayList<Pair<Integer,SendSmsRequest>>();
-		for(int i=0; i<arrays.length; i++) {
+		List<Pair<Integer, SendSmsRequest>> list = new ArrayList<Pair<Integer, SendSmsRequest>>();
+		for (int i = 0; i < arrays.length; i++) {
 			SendSmsRequest smsRequest = wrap(arrays[i]);
-			if(smsRequest == null) {
+			if (smsRequest == null) {
 				continue;
 			}
-			
+
 			list.add(new Pair<Integer, SendSmsRequest>(i, smsRequest));
 		}
-		
+
 		VerificationCodeResponse[] responses = new VerificationCodeResponse[arrays.length];
-		List<SendSmsResponse> smsResponses = sms.send(list.stream().map((e) -> e.getValue()).collect(Collectors.toList()));
-		if(smsResponses.size() != list.size()) {
+		List<SendSmsResponse> smsResponses = sms
+				.send(list.stream().map((e) -> e.getValue()).collect(Collectors.toList()));
+		if (smsResponses.size() != list.size()) {
 			logger.error("The number of requests[{}] and responses[{}] is inconsistent", list, smsResponses);
 		}
-		
+
 		Iterator<SendSmsResponse> responseIterator = smsResponses.iterator();
 		Iterator<Pair<Integer, SendSmsRequest>> requestIterator = list.iterator();
-		while(responseIterator.hasNext() && requestIterator.hasNext()) {
+		while (responseIterator.hasNext() && requestIterator.hasNext()) {
 			SendSmsResponse response = responseIterator.next();
 			Pair<Integer, SendSmsRequest> request = requestIterator.next();
 			VerificationCodeRequest verificationCodeRequest = arrays[request.getKey()];
-			responses[request.getKey()] = VerificationCodeResponse.builder().request(verificationCodeRequest).success(response.isSuccess()).message(response.getMessage()).build();
+			responses[request.getKey()] = VerificationCodeResponse.builder().request(verificationCodeRequest)
+					.success(response.isSuccess()).message(response.getMessage()).build();
 		}
 		return Arrays.asList(responses);
 	}
-	
+
 }

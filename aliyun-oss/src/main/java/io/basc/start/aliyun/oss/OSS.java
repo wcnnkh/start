@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.OSSClient;
@@ -52,12 +53,6 @@ public final class OSS {
 		bucketMap.put(bucketName, url);
 	}
 
-	/**
-	 * 判断是否是一个CDN地址
-	 * 
-	 * @param url
-	 * @return
-	 */
 	public boolean isBucketURL(String bucketUrl) {
 		ProtocolType protocolType = ProtocolType.getHttpProtocolType(bucketUrl);
 		if (protocolType == null) {
@@ -226,15 +221,6 @@ public final class OSS {
 		return ossClient.listObjects(listObjectsRequest);
 	}
 
-	/**
-	 * 此方法返回的可以序列化
-	 * 
-	 * @param bucketName
-	 * @param prefix
-	 * @param limit
-	 * @param nextMarker
-	 * @return
-	 */
 	public ObjectListing myListObject(String bucketName, String prefix, int limit, String nextMarker) {
 		ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
 		listObjectsRequest.setBucketName(bucketName);
@@ -269,18 +255,18 @@ public final class OSS {
 	}
 
 	public PostPolicySignature getPostPolicySignatureByUrl(String bucketUrl, String root, long uid) {
-		return getPostPolicySignatureByUrl(bucketUrl, root, uid, null, DEFAULT_EXPIRE);
+		return getPostPolicySignatureByUrl(bucketUrl, root, uid, null, DEFAULT_EXPIRE, TimeUnit.SECONDS);
 	}
 
 	public PostPolicySignature getPostPolicySignatureByUrl(String bucketUrl, String root, long uid, String suffix,
-			int expire) {
+			long expire, TimeUnit expireTimeUnit) {
 		if (StringUtils.isEmpty(bucketUrl)) {
-			return getPostPolicySignature(root, uid, suffix, expire);
+			return getPostPolicySignature(root, uid, suffix, expire, expireTimeUnit);
 		}
 
 		String objectKey = getObjectKey(bucketUrl);
 		if (objectKey == null) {
-			return getPostPolicySignature(root, uid, suffix, expire);
+			return getPostPolicySignature(root, uid, suffix, expire, expireTimeUnit);
 		} else {
 			return getPostPolicySignature(objectKey, expire);
 		}
@@ -290,17 +276,13 @@ public final class OSS {
 		return getPostPolicySignature(newObjectKey(root, uid, null), DEFAULT_EXPIRE);
 	}
 
-	public PostPolicySignature getPostPolicySignature(String root, long uid, String suffix, int expire) {
-		return getPostPolicySignature(newObjectKey(root, uid, suffix), expire);
+	public PostPolicySignature getPostPolicySignature(String root, long uid, String suffix, long expire,
+			TimeUnit expireTimeUnit) {
+		return getPostPolicySignature(newObjectKey(root, uid, suffix), expire, expireTimeUnit);
 	}
 
-	/**
-	 * @param objectKey
-	 * @param expire    过期时间 单位是秒
-	 * @return
-	 */
-	public PostPolicySignature getPostPolicySignature(String objectKey, int expire) {
-		long expireEndTime = System.currentTimeMillis() + expire * 1000;
+	public PostPolicySignature getPostPolicySignature(String objectKey, long expire, TimeUnit expireTimeUnit) {
+		long expireEndTime = System.currentTimeMillis() + expireTimeUnit.toMillis(expire);
 		String policy = getPostPolicy(objectKey, new Date(expireEndTime));
 		byte[] binaryData;
 		try {

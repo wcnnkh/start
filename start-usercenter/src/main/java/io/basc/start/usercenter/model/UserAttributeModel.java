@@ -21,11 +21,6 @@ public class UserAttributeModel implements Serializable {
 	private String nickname;
 	private String headImg;
 
-	/**
-	 * 获取实际年龄
-	 * 
-	 * @return
-	 */
 	public int getActualAge() {
 		if (birthday != null) {
 			Calendar calendar = Calendar.getInstance();

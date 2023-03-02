@@ -12,16 +12,16 @@ public class QQResponse extends JsonObjectWrapper {
 	/**
 	 * 返回码
 	 * 
-	 * @return
+	 * @return 返回码
 	 */
 	public int getRet() {
 		return getAsInt("ret");
 	}
 
 	/**
-	 * 如果ret<0，会有相应的错误信息提示，返回数据全部用UTF-8编码。
+	 * 如果ret&lt;0，会有相应的错误信息提示，返回数据全部用UTF-8编码。
 	 * 
-	 * @return
+	 * @return 错误信息提示
 	 */
 	public String getMsg() {
 		return getAsString("msg");

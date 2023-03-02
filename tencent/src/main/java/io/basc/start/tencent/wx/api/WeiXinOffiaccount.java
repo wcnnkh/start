@@ -20,19 +20,12 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		return getTicket("jsapi", forceUpdate);
 	}
 
-	/**
-	 * 直接从服务器获取
-	 * 
-	 * @param access_token
-	 * @return
-	 * @throws WeiXinApiException
-	 */
 	public final Token getJsapiTicket(String access_token) throws WeiXinApiException {
 		return getTicket(access_token, "jsapi");
 	}
 
-	public final <T, E extends Throwable> T processWithJsapiTicket(Processor<? super Token, ? extends T, ? extends E> processor)
-			throws WeiXinApiException, E {
+	public final <T, E extends Throwable> T processWithJsapiTicket(
+			Processor<? super Token, ? extends T, ? extends E> processor) throws WeiXinApiException, E {
 		return processWithTicket("jsapi", processor);
 	}
 
@@ -63,15 +56,6 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 		return new UserAccessToken(parseAccessToken(json, "refresh_token"), json.getAsString("openid"));
 	}
 
-	/**
-	 * 获取用户信息
-	 * 
-	 * @param openid
-	 * @param user_access_token
-	 * @param lang
-	 * @return
-	 * @throws WeiXinApiException
-	 */
 	public Userinfo getUserinfo(String openid, String user_access_token, String lang) throws WeiXinApiException {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("access_token", user_access_token);
@@ -84,13 +68,6 @@ public class WeiXinOffiaccount extends ClusterWeiXinApi {
 				json.getAsString("headimgurl"), json.getAsString("privilege"), json.getAsString("unionid"));
 	}
 
-	/**
-	 * @see #getUserinfo(String, String, String) 使用zh_CN获取用户信息
-	 * @param openid
-	 * @param user_access_token
-	 * @return
-	 * @throws WeiXinApiException
-	 */
 	public final Userinfo getUserinfo(String openid, String user_access_token) throws WeiXinApiException {
 		return getUserinfo(openid, user_access_token, "zh_CN");
 	}

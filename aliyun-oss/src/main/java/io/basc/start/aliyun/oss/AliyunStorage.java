@@ -141,7 +141,9 @@ public class AliyunStorage implements ResourceStorageService {
 	}
 
 	/**
-	 * web端直传 {@link https://help.aliyun.com/document_detail/31923.html}
+	 * web端直传
+	 * 
+	 * <a href="https://help.aliyun.com/document_detail/31923.html">文档</a>
 	 */
 	@Override
 	public ResourceUploadPolicy generatePolicy(String key, Date expiration) throws DataException {

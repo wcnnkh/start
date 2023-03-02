@@ -10,11 +10,6 @@ public class ListAlbumResponse extends QQResponse {
 		super(target);
 	}
 
-	/**
-	 * albumnum
-	 * 
-	 * @return
-	 */
 	public int getAlbumnum() {
 		return getAsInt("albumnum");
 	}

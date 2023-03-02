@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 包含有关应用程序最新应用内购买交易信息的对象。
- * {@link https://developer.apple.com/documentation/appstoreservernotifications/unified_receipt}
+ * 包含有关应用程序最新应用内购买交易信息的对象。 <a href=
+ * "https://developer.apple.com/documentation/appstoreservernotifications/unified_receipt">文档</a>
  * 
  * @author shuchaowen
  *
@@ -23,7 +23,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	/**
 	 * 收据生成的环境。可能的值： Sandbox, Production
 	 * 
-	 * @return
+	 * @return environment
 	 */
 	public String getEnvironment() {
 		return getAsString("environment");
@@ -32,7 +32,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	/**
 	 * 最新的Base64编码的应用收据。
 	 * 
-	 * @return
+	 * @return latest_receipt
 	 */
 	public String getLatestReceipt() {
 		return getAsString("latest_receipt");
@@ -41,7 +41,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	/**
 	 * 包含的解码值最近的100次应用内购买交易的数组。该数组不包括您的应用已标记为完成的消耗品的交易
 	 * 
-	 * @return
+	 * @return latest_receipt_info
 	 */
 	public List<LatestReceiptInfo> getLatestReceiptInfos() {
 		return InApp.parse(getJsonArray("latest_receipt_info"), LatestReceiptInfo.class);
@@ -50,7 +50,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	/**
 	 * 一个数组，其中每个元素都包含中标识的每个自动续订的待定续订信息
 	 * 
-	 * @return
+	 * @return pending_renewal_info
 	 */
 	public List<PendingRenewalInfo> getPendingRenewalInfos() {
 		JsonArray jsonArray = getJsonArray("pending_renewal_info");
@@ -63,7 +63,7 @@ public class UnifiedReceipt extends JsonObjectWrapper {
 	/**
 	 * 状态码，其中0表示通知有效。值： 0
 	 * 
-	 * @return
+	 * @return status
 	 */
 	public int getStatus() {
 		return getAsInt("status");

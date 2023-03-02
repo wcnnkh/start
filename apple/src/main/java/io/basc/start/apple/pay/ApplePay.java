@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * {@link https://developer.apple.com/documentation/appstorereceipts/verifyreceipt}
+ * <a href=
+ * "https://developer.apple.com/documentation/appstorereceipts/verifyreceipt">文档</a>
  * 
- * @author shuchaowen
+ * @author wcnnkh
  *
  */
 public class ApplePay {
@@ -64,10 +65,8 @@ public class ApplePay {
 	/**
 	 * 检查凭据(自动检查是否是沙盒模式)
 	 * 
-	 * @param receiptData            前端给的支付凭据 base64
-	 * @param password               可选
-	 * @param excludeOldTransactions 可选
-	 * @return
+	 * @param request request info
+	 * @return response
 	 */
 	public VerifyReceiptResponse verifyReceipt(VerifyReceiptRequest request) {
 		VerifyReceiptResponse res = verifyReceipt(DEV_URL, request);

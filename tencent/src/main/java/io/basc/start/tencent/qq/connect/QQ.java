@@ -19,9 +19,9 @@ import io.basc.framework.util.StringUtils;
 /**
  * 根据qq互联文档实现
  * 
- * {@link https://wiki.connect.qq.com/}
+ * https://wiki.connect.qq.com
  * 
- * @author shuchaowen
+ * @author wcnnkh
  *
  */
 public class QQ {
@@ -124,7 +124,7 @@ public class QQ {
 	 *                     建议控制授权项的数量，只传入必要的接口名称，因为授权项越多，用户越可能拒绝进行任何授权。
 	 * @param display      仅PC网站接入时使用。 用于展示的样式。不传则默认展示为PC下的样式。
 	 *                     如果传入“mobile”，则展示为mobile端下的样式。
-	 * @return
+	 * @return 一个可以访问的授权地址
 	 */
 	public String getAuthorizeUrl(String redirect_uri, String state, @Nullable String scope,
 			@Nullable DisplayType display) {
@@ -146,10 +146,10 @@ public class QQ {
 
 	/**
 	 * 此接口主要用于网站使用QQ登录时，直接拉取用户在QQ空间的昵称、头像、性别等信息，降低用户的注册成本。
-	 * {@link https://wiki.connect.qq.com/get_user_info}
+	 * https://wiki.connect.qq.com/get_user_info
 	 * 
-	 * @param request
-	 * @return
+	 * @param request qq request
+	 * @return user info
 	 */
 	public UserInfoResponse getUserinfo(QQRequest request) {
 		JsonObject response = doGet(GET_USER_INFO, request, null);
@@ -157,12 +157,12 @@ public class QQ {
 	}
 
 	/**
-	 * 获取已登录用户的关于QQ会员业务的基本资料。<br/>
+	 * 获取已登录用户的关于QQ会员业务的基本资料。
 	 * 基本资料包括以下信息：是否为“普通包月会员”，是否为“年费会员”，QQ会员等级信息，是否为“豪华版QQ会员”，是否为“钻皇会员”，是否为“SVIP”。
-	 * {@link https://wiki.connect.qq.com/get_vip_info}
+	 * https://wiki.connect.qq.com/get_vip_info
 	 * 
-	 * @param request
-	 * @return
+	 * @param request qq request
+	 * @return vip info
 	 */
 	public VipInfoResponse getVipInfo(QQRequest request) {
 		JsonObject response = doGet(GET_VIP_INFO, request, null);
@@ -170,12 +170,12 @@ public class QQ {
 	}
 
 	/**
-	 * 获取已登录用户的关于QQ会员业务的详细资料。<br/>
-	 * 详细资料包括：用户会员的历史属性，用户会员特权的到期时间，用户最后一次充值会员业务的支付渠道，用户开通会员的主要驱动因素。
-	 * {@link https://wiki.connect.qq.com/get_vip_rich_info}
+	 * 获取已登录用户的关于QQ会员业务的详细资料。
+	 * 详细资料包括：用户会员的历史属性，用户会员特权的到期时间，用户最后一次充值会员业务的支付渠道，用户开通会员的主要驱动因素。 link
+	 * https://wiki.connect.qq.com/get_vip_rich_info
 	 * 
-	 * @param request
-	 * @return
+	 * @param request qq request
+	 * @return vip rich info
 	 */
 	public VipRichInfoResponse getVipRichInfo(QQRequest request) {
 		JsonObject response = doGet(GET_VIP_RICH_INFO, request, null);
@@ -183,12 +183,12 @@ public class QQ {
 	}
 
 	/**
-	 * 获取登录用户的相册列表。 {@link https://wiki.connect.qq.com/list_album}
+	 * 获取登录用户的相册列表。
 	 * 
-	 * {@link https://wiki.connect.qq.com/list_album}
+	 * https://wiki.connect.qq.com/list_album
 	 * 
-	 * @param request
-	 * @return
+	 * @param request qq request
+	 * @return album list
 	 */
 	public ListAlbumResponse listAlbum(QQRequest request) {
 		JsonObject response = doGet(LIST_ALBUM, request, null);
@@ -196,11 +196,10 @@ public class QQ {
 	}
 
 	/**
-	 * 登录用户上传照片，支持单张上传和批量上传。 {@link https://wiki.connect.qq.com/upload_pic}
-	 * {@link https://wiki.connect.qq.com/upload_pic}
+	 * 登录用户上传照片，支持单张上传和批量上传。 https://wiki.connect.qq.com/upload_pic
 	 * 
-	 * @param request
-	 * @return
+	 * @param request qq request
+	 * @return pic info
 	 */
 	public UploadPicResponse uploadPic(UploadPicRequest request) {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -220,12 +219,10 @@ public class QQ {
 	}
 
 	/**
-	 * 登录用户创建相册。注：每个用户最多可创建10个相册。
+	 * 登录用户创建相册。注：每个用户最多可创建10个相册。 https://wiki.connect.qq.com/add_album
 	 * 
-	 * {@link https://wiki.connect.qq.com/add_album}
-	 * 
-	 * @param request
-	 * @return
+	 * @param request request info
+	 * @return response
 	 */
 	public AddAlbumResponse addAlbum(AddAlbumRequest request) {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -239,12 +236,12 @@ public class QQ {
 	}
 
 	/**
-	 * 获取登录用户的照片列表。 {@link https://wiki.connect.qq.com/list_photo}
+	 * 获取登录用户的照片列表。
 	 * 
-	 * {@link https://wiki.connect.qq.com/list_photo}
+	 * https://wiki.connect.qq.com/list_photo
 	 * 
-	 * @param request
-	 * @return
+	 * @param request request info
+	 * @return photo list
 	 */
 	public ListPhotoResponse listPhoto(ListPhotoRequest request) {
 		Map<String, Object> params = new HashMap<String, Object>();

@@ -1,9 +1,10 @@
 package io.basc.start.tencent.wx.pay;
 
 /**
- * {@link https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4}
+ * <a href=
+ * "https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4">文档</a>
  * 
- * @author shuchaowen
+ * @author wcnnkh
  *
  */
 public class SendgroupredpackRequest extends SendredpackRequest {

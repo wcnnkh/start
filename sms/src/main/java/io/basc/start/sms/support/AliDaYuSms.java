@@ -140,14 +140,6 @@ public class AliDaYuSms implements Sms {
 		return SendSmsResponse.builder().request(request).success(false).message(msg).build();
 	}
 
-	/**
-	 * 签名
-	 * 
-	 * @param map
-	 * @param secret
-	 * @param sign_method
-	 * @return
-	 */
 	protected String getSign(Map<String, String> map) {
 		String[] keys = map.keySet().toArray(new String[0]);
 		Arrays.sort(keys);

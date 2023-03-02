@@ -16,7 +16,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 商户使用查询API填写的商户单号的原路返回
 	 * 
-	 * @return
+	 * @return 商户单号
 	 */
 	public String getMchBillno() {
 		return getAsString("mch_billno");
@@ -25,7 +25,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 使用API发放现金红包时返回的红包单号
 	 * 
-	 * @return
+	 * @return 红包单号
 	 */
 	public String getDetailId() {
 		return getAsString("detail_id");
@@ -48,9 +48,9 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	}
 
 	/**
-	 * 红包总金额（单位分）
+	 * 红包总金额
 	 * 
-	 * @return
+	 * @return 单位分
 	 */
 	public int getTotalAmount() {
 		return getAsInt("total_amount");
@@ -59,7 +59,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 发送失败原因
 	 * 
-	 * @return
+	 * @return 失败原因
 	 */
 	public String getReason() {
 		return getAsString("reason");
@@ -68,7 +68,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 红包发送时间 2015-04-21 20:00:00
 	 * 
-	 * @return
+	 * @return 发送时间
 	 */
 	public String getSendTime() {
 		return getAsString("send_time");
@@ -77,7 +77,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 红包的退款时间（如果其未领取的退款）
 	 * 
-	 * @return
+	 * @return 退款时间
 	 */
 	public String getRefundTime() {
 		return getAsString("refund_time");
@@ -86,7 +86,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 红包退款金额
 	 * 
-	 * @return
+	 * @return 退款金额
 	 */
 	public int getRefundAmount() {
 		return getAsInt("refund_amount");
@@ -103,7 +103,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 活动名称
 	 * 
-	 * @return
+	 * @return 活动名称
 	 */
 	public String getActName() {
 		return getAsString("act_name");
@@ -112,7 +112,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 	/**
 	 * 裂变红包的领取列表
 	 * 
-	 * @return
+	 * @return 裂变红包的领取列表
 	 */
 	public List<HbInfo> getHbList() {
 		JsonArray jsonArray = getJsonArray("hblist");
@@ -139,7 +139,7 @@ public class GethbinfoResponse extends WeiXinPayResponse {
 		/**
 		 * 领取红包的时间 2015-04-21 20:00:00
 		 * 
-		 * @return
+		 * @return 领取红包的时间
 		 */
 		public String getRcvTime() {
 			return getAsString("rcv_time");

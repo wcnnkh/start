@@ -8,9 +8,10 @@ import io.basc.framework.json.JsonObject;
 import io.basc.framework.json.JsonObjectWrapper;
 
 /**
- * {@link https://developer.apple.com/documentation/appstorereceipts/responsebody}
+ * <a href=
+ * "https://developer.apple.com/documentation/appstorereceipts/responsebody">文档</a>
  * 
- * @author shuchaowen
+ * @author wcnnkh
  *
  */
 public class VerifyReceiptResponse extends JsonObjectWrapper {
@@ -20,27 +21,24 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	}
 
 	/**
-	 * {@link https://developer.apple.com/documentation/appstorereceipts/status} 0
-	 * SUCCESS<br/>
-	 * 21000 App Store不能读取你提供的JSON对象 <br/>
-	 * 21002 receipt-data域的数据有问题<br/>
-	 * 21003 receipt无法通过验证 <br/>
-	 * 21004 提供的shared secret不匹配你账号中的shared secret<br/>
-	 * 21005 receipt服务器当前不可用 <br/>
-	 * 21006 receipt合法，但是订阅已过期。服务器接收到这个状态码时，receipt数据仍然会解码并一起发送 <br/>
-	 * 21007 receipt是Sandbox receipt，但却发送至生产系统的验证服务<br/>
-	 * 21008 receipt是生产receipt，但却发送至Sandbox环境的验证服务
+	 * <a href=
+	 * "https://developer.apple.com/documentation/appstorereceipts/status">文档</a>
 	 * 
-	 * @return
+	 * @return 0 SUCCESS 21000 App Store不能读取你提供的JSON对象 21002 receipt-data域的数据有问题
+	 *         21003 receipt无法通过验证 21004 提供的shared secret不匹配你账号中的shared secret 21005
+	 *         receipt服务器当前不可用 21006
+	 *         receipt合法，但是订阅已过期。服务器接收到这个状态码时，receipt数据仍然会解码并一起发送 21007
+	 *         receipt是Sandbox receipt，但却发送至生产系统的验证服务 21008
+	 *         receipt是生产receipt，但却发送至Sandbox环境的验证服务
 	 */
 	public int getStatus() {
 		return getAsInt("status");
 	}
 
 	/**
-	 * 收据生成的环境。可能的值： Sandbox, Production
+	 * 收据生成的环境。
 	 * 
-	 * @return
+	 * @return 可能的值： Sandbox, Production
 	 */
 	public String getEnvironment() {
 		return getAsString("environment");
@@ -53,7 +51,7 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	/**
 	 * 发送用于验证的收据的JSON表示形式。
 	 * 
-	 * @return
+	 * @return 收据
 	 */
 	public Receipt getReceipt() {
 		JsonObject jsonObject = getJsonObject("receipt");
@@ -61,19 +59,18 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	}
 
 	/**
-	 * 指示在请求期间发生错误的指示器。值1表示暂时性问题；稍后重试对此收据进行验证。值0表示无法解决的问题；请勿重试对此收据进行验证。仅适用于状态代码21100-
-	 * 21199。
+	 * 指示在请求期间发生错误的指示器。
 	 * 
-	 * @return
+	 * @return 值1表示暂时性问题；稍后重试对此收据进行验证。值0表示无法解决的问题；请勿重试对此收据进行验证。仅适用于状态代码21100- 21199。
 	 */
 	public boolean isRetryable() {
 		return getAsBoolean("is_retryable");
 	}
 
 	/**
-	 * 是否可以使用is_retryable字段，该字段要求错误码为21100-21199。
+	 * 是否可以使用is_retryable字段.
 	 * 
-	 * @return
+	 * @return 该字段要求错误码为21100-21199。
 	 */
 	public boolean isUseRetryable() {
 		int status = getStatus();
@@ -81,32 +78,32 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	}
 
 	/**
-	 * 最新的Base64编码的应用程序收据。仅针对包含自动续订的收据返回。
+	 * 最新的Base64编码的应用程序收据。
 	 * 
-	 * @return
+	 * @return 仅针对包含自动续订的收据返回。
 	 */
 	public String getLatestReceipt() {
 		return getAsString("latest_receipt");
 	}
 
 	/**
-	 * 包含所有应用内购买交易的数组。这不包括已被您的应用标记为完成的消耗品交易。仅针对包含自动续订的收据返回。
+	 * 包含所有应用内购买交易的数组。
 	 * 
-	 * @return
+	 * @return 这不包括已被您的应用标记为完成的消耗品交易。仅针对包含自动续订的收据返回。
 	 */
 	public List<LatestReceiptInfo> getLatestReceiptInfos() {
 		return InApp.parse(getJsonArray("latest_receipt_info"), LatestReceiptInfo.class);
 	}
 
 	/**
-	 * 在JSON文件中，一个数组，其中每个元素包含由产品标识标识的每个自动续订订阅的挂起续订信息。仅对包含自动续订订阅的应用程序回执返回<br/>
-	 * <br/>
+	 * 在JSON文件中，一个数组，
+	 * 
 	 * In the JSON file, an array where each element contains the pending renewal
 	 * information for each auto-renewable subscription identified by the
 	 * product_id. Only returned for app receipts that contain auto-renewable
 	 * subscriptions.
 	 * 
-	 * @return
+	 * @return 其中每个元素包含由产品标识标识的每个自动续订订阅的挂起续订信息。仅对包含自动续订订阅的应用程序回执返回
 	 */
 	public List<PendingRenewalInfo> getPendingRenewalInfos() {
 		JsonArray jsonArray = getJsonArray("pending_renewal_info");
@@ -128,7 +125,7 @@ public class VerifyReceiptResponse extends JsonObjectWrapper {
 	/**
 	 * 运行环境错误 ，应该到沙盒模式或正式模式下尝试
 	 * 
-	 * @return
+	 * @return 运行环境错误
 	 * @see #getStatus()
 	 */
 	public boolean isOperationModeError() {

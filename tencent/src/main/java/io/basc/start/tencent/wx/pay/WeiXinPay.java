@@ -96,12 +96,6 @@ public class WeiXinPay {
 		this.charsetName = charsetName;
 	}
 
-	/**
-	 * 检查签名
-	 * 
-	 * @param params
-	 * @return
-	 */
 	public boolean checkSign(Map<String, String> params) {
 		Map<String, String> cloneParams = new HashMap<String, String>(params);
 		String sign = cloneParams.get("sign");
@@ -136,12 +130,14 @@ public class WeiXinPay {
 	}
 
 	/**
-	 * 获取微信公众号支付签名
+	 * * 获取微信公众号支付签名
 	 * 
-	 * @param timeStamp
-	 * @param nonceStr
-	 * @param prepay_id
-	 * @return
+	 * @param appId     appId
+	 * @param apiKey    apiKey
+	 * @param timeStamp 时间
+	 * @param nonceStr  随机字符串
+	 * @param prepay_id 预支付会话标识
+	 * @return 签名
 	 */
 	public static String getBrandWCPayRequestSign(String appId, String apiKey, String timeStamp, String nonceStr,
 			String prepay_id) {
@@ -174,14 +170,6 @@ public class WeiXinPay {
 		this.sslSocketFactory = sslSocketFactory;
 	}
 
-	/**
-	 * 向微信支付服务器发送请求
-	 * 
-	 * @param url
-	 * @param parameterMap
-	 * @param isCertTrustFile 请求中是否包含证书
-	 * @return
-	 */
 	public WeiXinPayResponse invoke(String url, Map<String, ?> parameterMap, boolean isCertTrustFile) {
 		if (isCertTrustFile && requestFactory.getSslSocketFactory() == null) {
 			throw new ParameterException("未配置API证书目录");
@@ -273,8 +261,8 @@ public class WeiXinPay {
 	/**
 	 * 统一下单接口
 	 * 
-	 * @param request
-	 * @return
+	 * @param request request info
+	 * @return response
 	 */
 	public UnifiedorderResponse getUnifiedorder(UnifiedorderRequest request) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -333,12 +321,6 @@ public class WeiXinPay {
 		return unifiedorder;
 	}
 
-	/**
-	 * 退款
-	 * 
-	 * @param request
-	 * @return
-	 */
 	public WeiXinPayResponse refund(RefundRequest request) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("transaction_id", request.getTransaction_id());
@@ -353,12 +335,6 @@ public class WeiXinPay {
 		return invoke(REFUND_URL, map, true);
 	}
 
-	/**
-	 * 关闭订单
-	 * 
-	 * @param out_trade_no 商户订单号
-	 * @return
-	 */
 	public WeiXinPayResponse closeorder(String out_trade_no) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("out_trade_no", out_trade_no);
@@ -370,7 +346,7 @@ public class WeiXinPay {
 	 * 
 	 * @param transactionId 微信的订单号，优先使用
 	 * @param outTradeNo    商户系统内部的订单号，当没提供transaction_id时需要传这个。
-	 * @return
+	 * @return 订单信息
 	 */
 	public OrderQueryResponse orderQuery(String transactionId, String outTradeNo) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -386,14 +362,14 @@ public class WeiXinPay {
 	}
 
 	/**
-	 * 现金红包发放后会以公众号消息的形式触达用户，不同情况下触达消息的形式会有差别，相关规则如下：<br/>
-	 * 1.已关注公众号的用户，使用“防伪消息”触达；<br/>
+	 * 现金红包发放后会以公众号消息的形式触达用户，不同情况下触达消息的形式会有差别，相关规则如下： 1.已关注公众号的用户，使用“防伪消息”触达；
 	 * 2.未关注公众号的用户，使用“模板消息”触达。
 	 * 
-	 * {@link https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3}
+	 * <a href=
+	 * "https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3">文档</a>
 	 * 
-	 * @param request
-	 * @return
+	 * @param request request info
+	 * @return response
 	 */
 	public SendredpackResponse sendredpack(SendredpackRequest request) {
 		Map<String, Object> parameter = Fields.getFields(SendredpackRequest.class).entity().all().getValueMap(request);
@@ -403,10 +379,12 @@ public class WeiXinPay {
 
 	/**
 	 * 裂变红包：一次可以发放一组红包。首先领取的用户为种子用户，种子用户领取一组红包当中的一个，并可以通过社交分享将剩下的红包给其他用户。裂变红包充分利用了人际传播的优势。
-	 * {@link https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4}
 	 * 
-	 * @param request
-	 * @return
+	 * <a href=
+	 * "https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4">文档</a>
+	 * 
+	 * @param request request info
+	 * @return response
 	 */
 	public SendredpackResponse sendgroupredpack(SendgroupredpackRequest request) {
 		Map<String, Object> parameter = Fields.getFields(SendgroupredpackRequest.class).entity().all()

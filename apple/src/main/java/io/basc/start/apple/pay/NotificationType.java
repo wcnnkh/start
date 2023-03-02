@@ -3,8 +3,11 @@ package io.basc.start.apple.pay;
 /**
  * 
  * 描述应用商店为其发送通知的应用内购买事件的类型。
- * {@link https://developer.apple.com/documentation/appstoreservernotifications/notification_type}
- * @author shuchaowen
+ * 
+ * <a href=
+ * "https://developer.apple.com/documentation/appstoreservernotifications/notification_type">文档</a>
+ * 
+ * @author wcnnkh
  *
  */
 public enum NotificationType {
@@ -41,7 +44,8 @@ public enum NotificationType {
 	 */
 	RENEWAL,
 	/**
-	 * 表示App Store成功退还了一笔交易。该包含退回的交易的时间戳; 在和识别原始交易和产品，以及包含的原因。cancellation_date_msoriginal_transaction_idproduct_idcancellation_reason
+	 * 表示App Store成功退还了一笔交易。该包含退回的交易的时间戳;
+	 * 在和识别原始交易和产品，以及包含的原因。cancellation_date_msoriginal_transaction_idproduct_idcancellation_reason
 	 */
 	REFUND
 }

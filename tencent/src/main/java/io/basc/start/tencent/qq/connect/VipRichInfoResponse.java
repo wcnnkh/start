@@ -23,7 +23,7 @@ public class VipRichInfoResponse extends QQResponse {
 	/**
 	 * QQ钻皇
 	 * 
-	 * @return
+	 * @return QQ钻皇
 	 */
 	public VipRichInfoItem getZuanHuang() {
 		return new VipRichInfoItem(this, "qq_zuanhuang");
@@ -32,7 +32,7 @@ public class VipRichInfoResponse extends QQResponse {
 	/**
 	 * 豪华版QQ会员
 	 * 
-	 * @return
+	 * @return QQ会员
 	 */
 	public VipRichInfoItem getHaoHua() {
 		return new VipRichInfoItem(this, "qq_haohua");
@@ -45,7 +45,7 @@ public class VipRichInfoResponse extends QQResponse {
 	/**
 	 * 非会员历史充值时间，仅在用户是非会员时信息有效
 	 * 
-	 * @return
+	 * @return 充值时间
 	 */
 	public long getHistoryPayTime() {
 		return getAsLong("history_pay_time");
@@ -54,7 +54,7 @@ public class VipRichInfoResponse extends QQResponse {
 	/**
 	 * 非会员历史充值到期时间，仅在用户是非会员时信息有效
 	 * 
-	 * @return
+	 * @return 充值到期时间
 	 */
 	public long getHistoryEndTime() {
 		return getAsLong("history_end_time");

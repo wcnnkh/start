@@ -57,11 +57,6 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		});
 	}
 
-	/**
-	 * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html
-	 * <br/>
-	 * 创建被分享动态消息的 activity_id
-	 */
 	public CreateActivityIdResponse createMessageActivityId(String accessToken) {
 		JsonObject json = doPost(
 				"https://api.weixin.qq.com/cgi-bin/message/wxopen/activityid/create?access_token=" + accessToken, null,
@@ -73,11 +68,6 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		return processWithClientCredential((token) -> createMessageActivityId(token.getToken()));
 	}
 
-	/**
-	 * @param activity_id    动态消息的 ID，通过 createActivityId 接口获取
-	 * @param target_state   动态消息修改后的状态（具体含义见后文）
-	 * @param parameter_list 动态消息对应的模板信息
-	 */
 	public final void sendUpdatablemsg(String activity_id, TargetState target_state,
 			EnumMap<TemplateParameterName, String> parameter_list) throws WeiXinApiException {
 		processWithClientCredential((token) -> {

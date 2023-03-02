@@ -15,27 +15,12 @@ import io.basc.start.usercenter.pojo.UnionIdToUid;
 import io.basc.start.usercenter.pojo.User;
 
 public interface UserService {
-	/**
-	 * 搜索permissionGroupId>0的用户
-	 * 
-	 * @param permissionGroupIds
-	 * @param search
-	 * @param page
-	 * @param limit
-	 * @return
-	 */
 	Pagination<User> search(Collection<Integer> permissionGroupIds, String search, int page, int limit);
 
 	List<User> getUsers(List<Long> uids);
 
 	User getUser(long uid);
 
-	/**
-	 * 是否是超级管理员
-	 * 
-	 * @param uid
-	 * @return
-	 */
 	boolean isSuperAdmin(long uid);
 
 	User getUserByAccount(AccountType type, String account);

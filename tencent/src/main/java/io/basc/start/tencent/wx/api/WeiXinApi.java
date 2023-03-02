@@ -72,12 +72,6 @@ public class WeiXinApi {
 		return getToken("client_credential", forceUpdate);
 	}
 
-	/**
-	 * 是否是无效的
-	 * 
-	 * @param token
-	 * @return
-	 */
 	protected boolean isInvalidToken(Token token) {
 		return token == null || token.isExpired(expireAheadTime, expireAheadTimeUnit);
 	}
@@ -115,15 +109,6 @@ public class WeiXinApi {
 		return parseJson(content);
 	}
 
-	/**
-	 * 直接从服务器获取
-	 * 
-	 * @param appid
-	 * @param appsecret
-	 * @param grantType
-	 * @return
-	 * @throws WeiXinApiException
-	 */
 	public Token getToken(String appid, String appsecret, String grantType) throws WeiXinApiException {
 		StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/token");
 		sb.append("?grant_type=").append(grantType);
@@ -133,13 +118,6 @@ public class WeiXinApi {
 		return new Token(json.getAsString("access_token"), json.getAsInt("expires_in"), TimeUnit.SECONDS);
 	}
 
-	/**
-	 * 直接从服务器获取
-	 * 
-	 * @param grantType
-	 * @return
-	 * @throws WeiXinApiException
-	 */
 	public final Token getToken(String grantType) throws WeiXinApiException {
 		return getToken(this.appid, this.appsecret, grantType);
 	}
@@ -187,14 +165,6 @@ public class WeiXinApi {
 		return processWithClientCredential((token) -> getApiDomainIp(token.getToken()));
 	}
 
-	/**
-	 * 直接从服务器获取
-	 * 
-	 * @param access_token
-	 * @param type
-	 * @return
-	 * @throws WeiXinApiException
-	 */
 	public Token getTicket(String access_token, String type) throws WeiXinApiException {
 		StringBuilder sb = new StringBuilder("https://api.weixin.qq.com/cgi-bin/ticket/getticket");
 		sb.append("?access_token=").append(access_token);

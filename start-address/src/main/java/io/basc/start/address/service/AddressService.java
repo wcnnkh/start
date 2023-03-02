@@ -23,14 +23,14 @@ public interface AddressService {
 	List<Address> getRootAddressList();
 	
 	/**
-	 * 获取全部的地址<br/>
+	 * 获取全部的地址
 	 * 数据较大，可配合lastModified实现缓存
 	 * @return
 	 */
 	List<Address> getAddressList();
 	
 	/**
-	 * 获取全部的地址并组装成树结构<br/>
+	 * 获取全部的地址并组装成树结构
 	 * 数据较大，可配合lastModified实现缓存
 	 * @return
 	 */

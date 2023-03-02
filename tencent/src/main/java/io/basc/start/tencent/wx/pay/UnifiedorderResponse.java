@@ -17,9 +17,9 @@ public class UnifiedorderResponse extends WeiXinPayResponse {
 	}
 
 	/**
-	 * 微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
+	 * 微信生成的预支付会话标识，用于后续接口调用中使用，该值有效期为2小时
 	 * 
-	 * @return
+	 * @return 预支付会话标识
 	 */
 	public String getPrepayId() {
 		return getAsString("prepay_id");

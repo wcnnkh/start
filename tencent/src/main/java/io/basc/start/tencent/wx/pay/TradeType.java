@@ -1,8 +1,9 @@
 package io.basc.start.tencent.wx.pay;
 
 /**
- * {@link https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2}
- * @author shuchaowen
+ * https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2
+ * 
+ * @author wcnnkh
  *
  */
 public enum TradeType {

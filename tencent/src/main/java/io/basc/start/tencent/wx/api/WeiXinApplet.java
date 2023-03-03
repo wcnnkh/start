@@ -36,7 +36,7 @@ public class WeiXinApplet extends ClusterWeiXinApi {
 		byte[] ivKeys = Base64.DEFAULT.decode(iv);
 		String content = Base64.DEFAULT.toDecoder(new AES(AES.NO_PADDING, keyBytes, ivKeys))
 				.toDecoder(CharsetCodec.UTF_8).decode(encryptedData);
-		return JsonUtils.getJsonSupport().parseObject(content, PhoneNumber.class);
+		return JsonUtils.getSupport().parseObject(content, PhoneNumber.class);
 	}
 
 	public void uniformSendMessage(String accessToken, String touser, WeappTemplateMsg weapp_template_msg,

@@ -9,7 +9,7 @@ import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.http.client.HttpClient;
 import io.basc.framework.json.JsonObject;
-import io.basc.framework.json.JsonUtils;
+import io.basc.framework.json.JsonSupportAccessor;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.retry.RetryOperations;
@@ -18,7 +18,7 @@ import io.basc.framework.security.Token;
 import io.basc.framework.util.Assert;
 import io.basc.framework.util.Processor;
 
-public class WeiXinApi {
+public class WeiXinApi extends JsonSupportAccessor {
 	private static final String CODE_NAME = "errcode";
 	private static final String MSG_NAME = "errmsg";
 	private static Logger logger = LoggerFactory.getLogger(WeiXinApi.class);
@@ -86,7 +86,7 @@ public class WeiXinApi {
 	}
 
 	protected JsonObject parseJson(String response) {
-		JsonObject json = JsonUtils.getJsonSupport().parseObject(response);
+		JsonObject json = getJsonSupport().parseObject(response);
 		if (json.getAsLong(CODE_NAME) != 0) {
 			throw new WeiXinApiException(json.getAsLong(CODE_NAME), json.getAsString(MSG_NAME));
 		}

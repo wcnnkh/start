@@ -100,7 +100,7 @@ public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdap
 			throw new TradeException(e);
 		}
 
-		logger.info("收到微信支付回调:\n" + JsonUtils.toJsonString(map));
+		logger.info("收到微信支付回调:\n" + JsonUtils.getSupport().toJsonString(map));
 		Status status = check(map);
 		if (status.isError()) {
 			logger.error("微信支付回调失败：{}", status.getMsg());

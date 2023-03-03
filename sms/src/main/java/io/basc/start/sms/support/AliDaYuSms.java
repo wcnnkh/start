@@ -13,8 +13,8 @@ import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
-import io.basc.framework.json.JsonUtils;
 import io.basc.framework.json.JsonObject;
+import io.basc.framework.json.JsonSupportAccessor;
 import io.basc.framework.lang.NestedExceptionUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
@@ -22,12 +22,12 @@ import io.basc.framework.util.Assert;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.TimeUtils;
-import io.basc.start.sms.Sms;
 import io.basc.start.sms.SendSmsRequest;
 import io.basc.start.sms.SendSmsResponse;
+import io.basc.start.sms.Sms;
 
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
-public class AliDaYuSms implements Sms {
+public class AliDaYuSms extends JsonSupportAccessor implements Sms {
 	private static Logger logger = LoggerFactory.getLogger(AliDaYuSms.class);
 
 	private String host = "http://gw.api.taobao.com/router/rest";
@@ -113,7 +113,7 @@ public class AliDaYuSms implements Sms {
 		map.put("timestamp", TimeUtils.format(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
 		map.put("sms_free_sign_name", request.getTemplate().getSignName());
 		if (!CollectionUtils.isEmpty(request.getTemplateParams())) {
-			map.put("sms_param", JsonUtils.toJsonString(request.getTemplateParams()));
+			map.put("sms_param", getJsonSupport().toJsonString(request.getTemplateParams()));
 		}
 		map.put("sms_template_code", request.getTemplate().getCode());
 		map.put("method", "alibaba.aliqin.fc.sms.num.send");

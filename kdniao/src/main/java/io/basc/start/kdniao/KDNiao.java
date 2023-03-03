@@ -8,7 +8,7 @@ import io.basc.framework.codec.support.CharsetCodec;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JsonObject;
-import io.basc.framework.json.JsonUtils;
+import io.basc.framework.json.JsonSupportAccessor;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mapper.ToMap;
 import io.basc.framework.net.uri.UriUtils;
@@ -19,9 +19,9 @@ import io.basc.framework.net.uri.UriUtils;
  * @author shuchaowen
  *
  */
-public class KDNiao {
+public class KDNiao extends JsonSupportAccessor {
 	private static final CharsetCodec CHARSET_CODEC = CharsetCodec.UTF_8;
-	
+
 	private HashSet<String> dataSignUrlNotEncodeRequestTypeSet;
 	private final String businessId;
 	private final String apiKey;
@@ -83,12 +83,12 @@ public class KDNiao {
 	 * @return
 	 */
 	public String doRequest(String requestUrl, String requestType, Map<?, ?> businessParameterMap) {
-		String requestData = JsonUtils.toJsonString(businessParameterMap);
+		String requestData = getJsonSupport().toJsonString(businessParameterMap);
 		Map<String, String> parameterMap = new LinkedHashMap<String, String>(8, 1);
 		parameterMap.put("RequestData", UriUtils.encode(requestData, CHARSET_CODEC.getCharsetName()));
 		parameterMap.put("EBusinessID", businessId);
 		parameterMap.put("RequestType", requestType);
-		
+
 		String dataSign = CHARSET_CODEC.toMD5().toEncoder(CHARSET_CODEC.toBase64()).encode(requestData + apiKey);
 		if (dataSignIsUrlEncodeByRequestType(requestType)) {
 			dataSign = UriUtils.encode(dataSign, CHARSET_CODEC.getCharsetName());
@@ -102,12 +102,9 @@ public class KDNiao {
 	/**
 	 * 即时查询
 	 * 
-	 * @param orderCode
-	 *            订单编号(选填)
-	 * @param shipperCode
-	 *            快递公司编码
-	 * @param logisticCode
-	 *            物流单号
+	 * @param orderCode    订单编号(选填)
+	 * @param shipperCode  快递公司编码
+	 * @param logisticCode 物流单号
 	 * @return
 	 */
 	public EbusinessOrderHandleResponse businessOrderHandle(String orderCode, String shipperCode, String logisticCode) {
@@ -125,7 +122,7 @@ public class KDNiao {
 			return null;
 		}
 
-		JsonObject json = JsonUtils.getJsonSupport().parseObject(data);
+		JsonObject json = getJsonSupport().parseObject(data);
 		if (json == null) {
 			return null;
 		}
@@ -144,7 +141,7 @@ public class KDNiao {
 			return null;
 		}
 
-		JsonObject json = JsonUtils.getJsonSupport().parseObject(content);
+		JsonObject json = getJsonSupport().parseObject(content);
 		if (json == null) {
 			return null;
 		}

@@ -1,13 +1,5 @@
 package io.basc.star.aliyun.sms;
 
-import io.basc.framework.json.JsonUtils;
-import io.basc.framework.lang.NestedExceptionUtils;
-import io.basc.framework.logger.Logger;
-import io.basc.framework.logger.LoggerFactory;
-import io.basc.framework.util.CollectionUtils;
-import io.basc.framework.util.Pair;
-import io.basc.framework.validation.FastValidator;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +15,15 @@ import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teaopenapi.models.Config;
 
-public class DefaultAliyunSms implements AliyunSms {
+import io.basc.framework.json.JsonSupportAccessor;
+import io.basc.framework.lang.NestedExceptionUtils;
+import io.basc.framework.logger.Logger;
+import io.basc.framework.logger.LoggerFactory;
+import io.basc.framework.util.CollectionUtils;
+import io.basc.framework.util.Pair;
+import io.basc.framework.validation.FastValidator;
+
+public class DefaultAliyunSms extends JsonSupportAccessor implements AliyunSms {
 	private static Logger logger = LoggerFactory.getLogger(DefaultAliyunSms.class);
 	private final Client client;
 
@@ -48,7 +48,7 @@ public class DefaultAliyunSms implements AliyunSms {
 		sendSmsRequest.setPhoneNumbers(request.getSend().getPhone());
 		sendSmsRequest.setTemplateCode(request.getSend().getTemplate().getCode());
 		if (request.getSend().getTemplateParams() != null) {
-			sendSmsRequest.setTemplateParam(JsonUtils.toJsonString(request.getSend().getTemplateParams()));
+			sendSmsRequest.setTemplateParam(getJsonSupport().toJsonString(request.getSend().getTemplateParams()));
 		}
 
 		try {
@@ -106,11 +106,11 @@ public class DefaultAliyunSms implements AliyunSms {
 			}
 
 			SendBatchSmsRequest sendBatchSmsRequest = new SendBatchSmsRequest();
-			sendBatchSmsRequest.setPhoneNumberJson(JsonUtils.toJsonString(phoneNumberJson));
-			sendBatchSmsRequest.setSignNameJson(JsonUtils.toJsonString(signNameJson));
-			sendBatchSmsRequest.setSmsUpExtendCodeJson(JsonUtils.toJsonString(smsUpExtendCodeJson));
+			sendBatchSmsRequest.setPhoneNumberJson(getJsonSupport().toJsonString(phoneNumberJson));
+			sendBatchSmsRequest.setSignNameJson(getJsonSupport().toJsonString(signNameJson));
+			sendBatchSmsRequest.setSmsUpExtendCodeJson(getJsonSupport().toJsonString(smsUpExtendCodeJson));
 			sendBatchSmsRequest.setTemplateCode(entry.getKey());
-			sendBatchSmsRequest.setTemplateParamJson(JsonUtils.toJsonString(templateParamJson));
+			sendBatchSmsRequest.setTemplateParamJson(getJsonSupport().toJsonString(templateParamJson));
 
 			try {
 				SendBatchSmsResponse response = client.sendBatchSms(sendBatchSmsRequest);

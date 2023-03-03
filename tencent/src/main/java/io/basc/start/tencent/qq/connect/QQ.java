@@ -9,7 +9,7 @@ import io.basc.framework.http.HttpResponseEntity;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JsonObject;
-import io.basc.framework.json.JsonUtils;
+import io.basc.framework.json.JsonSupportAccessor;
 import io.basc.framework.lang.Nullable;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.security.Token;
@@ -19,12 +19,12 @@ import io.basc.framework.util.StringUtils;
 /**
  * 根据qq互联文档实现
  * 
- * https://wiki.connect.qq.com
+ * <a href="https://wiki.connect.qq.com">文档</a>
  * 
  * @author wcnnkh
  *
  */
-public class QQ {
+public class QQ extends JsonSupportAccessor {
 	private static final String callbackPrefix = "callback( ";
 	private static final String GET_USER_INFO = "https://graph.qq.com/user/get_user_info";
 	private static final String GET_VIP_INFO = "https://graph.qq.com/user/get_vip_info";
@@ -85,7 +85,7 @@ public class QQ {
 			content = content.substring(callbackPrefix.length(), content.length() - 2);
 		}
 
-		return JsonUtils.getJsonSupport().parseObject(content);
+		return getJsonSupport().parseObject(content);
 	}
 
 	public Token getToken(String redirect_uri, String code) {
@@ -97,10 +97,10 @@ public class QQ {
 		map.put("code", code);
 		String content = HttpUtils.getClient().post(String.class, TOKEN, map, MediaType.APPLICATION_FORM_URLENCODED)
 				.getBody();
-		JsonObject json = JsonUtils.getJsonSupport().parseObject(content);
+		JsonObject json = getJsonSupport().parseObject(content);
 		if (json.getAsInt("code") != 0) {
 			throw new RuntimeException(
-					"url=" + TOKEN + ", data=" + JsonUtils.toJsonString(map) + ", response=" + content);
+					"url=" + TOKEN + ", data=" + getJsonSupport().toJsonString(map) + ", response=" + content);
 		}
 		return new Token(json.getAsString("access_token"), json.getAsInt("expires_in"), TimeUnit.SECONDS);
 	}

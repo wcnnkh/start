@@ -1,13 +1,11 @@
 package io.basc.start.kdniao;
 
-import io.basc.framework.json.JsonUtils;
-import io.basc.framework.json.JsonArray;
-import io.basc.framework.json.JsonObject;
-import io.basc.framework.util.StringUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.basc.framework.json.JsonArray;
+import io.basc.framework.json.JsonObject;
 
 /**
  * 快递鸟物流轨迹
@@ -72,14 +70,6 @@ public class Traces implements Serializable {
 			list.add(new Traces(jsonObject, serverJson));
 		}
 		return list;
-	}
-
-	public static List<Traces> parseTraces(String text, boolean serverJson) {
-		if (StringUtils.isEmpty(text)) {
-			return null;
-		}
-
-		return parseTraces(JsonUtils.getJsonSupport().parseArray(text), serverJson);
 	}
 
 	protected void setAcceptTime(String acceptTime) {

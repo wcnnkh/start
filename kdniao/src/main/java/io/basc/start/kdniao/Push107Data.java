@@ -1,12 +1,11 @@
 package io.basc.start.kdniao;
 
-import io.basc.framework.json.JsonUtils;
-import io.basc.framework.json.JsonArray;
-import io.basc.framework.json.JsonObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.basc.framework.json.JsonArray;
+import io.basc.framework.json.JsonObject;
 
 public class Push107Data implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,12 +18,7 @@ public class Push107Data implements Serializable {
 	Push107Data() {
 	};
 
-	public Push107Data(String jsonData) {
-		if (jsonData == null) {
-			return;
-		}
-
-		JsonObject jsonObject = JsonUtils.getJsonSupport().parseObject(jsonData);
+	public Push107Data(JsonObject jsonObject) {
 		if (jsonObject == null) {
 			return;
 		}

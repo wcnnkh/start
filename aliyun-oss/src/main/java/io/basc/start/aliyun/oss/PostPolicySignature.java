@@ -12,7 +12,7 @@ import io.basc.framework.web.message.model.Text;
 /**
  * 请注意 由于历史遗留问题，导致字段和返回的json字符串名称不一致
  * 
- * @author shuchaowen
+ * @author wcnnkh
  *
  */
 public final class PostPolicySignature implements Text, Serializable {
@@ -60,7 +60,7 @@ public final class PostPolicySignature implements Text, Serializable {
 		map.put("OSSAccessKeyId", accessId);
 		map.put("policy", policy);
 		map.put("Signature", signature);
-		return JsonUtils.toJsonString(map);
+		return JsonUtils.getSupport().toJsonString(map);
 	}
 
 	public MimeType getMimeType() {

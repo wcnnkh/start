@@ -19,10 +19,10 @@ import io.basc.framework.http.MediaType;
 import io.basc.framework.http.client.HttpConnection;
 import io.basc.framework.http.client.SimpleClientHttpRequestFactory;
 import io.basc.framework.json.JsonObject;
-import io.basc.framework.json.JsonUtils;
+import io.basc.framework.json.JsonSupportAccessor;
 import io.basc.framework.lang.Constants;
-import io.basc.framework.lang.UnsupportedException;
 import io.basc.framework.lang.ParameterException;
+import io.basc.framework.lang.UnsupportedException;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.Fields;
@@ -33,7 +33,7 @@ import io.basc.framework.util.StringUtils;
 import io.basc.framework.xml.XmlUtils;
 import io.basc.start.tencent.wx.WeiXinException;
 
-public class WeiXinPay {
+public class WeiXinPay extends JsonSupportAccessor {
 	private static Logger logger = LoggerFactory.getLogger(WeiXinPay.class);
 
 	private static final String weixin_unifiedorder_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -110,7 +110,7 @@ public class WeiXinPay {
 		String mySign = toSign(getSignType(cloneParams), checkStr.toString());
 		boolean b = sign.equals(mySign);
 		if (!b) {
-			logger.error("签名检验失败：{}------>{}", JsonUtils.toJsonString(params), mySign);
+			logger.error("签名检验失败：{}------>{}", getJsonSupport().toJsonString(params), mySign);
 		}
 		return b;
 	}
@@ -247,7 +247,7 @@ public class WeiXinPay {
 		@SuppressWarnings("unchecked")
 		Map<String, String> map = (Map<String, String>) Sys.getEnv().getConversionService().convert(responseDocument,
 				TypeDescriptor.forObject(responseDocument), TypeDescriptor.map(Map.class, String.class, String.class));
-		JsonObject jsonObject = JsonUtils.parseObject(JsonUtils.toJsonString(map));
+		JsonObject jsonObject = getJsonSupport().parseObject(getJsonSupport().toJsonString(map));
 		return new WeiXinPayResponse(jsonObject);
 	}
 

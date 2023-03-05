@@ -74,7 +74,7 @@ public class AlipayTradeAdapter implements TradeCreateAdapter,
 		// 切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
 		// boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String
 		// publicKey, String charset, String sign_type)
-		logger.info(JsonUtils.toJsonString(params));
+		logger.info(JsonUtils.getSupport().toJsonString(params));
 
 		boolean flag;
 		try {

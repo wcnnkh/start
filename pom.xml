@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.basc.framework</groupId>
 		<artifactId>framework</artifactId>
-		<version>1.8.0</version>
+		<version>1.8.1</version>
 	</parent>
 	<groupId>io.basc.start</groupId>
 	<artifactId>start</artifactId>
@@ -52,92 +52,87 @@
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>editable</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-template</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-usercenter</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-admin</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-address</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-cms</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>trade</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>aliyun-sms</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>aliyun-oss</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>aliyun-ons</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>alipay</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>verification-code</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>sms</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>tencent</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>kdniao</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>apple</artifactId>
-				<version>1.8.0</version>
+				<version>1.8.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>bytedance</artifactId>
-				<version>1.8.0</version>
-			</dependency>
-			<dependency>
-				<groupId>com.aliyun</groupId>
-				<artifactId>aliyun-java-sdk-core</artifactId>
-				<version>4.5.1</version>
+				<version>1.8.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -163,17 +158,66 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
-						<phase>deploy</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<charset>UTF-8</charset>
+					<encoding>UTF-8</encoding>
+					<docencoding>UTF-8</docencoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

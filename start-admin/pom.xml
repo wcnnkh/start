@@ -19,25 +19,21 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>freemarker</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>upload</artifactId>
 		</dependency>
-
 		<!-- 受支持的 -->
 		<dependency>
 			<groupId>io.basc.start</groupId>
 			<artifactId>start-cms</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>zookeeper</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>db</artifactId>

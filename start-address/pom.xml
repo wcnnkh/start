@@ -11,12 +11,10 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>sql</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.start</groupId>
 			<artifactId>start-template</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>io.basc.framework</groupId>
 			<artifactId>db</artifactId>
@@ -32,6 +30,5 @@
 			<artifactId>start-usercenter</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 </project>

@@ -1,7 +1,7 @@
 package io.basc.start.trade.status;
 
+import io.basc.framework.event.BroadcastNamedEventDispatcher;
 import io.basc.framework.event.EventListener;
-import io.basc.framework.event.NamedEventDispatcher;
 import io.basc.framework.util.Registration;
 
 /**
@@ -10,11 +10,9 @@ import io.basc.framework.util.Registration;
  * @author shuchaowen
  *
  */
-public interface TradeStatusDispatcher extends
-		NamedEventDispatcher<String, TradeResultsEvent> {
+public interface TradeStatusDispatcher extends BroadcastNamedEventDispatcher<String, TradeResultsEvent> {
 	@Override
-	Registration registerListener(String status,
-			EventListener<TradeResultsEvent> eventListener);
+	Registration registerListener(String status, EventListener<TradeResultsEvent> eventListener);
 
 	@Override
 	void publishEvent(String status, TradeResultsEvent event);

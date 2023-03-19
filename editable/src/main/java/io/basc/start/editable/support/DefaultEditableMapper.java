@@ -1,8 +1,8 @@
 package io.basc.start.editable.support;
 
-import io.basc.framework.core.parameter.ParameterDescriptor;
 import io.basc.framework.factory.ConfigurableServices;
 import io.basc.framework.factory.ServiceLoaderFactory;
+import io.basc.framework.mapper.ParameterDescriptor;
 import io.basc.framework.orm.support.DefaultObjectRelationalMapper;
 import io.basc.start.editable.EditableAttributes;
 import io.basc.start.editable.EditableMapper;

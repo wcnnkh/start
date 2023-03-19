@@ -5,12 +5,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import io.basc.framework.context.annotation.Indexed;
 import io.basc.framework.orm.annotation.Entity;
 import io.basc.start.editable.EditableType;
 
 @Target({ ElementType.TYPE, ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Entity
+@Indexed
 public @interface Editable {
 	EditableType type() default EditableType.DEFAULT;
 

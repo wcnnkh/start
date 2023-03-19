@@ -1,7 +1,7 @@
 package io.basc.start.editable.support;
 
-import io.basc.framework.core.parameter.ParameterDescriptor;
 import io.basc.framework.lang.Nullable;
+import io.basc.framework.mapper.ParameterDescriptor;
 import io.basc.framework.util.Assert;
 import io.basc.start.editable.EditableAttributes;
 import io.basc.start.editable.EditableResolver;

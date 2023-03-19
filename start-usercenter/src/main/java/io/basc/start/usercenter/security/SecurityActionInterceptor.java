@@ -6,7 +6,7 @@ import java.util.List;
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.core.annotation.AnnotationUtils;
+import io.basc.framework.core.annotation.Annotations;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mvc.HttpChannel;
@@ -92,14 +92,14 @@ public class SecurityActionInterceptor implements ActionInterceptor, ActionInter
 	}
 
 	public boolean isAccept(HttpChannel httpChannel, Action action, ActionParameters parameters) {
-		LoginRequired required = AnnotationUtils.getAnnotation(LoginRequired.class, action.getSourceClass(), action);
+		LoginRequired required = Annotations.getAnnotation(LoginRequired.class, action.getSourceClass(), action);
 		return loginRequired(required, httpChannel)
 				|| (loginRequiredRegistry == null || loginRequiredRegistry.isLoginRequried(httpChannel.getRequest()));
 	}
 
 	public Object intercept(HttpChannel httpChannel, Action action, ActionParameters parameters,
 			ActionInterceptorChain chain) throws Throwable {
-		LoginRequired required = AnnotationUtils.getAnnotation(LoginRequired.class, action.getSourceClass(), action);
+		LoginRequired required = Annotations.getAnnotation(LoginRequired.class, action.getSourceClass(), action);
 		ActionAuthority actionAuthority = action.getAnnotation(ActionAuthority.class);
 		boolean loginRequired = loginRequired(required, httpChannel);
 		if (loginRequired && !isSupported()) {

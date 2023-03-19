@@ -1,6 +1,6 @@
 package io.basc.start.editable;
 
-import io.basc.framework.core.parameter.ParameterDescriptor;
+import io.basc.framework.mapper.ParameterDescriptor;
 
 public interface EditableResolver {
 	boolean isEditable(Class<?> entityClass);

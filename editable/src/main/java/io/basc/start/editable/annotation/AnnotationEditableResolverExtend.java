@@ -1,7 +1,7 @@
 package io.basc.start.editable.annotation;
 
 import io.basc.framework.core.annotation.AnnotatedElementUtils;
-import io.basc.framework.core.parameter.ParameterDescriptor;
+import io.basc.framework.mapper.ParameterDescriptor;
 import io.basc.start.editable.EditableAttributes;
 import io.basc.start.editable.EditableResolver;
 import io.basc.start.editable.EditableType;

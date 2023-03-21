@@ -13,7 +13,6 @@ import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.db.DB;
 import io.basc.framework.env.Environment;
 import io.basc.framework.env.Sys;
-import io.basc.framework.event.EventTypes;
 import io.basc.framework.orm.repository.Conditions;
 import io.basc.framework.orm.repository.ConditionsBuilder;
 import io.basc.framework.sql.SimpleSql;
@@ -21,8 +20,6 @@ import io.basc.framework.sql.Sql;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.page.Pagination;
-import io.basc.start.template.event.AppEvent;
-import io.basc.start.template.event.AppEventDispatcher;
 import io.basc.start.template.service.impl.TemplateServiceSupport;
 import io.basc.start.usercenter.enums.AccountType;
 import io.basc.start.usercenter.enums.UnionIdType;
@@ -43,8 +40,6 @@ public class UserServiceImpl extends TemplateServiceSupport implements UserServi
 
 	@Autowired
 	private PermissionGroupService permissionGroupService;
-	@Autowired
-	private AppEventDispatcher appEventDispatcher;
 
 	public UserServiceImpl(DB db, ResultFactory resultFactory, Environment environment) {
 		super(db, resultFactory);
@@ -233,7 +228,6 @@ public class UserServiceImpl extends TemplateServiceSupport implements UserServi
 			userAttributeModel.writeTo(user);
 		}
 		db.save(user);
-		appEventDispatcher.publishEvent(User.class, new AppEvent<User>(user, EventTypes.CREATE));
 		return resultFactory.success(user);
 	}
 
@@ -284,8 +278,6 @@ public class UserServiceImpl extends TemplateServiceSupport implements UserServi
 		uidToUnionId.setType(unionIdType);
 		uidToUnionId.setUid(user.getUid());
 		db.save(unionIdToUid);
-
-		appEventDispatcher.publishEvent(User.class, new AppEvent<User>(user, EventTypes.CREATE));
 		return resultFactory.success(user);
 	}
 

@@ -16,5 +16,5 @@ public class PermissionGroup extends PermissionGroupModel {
 	private static final long serialVersionUID = 1L;
 	@PrimaryKey
 	@AutoIncrement
-	private int id;
+	private Integer id;
 }

@@ -20,7 +20,7 @@ public class User extends UserAttributeModel {
 	private static final long serialVersionUID = 1L;
 	@AutoIncrement
 	@PrimaryKey
-	private long uid;
+	private Integer uid;
 	private long cts;
 	@Unique
 	private String username;

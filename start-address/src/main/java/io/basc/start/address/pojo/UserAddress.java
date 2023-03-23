@@ -17,7 +17,7 @@ public class UserAddress extends UserAddressModel {
 	private static final long serialVersionUID = 1L;
 	@AutoIncrement
 	@PrimaryKey
-	private long id;
+	private Long id;
 	@Index
 	private long uid;
 	private long createTime;

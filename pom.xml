@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>io.basc.framework</groupId>
 		<artifactId>framework</artifactId>
-		<version>1.8.2</version>
+		<version>1.8.3</version>
 	</parent>
 	<groupId>io.basc.start</groupId>
 	<artifactId>start</artifactId>
@@ -33,87 +33,87 @@
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>editable</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-template</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-usercenter</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-admin</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-address</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>start-cms</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>trade</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>aliyun-sms</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>aliyun-oss</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>aliyun-ons</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>alipay</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>verification-code</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>sms</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>tencent</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>kdniao</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>apple</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 			<dependency>
 				<groupId>io.basc.start</groupId>
 				<artifactId>bytedance</artifactId>
-				<version>1.8.2</version>
+				<version>1.8.3</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

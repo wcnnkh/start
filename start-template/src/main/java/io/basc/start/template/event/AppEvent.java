@@ -1,18 +1,12 @@
 package io.basc.start.template.event;
 
-import io.basc.framework.event.EventType;
-import io.basc.framework.event.ObjectEvent;
+import io.basc.framework.event.ChangeEvent;
+import io.basc.framework.event.ChangeType;
 
-public class AppEvent<T> extends ObjectEvent<T> {
+public class AppEvent<T> extends ChangeEvent<T> {
 	private static final long serialVersionUID = 1L;
-	private final EventType eventType;
 
-	public AppEvent(T source, EventType eventType) {
-		super(source);
-		this.eventType = eventType;
-	}
-
-	public EventType getEventType() {
-		return eventType;
+	public AppEvent(T source, ChangeType changeType) {
+		super(changeType, source);
 	}
 }

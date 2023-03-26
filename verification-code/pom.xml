@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.basc.start</groupId>
 		<artifactId>start</artifactId>
-		<version>1.8.3</version>
+		<version>1.8.4</version>
 	</parent>
 	<artifactId>verification-code</artifactId>
 	<dependencies>

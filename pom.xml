@@ -139,7 +139,6 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
@@ -147,5 +146,15 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>io.basc.framework</groupId>
+				<artifactId>boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 </project>

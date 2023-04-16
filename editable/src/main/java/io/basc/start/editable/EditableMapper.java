@@ -42,7 +42,7 @@ public interface EditableMapper extends EditableResolver, ObjectRelationalFactor
 		Field keyField = null;
 		if (StringUtils.isEmpty(keyName)) {
 			// 主键
-			keyField = fields.all().stream().filter((e) -> isPrimaryKey(entityClass, e.getGetter())).findFirst()
+			keyField = fields.all().filter((e) -> isPrimaryKey(entityClass, e.getGetter())).findFirst()
 					.orElse(null);
 		} else {
 			keyField = fields.getByName(keyName);

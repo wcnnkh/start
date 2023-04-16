@@ -14,7 +14,7 @@ public class DefaultEditableMapper extends DefaultObjectRelationalMapper impleme
 			EditableResolverExtend.class);
 
 	public DefaultEditableMapper() {
-		editableResolverExtends.setAfterService(new AnnotationEditableResolverExtend());
+		editableResolverExtends.registerLast(new AnnotationEditableResolverExtend());
 	}
 
 	@Override

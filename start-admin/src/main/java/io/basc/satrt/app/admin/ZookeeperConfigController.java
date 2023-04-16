@@ -32,7 +32,7 @@ public class ZookeeperConfigController {
 	public ModelAndView list() {
 		ModelAndView page = new ModelAndView("/io/basc/start/admin/web/ftl/config_list.ftl");
 		Map<String, String> configMap = new HashMap<String, String>();
-		for (String key : cloudPropertyFactory) {
+		for (String key : cloudPropertyFactory.keys()) {
 			Value value = cloudPropertyFactory.get(key);
 			if (value == null) {
 				continue;
@@ -66,7 +66,7 @@ public class ZookeeperConfigController {
 			return resultFactory.parameterError();
 		}
 
-		cloudPropertyFactory.put(key, value);
+		cloudPropertyFactory.put(key, Value.of(value));
 		return resultFactory.success();
 	}
 

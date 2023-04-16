@@ -158,14 +158,14 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		if (StringUtils.isEmpty(consumerName)) {
 			consumer = application.getInstance(Consumer.class);
 		} else {
-			consumerName = application.replacePlaceholders(consumerName);
+			consumerName = application.getProperties().replacePlaceholders(consumerName);
 			consumer = (Consumer) application.getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.replacePlaceholders(topic);
+		topic = application.getProperties().replacePlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.replacePlaceholders(subExpression);
+		subExpression = application.getProperties().replacePlaceholders(subExpression);
 		MessageSelector selector = mapping.expressionType() == ExpressionType.SQL92
 				? MessageSelector.bySql(subExpression)
 				: MessageSelector.byTag(subExpression);
@@ -181,14 +181,14 @@ public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 		if (StringUtils.isEmpty(consumerName)) {
 			consumer = application.getInstance(BatchConsumer.class);
 		} else {
-			consumerName = application.replacePlaceholders(consumerName);
+			consumerName = application.getProperties().replacePlaceholders(consumerName);
 			consumer = (BatchConsumer) application.getInstance(consumerName);
 		}
 
 		String topic = mapping.topic();
-		topic = application.replacePlaceholders(topic);
+		topic = application.getProperties().replacePlaceholders(topic);
 		String subExpression = mapping.subExpression();
-		subExpression = application.replacePlaceholders(subExpression);
+		subExpression = application.getProperties().replacePlaceholders(subExpression);
 		logger.info("Batch subscribe consumer[{}] topic[{}] subExpression[{}] bind:{}", consumer, topic, subExpression,
 				messageListener);
 		consumer.subscribe(topic, subExpression, messageListener);

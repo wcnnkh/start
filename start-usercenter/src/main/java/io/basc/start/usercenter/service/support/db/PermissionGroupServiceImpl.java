@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.basc.framework.context.annotation.Autowired;
 import io.basc.framework.context.annotation.Service;
-import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.transaction.DataResult;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
+import io.basc.framework.db.Database;
 import io.basc.framework.io.SerializerUtils;
-import io.basc.framework.sql.SimpleSql;
+import io.basc.framework.jdbc.SimpleSql;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.start.template.pojo.ElementUiTree;
 import io.basc.start.template.service.impl.TemplateServiceSupport;
@@ -25,7 +25,7 @@ public class PermissionGroupServiceImpl extends TemplateServiceSupport implement
 	@Autowired
 	private PermissionGroupActionService adminRoleGroupActionService;
 
-	public PermissionGroupServiceImpl(DB db, ResultFactory resultFactory) {
+	public PermissionGroupServiceImpl(Database db, ResultFactory resultFactory) {
 		super(db, resultFactory);
 		db.createTable(PermissionGroup.class, false);
 	}

@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.beans.factory.config.ConfigurableServices;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.data.memory.MemoryOperations;
-import io.basc.framework.factory.ConfigurableServices;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.util.CollectionUtils;
@@ -27,7 +27,7 @@ import io.basc.start.verificationcode.VerificationCodeSender;
 import io.basc.start.verificationcode.VerificationCodeSenderAdapter;
 import io.basc.start.verificationcode.VerificationCodeService;
 
-@Provider(order = Ordered.LOWEST_PRECEDENCE, value = VerificationCodeService.class)
+@ConditionalOnParameters(order = Ordered.LOWEST_PRECEDENCE, value = VerificationCodeService.class)
 public class DefaultVerificationCodeService extends ConfigurableServices<VerificationCodeSenderAdapter>
 		implements VerificationCodeService {
 	private static Logger logger = LoggerFactory.getLogger(DefaultVerificationCodeService.class);

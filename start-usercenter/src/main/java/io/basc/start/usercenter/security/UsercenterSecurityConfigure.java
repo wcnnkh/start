@@ -1,6 +1,6 @@
 package io.basc.start.usercenter.security;
 
-import io.basc.framework.context.ioc.annotation.Value;
+import io.basc.framework.context.annotation.Value;
 import io.basc.framework.orm.annotation.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = UsercenterSecurityConfigure.CONFIGURE_PREFIX)

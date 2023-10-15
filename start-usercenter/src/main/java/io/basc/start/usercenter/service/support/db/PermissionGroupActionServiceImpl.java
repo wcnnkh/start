@@ -6,7 +6,7 @@ import java.util.List;
 import io.basc.framework.context.annotation.Service;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
+import io.basc.framework.db.Database;
 import io.basc.start.template.service.impl.TemplateServiceSupport;
 import io.basc.start.usercenter.pojo.PermissionGroupAction;
 import io.basc.start.usercenter.service.PermissionGroupActionService;
@@ -14,7 +14,7 @@ import io.basc.start.usercenter.service.PermissionGroupActionService;
 @Service
 public class PermissionGroupActionServiceImpl extends TemplateServiceSupport implements PermissionGroupActionService {
 
-	public PermissionGroupActionServiceImpl(DB db, ResultFactory resultFactory) {
+	public PermissionGroupActionServiceImpl(Database db, ResultFactory resultFactory) {
 		super(db, resultFactory);
 		db.createTable(PermissionGroupAction.class, false);
 	}

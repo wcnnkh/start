@@ -3,12 +3,12 @@ package io.basc.start.usercenter.security;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.security.session.UserSession;
 import io.basc.start.usercenter.pojo.User;
 
-@Provider
+@ConditionalOnParameters
 public class DefaultUserLoginService implements UserLoginService {
 
 	public Map<String, Object> login(User user, HttpChannel httpChannel) {

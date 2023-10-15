@@ -8,7 +8,7 @@ import io.basc.framework.http.MediaType;
 import io.basc.framework.json.JsonObject;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
-import io.basc.framework.util.Processor;
+import io.basc.framework.util.function.Processor;
 
 public class WeiXinOffiaccount extends ClusterWeiXinApi {
 

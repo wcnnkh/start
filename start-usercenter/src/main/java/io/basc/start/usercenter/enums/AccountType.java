@@ -1,8 +1,8 @@
 package io.basc.start.usercenter.enums;
 
-import io.basc.framework.mapper.Field;
-import io.basc.framework.mapper.FieldFeature;
-import io.basc.framework.mapper.Fields;
+import io.basc.framework.mapper.Element;
+import io.basc.framework.mapper.Element;
+import io.basc.framework.mapper.Element;
 import io.basc.start.usercenter.pojo.User;
 
 public enum AccountType {
@@ -18,7 +18,7 @@ public enum AccountType {
 		return fieldName;
 	}
 
-	public Field getField() {
+	public Element getField() {
 		return Fields.getFields(User.class).all().filter(FieldFeature.EXISTING_GETTER_FIELD).getByName(fieldName,
 				String.class);
 	}

@@ -3,7 +3,7 @@ package io.basc.start.tencent.trade;
 import java.io.IOException;
 import java.util.Map;
 
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.json.JsonUtils;
 import io.basc.framework.logger.Logger;
@@ -29,7 +29,7 @@ import io.basc.start.trade.status.TradeStatusDispatcher;
 import io.basc.start.trade.web.TradeNotifyAdapter;
 import io.basc.start.trade.web.TradeNotifyConfig;
 
-@Provider(order = Ordered.LOWEST_PRECEDENCE)
+@ConditionalOnParameters(order = Ordered.LOWEST_PRECEDENCE)
 public class WeixinPaymentAdapter implements TradeCreateAdapter, TradeNotifyAdapter, TradeRefundAdapter {
 	private static Logger logger = LoggerFactory.getLogger(WeixinPaymentAdapter.class);
 

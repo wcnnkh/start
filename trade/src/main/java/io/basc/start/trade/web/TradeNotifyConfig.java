@@ -1,6 +1,6 @@
 package io.basc.start.trade.web;
 
-import io.basc.framework.context.ioc.annotation.Value;
+import io.basc.framework.context.annotation.Value;
 import io.basc.framework.orm.annotation.ConfigurationProperties;
 import io.basc.framework.util.StringUtils;
 

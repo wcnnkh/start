@@ -11,7 +11,7 @@ import io.basc.framework.convert.TypeDescriptor;
 import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.env.Sys;
 import io.basc.framework.http.HttpMethod;
-import io.basc.framework.mapper.Field;
+import io.basc.framework.mapper.Element;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.orm.ForeignKey;
 import io.basc.framework.orm.Property;
@@ -129,7 +129,7 @@ public class EditorParent implements Editor {
 		return view;
 	}
 
-	private Input createInput(EditableAttributes attributes, Object query, Field field) {
+	private Input createInput(EditableAttributes attributes, Object query, Element field) {
 		if (attributes.getType() == EditableType.SELECT) {
 			ForeignKey foreignKey = mapper.getForeignKey(editableClass, field.getGetter());
 			SelectInput select = new SelectInput();

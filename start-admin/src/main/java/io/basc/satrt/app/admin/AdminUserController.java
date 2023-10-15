@@ -8,8 +8,8 @@ import java.util.Map;
 import io.basc.framework.context.annotation.DefaultValue;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.http.HttpMethod;
-import io.basc.framework.mapper.Field;
-import io.basc.framework.mapper.Fields;
+import io.basc.framework.mapper.Element;
+import io.basc.framework.mapper.Element;
 import io.basc.framework.mvc.annotation.ActionAuthority;
 import io.basc.framework.security.login.UserToken;
 import io.basc.framework.util.CollectionUtils;
@@ -46,7 +46,7 @@ public class AdminUserController {
 		List<PermissionGroup> userSubGroups = permissionGroupService.getSubList(currentUser.getPermissionGroupId(),
 				true);
 		List<Integer> groupIds = null;// groupIds如果为空就表示没有数据，如果长度为0就表示全部
-		Field groupIdField = Fields.getFields(PermissionGroup.class).all().getByName("id");
+		Element groupIdField = Fields.getFields(PermissionGroup.class).all().getByName("id");
 		if (groupId == null) {// 全部
 			if (userService.isSuperAdmin(requestUser.getUid())) {
 				groupIds = Collections.emptyList();

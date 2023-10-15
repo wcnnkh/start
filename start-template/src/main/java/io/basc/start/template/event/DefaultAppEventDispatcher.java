@@ -2,8 +2,8 @@ package io.basc.start.template.event;
 
 import io.basc.framework.context.annotation.Service;
 import io.basc.framework.event.EventListener;
-import io.basc.framework.event.support.StandardBroadcastNamedEventDispatcher;
-import io.basc.framework.util.Registration;
+import io.basc.framework.event.broadcast.support.StandardBroadcastNamedEventDispatcher;
+import io.basc.framework.util.registry.Registration;
 
 @Service
 public class DefaultAppEventDispatcher implements AppEventDispatcher {

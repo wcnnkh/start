@@ -2,7 +2,7 @@ package io.basc.start.trade.refund;
 
 import java.util.ArrayList;
 
-import io.basc.framework.factory.BeanFactory;
+import io.basc.framework.beans.factory.BeanFactory;
 import io.basc.framework.lang.Nullable;
 import io.basc.start.trade.TradeException;
 

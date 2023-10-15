@@ -2,7 +2,7 @@ package io.basc.satrt.app.admin.editable;
 
 import java.util.Date;
 
-import io.basc.framework.context.ioc.annotation.Autowired;
+import io.basc.framework.context.annotation.Autowired;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.data.resource.ResourceStorageService;

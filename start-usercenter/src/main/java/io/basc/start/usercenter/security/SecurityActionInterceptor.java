@@ -3,8 +3,8 @@ package io.basc.start.usercenter.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.basc.framework.context.annotation.Provider;
-import io.basc.framework.context.ioc.annotation.Autowired;
+import io.basc.framework.context.annotation.Autowired;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.core.annotation.Annotations;
 import io.basc.framework.logger.Logger;
@@ -27,7 +27,7 @@ import io.basc.start.usercenter.service.PermissionGroupActionService;
 import io.basc.start.usercenter.service.PermissionGroupService;
 import io.basc.start.usercenter.service.UserService;
 
-@Provider
+@ConditionalOnParameters
 public class SecurityActionInterceptor implements ActionInterceptor, ActionInterceptorAccept {
 	private static Logger logger = LoggerFactory.getLogger(SecurityActionInterceptor.class);
 

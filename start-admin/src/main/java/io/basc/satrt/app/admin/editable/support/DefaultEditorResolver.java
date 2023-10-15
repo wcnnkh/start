@@ -3,7 +3,7 @@ package io.basc.satrt.app.admin.editable.support;
 import java.util.Arrays;
 import java.util.List;
 
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.orm.repository.RepositoryTemplate;
 import io.basc.satrt.app.admin.editable.Editor;
@@ -11,7 +11,7 @@ import io.basc.satrt.app.admin.editable.EditorMapper;
 import io.basc.start.editable.support.DefaultEditableMapper;
 import io.basc.start.usercenter.security.UsercenterSecurityConfigure;
 
-@Provider(value = EditorMapper.class)
+@ConditionalOnParameters(value = EditorMapper.class)
 public class DefaultEditorResolver extends DefaultEditableMapper implements EditorMapper {
 	private final RepositoryTemplate template;
 	private final UsercenterSecurityConfigure appConfigure;

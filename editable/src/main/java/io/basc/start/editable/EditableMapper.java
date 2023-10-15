@@ -9,8 +9,8 @@ import io.basc.framework.convert.ConversionService;
 import io.basc.framework.convert.TypeDescriptor;
 import io.basc.framework.core.reflect.ReflectionUtils;
 import io.basc.framework.lang.Nullable;
-import io.basc.framework.mapper.Field;
-import io.basc.framework.mapper.Structure;
+import io.basc.framework.mapper.Element;
+import io.basc.framework.mapper.Mapping;
 import io.basc.framework.orm.ObjectRelationalFactory;
 import io.basc.framework.orm.Property;
 import io.basc.framework.util.Assert;
@@ -38,8 +38,8 @@ public interface EditableMapper extends EditableResolver, ObjectRelationalFactor
 			return Collections.emptyList();
 		}
 
-		Structure<? extends Property> fields = getStructure(entityClass).getters().shared();
-		Field keyField = null;
+		Mapping<? extends Property> fields = getStructure(entityClass).getters().shared();
+		Element keyField = null;
 		if (StringUtils.isEmpty(keyName)) {
 			// 主键
 			keyField = fields.all().filter((e) -> isPrimaryKey(entityClass, e.getGetter())).findFirst()
@@ -49,7 +49,7 @@ public interface EditableMapper extends EditableResolver, ObjectRelationalFactor
 			Assert.requiredArgument(keyField != null, "keyField");
 		}
 
-		Field valueField = fields.all().stream().filter((e) -> isDisplay(entityClass, e.getGetter())).findFirst()
+		Element valueField = fields.all().stream().filter((e) -> isDisplay(entityClass, e.getGetter())).findFirst()
 				.orElse(null);
 
 		TypeDescriptor keyType = keyField == null ? TypeDescriptor.valueOf(String.class)

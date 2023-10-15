@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
@@ -25,7 +25,7 @@ import io.basc.start.verificationcode.VerificationCodeRequest;
 import io.basc.start.verificationcode.VerificationCodeResponse;
 import io.basc.start.verificationcode.VerificationCodeSenderAdapter;
 
-@Provider(order = Ordered.LOWEST_PRECEDENCE)
+@ConditionalOnParameters(order = Ordered.LOWEST_PRECEDENCE)
 public class SmsVerificationCodeSenderAdapter implements VerificationCodeSenderAdapter {
 	private static Logger logger = LoggerFactory.getLogger(SmsVerificationCodeSenderAdapter.class);
 	private final Map<String, MessageTemplate> templateMap = new HashMap<>();

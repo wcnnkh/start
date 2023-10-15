@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.basc.framework.context.annotation.Service;
-import io.basc.framework.context.ioc.annotation.Value;
+import io.basc.framework.context.annotation.Value;
 import io.basc.framework.convert.annotation.JSON;
 import io.basc.framework.env.Environment;
 import io.basc.framework.io.Resource;

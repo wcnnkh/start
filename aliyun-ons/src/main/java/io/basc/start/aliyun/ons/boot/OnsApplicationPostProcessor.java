@@ -17,7 +17,7 @@ import com.aliyun.openservices.ons.api.batch.BatchMessageListener;
 import io.basc.framework.boot.Application;
 import io.basc.framework.boot.ApplicationPostProcessor;
 import io.basc.framework.boot.ConfigurableApplication;
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.convert.TypeDescriptor;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.core.reflect.MethodInvoker;
@@ -29,7 +29,7 @@ import io.basc.framework.util.CollectionFactory;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.aliyun.ons.OnsException;
 
-@Provider(order = Ordered.LOWEST_PRECEDENCE)
+@ConditionalOnParameters(order = Ordered.LOWEST_PRECEDENCE)
 public class OnsApplicationPostProcessor implements ApplicationPostProcessor {
 	private static Logger logger = LoggerFactory.getLogger(OnsApplicationPostProcessor.class);
 

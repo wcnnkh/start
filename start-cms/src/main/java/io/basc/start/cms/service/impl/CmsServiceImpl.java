@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import io.basc.framework.context.transaction.DataResult;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
+import io.basc.framework.db.Database;
+import io.basc.framework.jdbc.EasySql;
 import io.basc.framework.mapper.Copy;
-import io.basc.framework.sql.EasySql;
 import io.basc.start.cms.pojo.Category;
 import io.basc.start.cms.pojo.CategoryInfo;
 import io.basc.start.cms.pojo.Content;
@@ -28,7 +28,7 @@ import io.basc.start.template.service.impl.TemplateServiceSupport;
  */
 public class CmsServiceImpl extends TemplateServiceSupport implements CmsService {
 
-	public CmsServiceImpl(DB db, ResultFactory resultFactory) {
+	public CmsServiceImpl(Database db, ResultFactory resultFactory) {
 		super(db, resultFactory);
 	}
 

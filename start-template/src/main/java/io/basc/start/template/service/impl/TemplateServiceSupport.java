@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import io.basc.framework.context.ioc.annotation.Autowired;
+import io.basc.framework.context.annotation.Autowired;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
+import io.basc.framework.db.Database;
 import io.basc.framework.mapper.Copy;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.start.template.pojo.Attribute;
@@ -17,12 +17,12 @@ import io.basc.start.template.pojo.AttributeValue;
 import io.basc.start.template.service.AttributeTemplateService;
 
 public class TemplateServiceSupport {
-	protected final DB db;
+	protected final Database db;
 	protected final ResultFactory resultFactory;
 	@Autowired
 	protected AttributeTemplateService attributeTemplateService;
 
-	public TemplateServiceSupport(DB db, ResultFactory resultFactory) {
+	public TemplateServiceSupport(Database db, ResultFactory resultFactory) {
 		this.db = db;
 		this.resultFactory = resultFactory;
 	}

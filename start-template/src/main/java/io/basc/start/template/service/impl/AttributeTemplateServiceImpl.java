@@ -4,12 +4,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.context.transaction.DataResult;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
-import io.basc.framework.sql.EasySql;
+import io.basc.framework.db.Database;
+import io.basc.framework.jdbc.EasySql;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.start.template.pojo.AttributeDescribe;
 import io.basc.start.template.pojo.AttributeTemplate;
@@ -17,10 +17,10 @@ import io.basc.start.template.pojo.AttributeValue;
 import io.basc.start.template.pojo.ListRequest;
 import io.basc.start.template.service.AttributeTemplateService;
 
-@Provider
+@ConditionalOnParameters
 public class AttributeTemplateServiceImpl extends TemplateServiceSupport implements AttributeTemplateService {
 
-	public AttributeTemplateServiceImpl(DB db, ResultFactory resultFactory) {
+	public AttributeTemplateServiceImpl(Database db, ResultFactory resultFactory) {
 		super(db, resultFactory);
 	}
 

@@ -1,7 +1,7 @@
 package io.basc.start.address.pojo;
 
+import io.basc.framework.jdbc.template.annotation.Table;
 import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.sql.orm.annotation.Table;
 import io.basc.start.address.model.AddressModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

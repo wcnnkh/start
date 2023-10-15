@@ -4,9 +4,9 @@ import java.util.List;
 
 import io.basc.framework.boot.ApplicationPostProcessor;
 import io.basc.framework.boot.ConfigurableApplication;
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 
-@Provider
+@ConditionalOnParameters
 public class AuthorityInitializer implements ApplicationPostProcessor {
 
 	@Override

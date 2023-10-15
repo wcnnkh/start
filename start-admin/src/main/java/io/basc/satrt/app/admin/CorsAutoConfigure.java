@@ -2,7 +2,7 @@ package io.basc.satrt.app.admin;
 
 import io.basc.framework.boot.ApplicationPostProcessor;
 import io.basc.framework.boot.ConfigurableApplication;
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.cors.Cors;
@@ -15,7 +15,7 @@ import io.basc.start.usercenter.security.UsercenterSecurityConfigure;
  * @author shuchaowen
  *
  */
-@Provider(order = Ordered.LOWEST_PRECEDENCE)
+@ConditionalOnParameters(order = Ordered.LOWEST_PRECEDENCE)
 public class CorsAutoConfigure implements ApplicationPostProcessor {
 
 	@Override

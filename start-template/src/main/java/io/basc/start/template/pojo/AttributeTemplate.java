@@ -1,7 +1,7 @@
 package io.basc.start.template.pojo;
 
+import io.basc.framework.jdbc.template.annotation.Index;
 import io.basc.framework.orm.annotation.Entity;
-import io.basc.framework.sql.orm.annotation.Index;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

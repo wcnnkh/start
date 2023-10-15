@@ -9,7 +9,7 @@ import java.util.Map;
 import io.basc.framework.codec.encode.HmacMD5;
 import io.basc.framework.codec.encode.MD5;
 import io.basc.framework.codec.support.CharsetCodec;
-import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.annotation.ConditionalOnParameters;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.http.HttpUtils;
 import io.basc.framework.http.MediaType;
@@ -26,7 +26,7 @@ import io.basc.start.sms.SendSmsRequest;
 import io.basc.start.sms.SendSmsResponse;
 import io.basc.start.sms.Sms;
 
-@Provider(order = Ordered.LOWEST_PRECEDENCE)
+@ConditionalOnParameters(order = Ordered.LOWEST_PRECEDENCE)
 public class AliDaYuSms extends JsonSupportAccessor implements Sms {
 	private static Logger logger = LoggerFactory.getLogger(AliDaYuSms.class);
 

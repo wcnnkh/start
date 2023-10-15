@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.basc.framework.context.ioc.annotation.Autowired;
+import io.basc.framework.context.annotation.Autowired;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.http.HttpMethod;

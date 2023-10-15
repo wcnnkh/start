@@ -3,9 +3,9 @@ package io.basc.start.usercenter.service.support.db;
 import io.basc.framework.context.annotation.Service;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
-import io.basc.framework.sql.SimpleSql;
-import io.basc.framework.sql.Sql;
+import io.basc.framework.db.Database;
+import io.basc.framework.jdbc.SimpleSql;
+import io.basc.framework.jdbc.Sql;
 import io.basc.framework.util.page.Pagination;
 import io.basc.start.template.service.impl.TemplateServiceSupport;
 import io.basc.start.usercenter.pojo.UserTag;
@@ -14,7 +14,7 @@ import io.basc.start.usercenter.service.UserTagService;
 @Service
 public class UserTagServiceImpl extends TemplateServiceSupport implements UserTagService {
 
-	public UserTagServiceImpl(DB db, ResultFactory resultFactory) {
+	public UserTagServiceImpl(Database db, ResultFactory resultFactory) {
 		super(db, resultFactory);
 		db.createTable(UserTag.class, false);
 	}

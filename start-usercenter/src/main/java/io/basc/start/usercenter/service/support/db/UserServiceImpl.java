@@ -5,18 +5,18 @@ import java.util.List;
 
 import io.basc.framework.codec.Encoder;
 import io.basc.framework.codec.support.CharsetCodec;
+import io.basc.framework.context.annotation.Autowired;
 import io.basc.framework.context.annotation.Service;
-import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.transaction.DataResult;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
+import io.basc.framework.db.Database;
 import io.basc.framework.env.Environment;
 import io.basc.framework.env.Sys;
+import io.basc.framework.jdbc.SimpleSql;
+import io.basc.framework.jdbc.Sql;
 import io.basc.framework.orm.repository.Conditions;
 import io.basc.framework.orm.repository.ConditionsBuilder;
-import io.basc.framework.sql.SimpleSql;
-import io.basc.framework.sql.Sql;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.util.page.Pagination;
@@ -41,7 +41,7 @@ public class UserServiceImpl extends TemplateServiceSupport implements UserServi
 	@Autowired
 	private PermissionGroupService permissionGroupService;
 
-	public UserServiceImpl(DB db, ResultFactory resultFactory, Environment environment) {
+	public UserServiceImpl(Database db, ResultFactory resultFactory, Environment environment) {
 		super(db, resultFactory);
 		db.createTable(User.class, false);
 		User user = getUserByAccount(AccountType.USERNAME, ADMIN_NAME);

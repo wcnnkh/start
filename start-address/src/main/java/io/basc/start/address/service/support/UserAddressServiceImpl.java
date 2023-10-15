@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.basc.framework.context.annotation.Autowired;
 import io.basc.framework.context.annotation.Service;
-import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.transaction.DataResult;
 import io.basc.framework.context.transaction.ResultFactory;
-import io.basc.framework.db.DB;
+import io.basc.framework.db.Database;
 import io.basc.framework.mapper.Copy;
 import io.basc.framework.util.CollectionUtils;
 import io.basc.framework.util.StringUtils;
@@ -25,7 +25,7 @@ public class UserAddressServiceImpl extends TemplateServiceSupport implements Us
 	@Autowired
 	private AddressService addressService;
 
-	public UserAddressServiceImpl(DB db, ResultFactory resultFactory) {
+	public UserAddressServiceImpl(Database db, ResultFactory resultFactory) {
 		super(db, resultFactory);
 		db.createTable(UserAddress.class, false);
 	}

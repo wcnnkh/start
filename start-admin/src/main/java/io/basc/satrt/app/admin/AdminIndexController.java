@@ -3,12 +3,12 @@ package io.basc.satrt.app.admin;
 import java.util.List;
 import java.util.Map;
 
-import io.basc.framework.context.ioc.annotation.Autowired;
+import io.basc.framework.context.annotation.Autowired;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.http.HttpMethod;
-import io.basc.framework.mapper.Field;
-import io.basc.framework.mapper.Fields;
+import io.basc.framework.mapper.Element;
+import io.basc.framework.mapper.Element;
 import io.basc.framework.mvc.HttpChannel;
 import io.basc.framework.mvc.result.FactoryResult;
 import io.basc.framework.mvc.security.HttpActionAuthorityManager;
@@ -64,7 +64,7 @@ public class AdminIndexController {
 			}
 			List<PermissionGroupAction> actions = permissionGroupActionService
 					.getActionList(user.getPermissionGroupId());
-			Field field = Fields.getFields(PermissionGroupAction.class).all().getByName("actionId");
+			Element field = Fields.getFields(PermissionGroupAction.class).all().getByName("actionId");
 			List<String> actionIds = field.getValues(actions);
 			return httpActionAuthorityManager.getRelationAuthorityTreeList(actionIds,
 					new MenuAuthorityFilter<HttpAuthority>());
